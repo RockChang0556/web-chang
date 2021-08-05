@@ -4,12 +4,12 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: 'home',
-		component: () => import('../src/views/home.vue'),
+		component: () => import('@/views/home.vue'),
 	},
 	{
 		path: '/eat',
 		name: 'eat',
-		component: () => import('../src/views/eat/index.vue'),
+		component: () => import('@/views/eat/index.vue'),
 	},
 ];
 const router = createRouter({
