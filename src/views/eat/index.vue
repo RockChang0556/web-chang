@@ -1,6 +1,6 @@
 <template>
 	<div class="eat-page">
-		<img alt="干饭人阿畅" src="../../assets/IMG_1875.jpg" />
+		<!-- <img alt="干饭人阿畅" src="../../assets/IMG_1875.jpg" /> -->
 		<ul class="roulette-wrap">
 			<li v-for="item in arr" :key="item.id" :class="itemActiveClass(item)">
 				<span>{{ item.label }}</span>
