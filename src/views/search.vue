@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-12-30 18:55:41
- * @LastEditTime: 2021-12-30 21:43:37
+ * @LastEditTime: 2021-12-30 21:52:50
  * @Description: 
 -->
 <template>
@@ -94,8 +94,9 @@ export default defineComponent({
 					},
 				})
 				.then(res => {
-					const resl = res.data.result;
-					if (resl.status === 0) {
+					const resl = res.data?.result;
+					console.log('resl', resl);
+					if (resl?.status === 0) {
 						searchResult.data = resl?.result.list;
 					} else {
 						searchResult.data = [];
