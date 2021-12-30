@@ -1,5 +1,5 @@
 <template >
-	<n-config-provider :theme="null">
+	<n-config-provider :theme="theme">
 		<n-message-provider>
 			<app></app>
 		</n-message-provider>
@@ -7,15 +7,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { NMessageProvider, NConfigProvider, darkTheme } from 'naive-ui';
+import { computed, defineComponent } from 'vue';
 import App from './App.vue';
+import {
+	NMessageProvider,
+	NConfigProvider,
+	darkTheme,
+	useOsTheme,
+} from 'naive-ui';
+import { useStore } from 'vuex';
 
 export default defineComponent({
 	name: 'AppWrap',
 	components: { NMessageProvider, NConfigProvider, App },
 	setup() {
-		return { darkTheme };
+		const store = useStore();
+		const osThemeRef = useOsTheme();
+
+		// 主题
+		const theme = computed(() => {
+			if (store.state.user.theme === 'auto') {
+				return osThemeRef.value === 'dark' ? darkTheme : null;
+			} else {
+				return store.state.user.theme === 'dark' ? darkTheme : null;
+			}
+		});
+		return { theme };
 	},
 });
 </script>

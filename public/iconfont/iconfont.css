@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3109699 */
+  /* Color fonts */
+  src: 
+       url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAATAAAwAAAAACRgAAARzAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIlAjMgZgAEwKiiyICwE2AiQDMgskAAQgBYF8ByAbAAdRlC9KhezjsHFwGf2CgKdx0QYP9F7vn5nMvQ0210mhFMLeksq2zlYP1hfA4Jlf0vzf3Kh4niQeiU5bw0Si/ouTdHcV1bS8xqNEK52JY6YLLh71+UAHNMOICqHd099TRFsBPdgTvop1zU7Sjw8ADKAMCMghgYCGWqKccJMS6lAKEn4OTAQWJdiYOBjkULiUUoakHEUFJYA1gLbc14HWn/XWP114t542/AO9YsbPeuijv+spG//VI57TevobWqOUEOelXCWvlCuBCdFOxEp6iB7YRKKCh0ycNHEETxH89IgR6hCMkECL4ARS+fp1aDnaBbU1GB3RNSj6whXYEn8JvjG+Of7TI1pDlqM/r6/rH6ietFSpza1kpzYH6oG4AuSOWtQR6Y7WRCzeJsCSNqSiHG+gaQSB3ySnCa7atxv/sSd9MocmCWEc2yRNdxVVIQp32nZ0O4R37KFq3TxrnTviOZ0ddrMnbFo86s66TPLFpVHN9Is32xeUwH6YuGm+9maUgXW3zrz0vnMu4jyyL03mNRd73bw4JkxsuEMzuJBS/Jl+dHPNxVd4CeWAVOE9qZCyWV634iVO8bK6u+zZzixnhjN3hmFfcUGai23bR0SXCoEoXOY45Pp5WNx1j2VJks2KJ78VR+nUd9JCNu3dwgfiZJ+IbrVF9FzLeHo8vtOjWdbnxcQriOLKhwlRWCUt7ehiwmP0si+D75JegMcAj8/z5Lrt9xncIhxsh9qHQvcevzLYCIfeHYjCKPd47Pb5vFX32MeF6kTs2pwNuMaVLu6GXDVfznC750qA5slu1WLhdn+A3yXXtdfkcrf5063vDL7+Y8/1EA5j5pS8ov4V48NIP2U5Zk+MD23YyyvjA68YFwJ+6Vas3z0+rLIrhxw2PgzndgKxe8aEKp9yeYMrxoeAo+G28K/Ujha7dn3WLXOPfwdWRzR88uEJ/b4WiUjZZ/VLwk0blcWcvLWr26WR89UDE8yHJ9RGzrOTS64DgoOrVDy6AOjepWH9mREOfCFDbTfUjh4Mnr701KmpLZZE7sOmPp7vce0qah/EfNWyXjX9DtajFsk7+EVze+sxC+r2NXcELBNIr4P5mmUyO3iWT4La8toPIOH3WO2Z9ObgwTfm71ITWzQdsfKTq/K3Xp3/5Of81bfmr/p55YimLSaqu/I3UvvMd8gbfPytv0w0B3tTGm64v3Zu67k1y9NZoisIMS9KVHP3GvIqVM1M94fWLU7ZDWU9G4OFJ1Brwji0uuHwhq6owYjANoKzeghz1zx/DmaRcb+p3jH9+l15alH5wN9M4+E7Pv6lQzi6Rb/1TCWNEChFTqC9VHtWSr9BybdFYH4icqWiRHSqlJDF88QMOQNkd3HYwEgkcVtO11Wye1rlxbhsffJEDISyEFRAppaUSTTgDHrTBKcImI4roQHbryol4CxrWMYmNrIyeNp2prKCVexgPUvYSjc609VxD2Aikzz2iKTi8E6dpIpdhAL2zIJ3K9tYg9Zgg7oWlRrYG/VD/CRUAA==') format('woff2'),
+       url('iconfont.woff?t=1640856268666') format('woff'),
+       url('iconfont.ttf?t=1640856268666') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sun:before {
+  content: "\e603";
+}
+
+.icon-moon_:before {
+  content: "\ecb5";
+}
+
+.icon-automaticForecast:before {
+  content: "\e686";
+}
+

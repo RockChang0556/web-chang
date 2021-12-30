@@ -1,0 +1,30 @@
+{
+  "id": "3109699",
+  "name": "web-chang",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1346861",
+      "name": "晴",
+      "font_class": "sun",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "12195402",
+      "name": "moon_2",
+      "font_class": "moon_",
+      "unicode": "ecb5",
+      "unicode_decimal": 60597
+    },
+    {
+      "icon_id": "15198262",
+      "name": "automaticForecast",
+      "font_class": "automaticForecast",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    }
+  ]
+}

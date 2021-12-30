@@ -1,36 +1,58 @@
 <template>
 	<div class="home">
-		<img
-			alt="么么么哒"
-			src="https://raw.githubusercontent.com/RockChang0556/pic/main/chang/Xnip2021-12-29_17-51-08.png"
-		/>
-		<!-- <h3>阿畅的专属小网站, 后续更多功能建设中...</h3> -->
-		<p>
-			<router-link to="/eat">
-				<n-button type="success">今天吃什么呢</n-button>
-			</router-link>
-		</p>
+		<n-layout>
+			<n-layout-header bordered>
+				<global-header :user="currentUser"></global-header>
+			</n-layout-header>
+			<n-layout-content>
+				<div class="menu-pic">
+					<img
+						alt="么么么哒"
+						src="https://raw.githubusercontent.com/RockChang0556/pic/main/chang/Xnip2021-12-29_17-51-08.png"
+					/>
+				</div>
+				<!-- <h3>阿畅的专属小网站, 后续更多功能建设中...</h3> -->
+				<p>
+					<router-link to="/eat">
+						<n-button type="success">今天吃什么呢</n-button>
+					</router-link>
+				</p>
+			</n-layout-content>
+		</n-layout>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { NButton } from 'naive-ui';
+import { defineComponent, computed } from 'vue';
+import GlobalHeader from '@/components/layout/header.vue';
+import { useStore } from 'vuex';
+import { NButton, NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
 
 export default defineComponent({
 	name: 'home',
-	components: { NButton },
+	components: { NButton, GlobalHeader, NLayout, NLayoutHeader, NLayoutContent },
 	props: {},
 	setup() {
-		return {};
+		const store = useStore();
+		const currentUser = computed(() => store.state.user.userInfo);
+
+		return {
+			currentUser,
+		};
 	},
 });
 </script>
 
 <style lang="less">
 .home {
-	> img {
-		width: 1000px;
+	.menu-pic {
+		text-align: center;
+		img {
+			width: 800px;
+		}
+	}
+	> .n-layout {
+		min-height: 100vh;
 	}
 }
 </style>

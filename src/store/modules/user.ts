@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-05 15:11:25
- * @LastEditTime: 2021-12-02 17:30:37
+ * @LastEditTime: 2021-12-30 18:14:19
  * @Description:
  */
 import { UserApi } from '@/services';
@@ -19,9 +19,12 @@ export interface UserProps {
 	summary?: string;
 	isFetched: boolean;
 }
+export type themeProp = 'light' | 'dark' | 'auto';
+
 interface StateProps {
 	lang: string;
 	userInfo: UserProps;
+	theme: themeProp;
 }
 // initial state
 const state: StateProps = {
@@ -29,6 +32,7 @@ const state: StateProps = {
 	userInfo: {
 		isFetched: false,
 	},
+	theme: 'light',
 };
 
 // getters
@@ -52,11 +56,15 @@ const actions = {
 const mutations = {
 	setUserInfo(state: StateProps, userInfo: UserProps) {
 		state.userInfo = userInfo;
-		sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+		localStorage.setItem('userInfo', JSON.stringify(userInfo));
 	},
 	setLang(state: StateProps, lang: string) {
 		state.lang = lang;
-		sessionStorage.setItem('lang', lang);
+		localStorage.setItem('lang', lang);
+	},
+	setTheme(state: StateProps, theme: themeProp) {
+		state.theme = theme;
+		localStorage.setItem('theme', theme);
 	},
 };
 

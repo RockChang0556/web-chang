@@ -37,8 +37,21 @@ export default defineComponent({
 				store.commit('user/setUserInfo', { isFetched: true });
 			}
 		};
-		getCurrentUser();
 
+		// 初始化主题
+		const initTheme = () => {
+			const theme = getToken('theme');
+			console.log('theme', theme)
+			if (theme) {
+				store.commit('user/setTheme', theme);
+			}
+		};
+
+		const created = () => {
+			getCurrentUser();
+			initTheme();
+		};
+		created();
 		return {
 			loading,
 		};

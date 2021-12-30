@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-09 19:25:59
- * @LastEditTime: 2021-08-19 18:46:21
+ * @LastEditTime: 2021-12-30 16:50:33
  * @Description:
  */
 const config = {
@@ -16,7 +16,3 @@ const config = {
 	baseURL: import.meta.env.VITE_BASE_API, // API接口baseURL，在根目录.env文件查找对应环境变量配置
 };
 export default config;
-
-export const constant = {
-	loginUrl: `/login?redirect_uri=${location.href}`, // 登陆url,登陆后重定向到原始页面
-};
