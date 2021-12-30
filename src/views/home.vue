@@ -1,10 +1,10 @@
 <template>
 	<div class="home">
-		<n-layout>
+		<n-layout position="absolute">
 			<n-layout-header bordered>
 				<global-header :user="currentUser"></global-header>
 			</n-layout-header>
-			<n-layout-content>
+			<n-layout-content position="absolute">
 				<div class="menu-pic">
 					<img
 						alt="么么么哒"
@@ -12,11 +12,12 @@
 					/>
 				</div>
 				<!-- <h3>阿畅的专属小网站, 后续更多功能建设中...</h3> -->
-				<p>
+				<!-- <p>
 					<router-link to="/eat">
 						<n-button type="success">今天吃什么呢</n-button>
 					</router-link>
-				</p>
+				</p> -->
+				<search></search>
 			</n-layout-content>
 		</n-layout>
 	</div>
@@ -24,13 +25,14 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
 import GlobalHeader from '@/components/layout/header.vue';
 import { useStore } from 'vuex';
-import { NButton, NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
+import search from './search.vue';
 
 export default defineComponent({
 	name: 'home',
-	components: { NButton, GlobalHeader, NLayout, NLayoutHeader, NLayoutContent },
+	components: { GlobalHeader, NLayout, NLayoutHeader, NLayoutContent, search },
 	props: {},
 	setup() {
 		const store = useStore();
@@ -45,6 +47,7 @@ export default defineComponent({
 
 <style lang="less">
 .home {
+	position: relative;
 	.menu-pic {
 		text-align: center;
 		img {
@@ -53,6 +56,9 @@ export default defineComponent({
 	}
 	> .n-layout {
 		min-height: 100vh;
+	}
+	.n-layout-content {
+		top: 71px;
 	}
 }
 </style>
