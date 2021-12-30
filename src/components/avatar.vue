@@ -1,14 +1,18 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-20 18:01:56
- * @LastEditTime: 2021-12-30 17:01:24
+ * @LastEditTime: 2021-12-30 20:33:40
  * @Description: 头像组件
 -->
 
 <template>
 	<div class="com-avatar">
-		<n-avatar :size="size" :src="avatarUrl">
-			<img :src="avatarDefaultUrl" />
+		<n-avatar
+			round
+			:size="size"
+			:src="avatarUrl"
+			:fallback-src="avatarDefaultUrl"
+		>
 		</n-avatar>
 	</div>
 </template>

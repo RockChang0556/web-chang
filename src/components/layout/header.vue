@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2021-12-30 18:45:57
+ * @LastEditTime: 2021-12-30 20:36:41
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -25,7 +25,10 @@
 					<n-button type="danger">登录</n-button>
 				</a>
 			</div>
-			<avatar v-else :size="36" :src="user.avatar_url"> </avatar>
+			<div class="userinfo" v-else>
+				<avatar :size="36" :src="user.avatar_url"> </avatar>
+				{{ user.name }}
+			</div>
 		</div>
 	</div>
 </template>
@@ -165,6 +168,13 @@ function useThemeOption() {
 		.icon {
 			font-size: 18px;
 			cursor: pointer;
+		}
+		.com-avatar {
+			margin: 0 5px 0 15px;
+		}
+		.userinfo {
+			display: flex;
+			align-items: center;
 		}
 	}
 }
