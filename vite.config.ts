@@ -30,8 +30,8 @@ export default defineConfig({
 				changeOrigin: true,
 				// rewrite: path => path.replace(/^\/api/, ''),
 			},
-			'/jdsearch': {
-				target: 'https://way.jd.com/jisuapi/search', //代理接口
+			'/jisuapi': {
+				target: 'https://way.jd.com', //代理接口
 				changeOrigin: true,
 				// rewrite: path => path.replace(/^\/api/, ''),
 			},

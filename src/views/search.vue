@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-12-30 18:55:41
- * @LastEditTime: 2021-12-30 21:55:08
+ * @LastEditTime: 2021-12-31 10:20:54
  * @Description: 
 -->
 <template>
@@ -85,7 +85,7 @@ export default defineComponent({
 		const handleSearch = (e: any) => {
 			searchResult.loading = true;
 			axios
-				.get('/jdsearch', {
+				.get('/jisuapi/search', {
 					params: {
 						keyword: e.target.value,
 						start: 0,
