@@ -41,7 +41,7 @@ export default defineComponent({
 		// 初始化主题
 		const initTheme = () => {
 			const theme = getToken('theme');
-			console.log('theme', theme)
+			console.log('theme', theme);
 			if (theme) {
 				store.commit('user/setTheme', theme);
 			}
@@ -74,6 +74,7 @@ export default defineComponent({
 	background: #f2f2f2;
 	width: 100%;
 	min-height: 100vh;
+	min-width: 800px;
 	.component-fade-enter-active,
 	.component-fade-leave-active {
 		transition: opacity 0.3s ease;
