@@ -3,8 +3,26 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
-		name: 'home',
-		component: () => import('@/views/home.vue'),
+		name: 'home-wrap',
+		component: () => import('@/views/home-wrap.vue'),
+		redirect: { name: 'home' },
+		children: [
+			{
+				path: '/',
+				name: 'home',
+				component: () => import('@/views/myhome/index.vue'),
+			},
+			{
+				path: '/mywish',
+				name: 'mywish',
+				component: () => import('@/views/mywish/index.vue'),
+			},
+			{
+				path: '/mywish/add',
+				name: 'addwish',
+				component: () => import('@/views/mywish/addwish.vue'),
+			},
+		],
 	},
 	{
 		path: '/eat',

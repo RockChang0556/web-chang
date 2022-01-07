@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-12-30 18:55:41
- * @LastEditTime: 2022-01-04 14:28:13
+ * @LastEditTime: 2022-01-07 17:26:54
  * @Description: 
 -->
 <template>
@@ -20,6 +20,9 @@
 						<template #header-extra>
 							<n-button text type="info" @click="showDetail(v)">
 								查看做法
+							</n-button>
+							<n-button text type="info" @click="addToLove(v)">
+								加入心愿单
 							</n-button>
 						</template>
 						<template #description>
@@ -49,31 +52,29 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import axios from 'axios';
-import FoodDetail from './detail.vue';
 import {
-	NInput,
 	NList,
 	NListItem,
 	NTag,
 	NThing,
 	NEmpty,
 	NEllipsis,
-	NSpin,
 	NDrawer,
 } from 'naive-ui';
+import debounce from 'lodash/debounce';
+import { FoodApi } from '@/services';
+import FoodDetail from './detail.vue';
 
 export default defineComponent({
 	name: 'search',
 	components: {
 		FoodDetail,
-		NInput,
 		NList,
 		NListItem,
 		NTag,
 		NThing,
 		NEmpty,
 		NEllipsis,
-		NSpin,
 		NDrawer,
 	},
 	props: {},
@@ -82,7 +83,7 @@ export default defineComponent({
 			loading: false,
 			data: [],
 		});
-		const handleSearch = (e: any) => {
+		const handleSearch = debounce((e: any) => {
 			searchResult.loading = true;
 			axios
 				.get('/jisuapi/search', {
@@ -95,7 +96,6 @@ export default defineComponent({
 				})
 				.then(res => {
 					const resl = res.data?.result;
-					console.log('resl', res);
 					if (resl?.status === 0) {
 						searchResult.data = resl?.result.list;
 					} else {
@@ -105,7 +105,7 @@ export default defineComponent({
 				.finally(() => {
 					searchResult.loading = false;
 				});
-		};
+		}, 600);
 
 		const detailData = reactive({
 			show: false,
@@ -115,7 +115,12 @@ export default defineComponent({
 			detailData.data = item;
 			detailData.show = true;
 		};
-		return { handleSearch, searchResult, detailData, showDetail };
+
+		const addToLove = async (item: any) => {
+			const data = await FoodApi.addFood(item);
+			console.log('item', data);
+		};
+		return { handleSearch, searchResult, detailData, showDetail, addToLove };
 	},
 });
 </script>

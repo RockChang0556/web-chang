@@ -10,9 +10,11 @@ import {
 	create,
 	// component
 	NButton,
+	NInput,
+	NSpin,
 } from 'naive-ui';
 const naive = create({
-	components: [NButton],
+	components: [NButton, NInput, NSpin],
 });
 const app = createApp(AppWrap);
 app.use(Rui).use(naive);

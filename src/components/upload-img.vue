@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-04 11:27:13
- * @LastEditTime: 2022-01-04 16:40:34
+ * @LastEditTime: 2022-01-07 16:53:42
  * @Description: 图片上传 - 暂时是 url 输入,推荐第三方图床
 -->
 
@@ -65,20 +65,14 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { imgDefaultUrl } from '@/config/constants';
-import {
-	NModal,
-	NInput,
-	NImage,
-	NFormItem,
-	FormValidationError,
-} from 'naive-ui';
-import { debounce } from 'lodash';
+import { NModal, NImage, NFormItem, FormValidationError } from 'naive-ui';
+import debounce from 'lodash/debounce';
 export default defineComponent({
 	name: 'upload-img',
-	components: { NModal, NInput, NImage, NFormItem },
+	components: { NModal, NImage, NFormItem },
 	props: {},
 	setup(prop, context) {
-		const showModal = ref(true);
+		const showModal = ref(false);
 		const formRef = ref();
 		const rule = {
 			validator() {
@@ -112,7 +106,6 @@ export default defineComponent({
 			if (!err) {
 				showModal.value = false;
 				context.emit('change', picUrl);
-				console.log('ok', picUrl);
 			}
 		};
 

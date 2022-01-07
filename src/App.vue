@@ -41,7 +41,6 @@ export default defineComponent({
 		// 初始化主题
 		const initTheme = () => {
 			const theme = getToken('theme');
-			console.log('theme', theme);
 			if (theme) {
 				store.commit('user/setTheme', theme);
 			}
@@ -60,36 +59,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	text-emphasis: none;
-	text-decoration: none;
-}
-#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	background: #f2f2f2;
-	width: 100%;
-	min-height: 100vh;
-	min-width: 800px;
-	.component-fade-enter-active,
-	.component-fade-leave-active {
-		transition: opacity 0.3s ease;
-	}
-
-	.component-fade-enter-from,
-	.component-fade-leave-to {
-		opacity: 0;
-	}
-}
-.icon {
-	width: 1em;
-	height: 1em;
-	vertical-align: -0.15em;
-	fill: currentColor;
-	overflow: hidden;
-}
+@import url('@/assets/css/common.less');
 </style>
