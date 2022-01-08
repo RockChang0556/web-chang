@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-08 13:54:46
+ * @LastEditTime: 2022-01-08 16:26:23
  * @Description: 编辑心愿单
 -->
 
@@ -17,13 +17,11 @@
 			<div class="foods">
 				<p class="foods-label">包含菜品</p>
 				<div class="food-list" v-if="wishFormRes.data.food_list?.length">
-					<div
-						class="food-list-item"
+					<food-list-item
 						v-for="v in wishFormRes.data.food_list"
 						:key="v.id"
-					>
-						{{ v.name }}
-					</div>
+						:item="v"
+					></food-list-item>
 				</div>
 				<div v-else>此心愿单下暂无菜品, 快去详情页添加吧</div>
 			</div>
@@ -41,11 +39,16 @@
 import { defineComponent, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { WishApi } from '@/services';
-import WishForm, { modelProp } from './wishForm.vue';
+import WishForm, { modelProp } from './wish-form.vue';
+import FoodListItem from './food-list-item.vue';
 import { objProp } from '@/types/types';
+
+interface wishProp extends objProp {
+	food_list?: any[];
+}
 export default defineComponent({
 	name: 'editwish-page',
-	components: { WishForm },
+	components: { WishForm, FoodListItem },
 	props: {
 		// params参数
 		wishid: {
@@ -55,7 +58,7 @@ export default defineComponent({
 	setup(props) {
 		const router = useRouter();
 		const wishFormRef = ref();
-		const wishFormRes: { data: objProp; loading: boolean } = reactive({
+		const wishFormRes: { data: wishProp; loading: boolean } = reactive({
 			data: {},
 			loading: false,
 		});

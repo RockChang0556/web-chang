@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-08 15:43:54
+ * @LastEditTime: 2022-01-08 16:30:32
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -37,11 +37,6 @@
 			</n-form-item>
 		</n-form>
 	</div>
-	<!-- <div class="foods">
-		<p class="foods-label">包含菜品</p>
-		<div v-if="foods.length" class="food-list"></div>
-		<div v-else>暂无菜品, 快去详情页添加吧</div>
-	</div> -->
 </template>
 
 <script lang="ts">
@@ -68,13 +63,11 @@ export default defineComponent({
 		},
 	},
 	setup(props) {
-		console.log('prop', props.models);
 		const model: modelProp = reactive({
 			name: props.models?.name || '',
 			summary: props.models?.summary || '',
 			tags: props.models?.tag ? props.models.tag.split(',') : [],
 		});
-		console.log('model', model);
 		const wishRef = ref();
 		const rules = {
 			name: {

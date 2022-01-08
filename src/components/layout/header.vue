@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2021-12-30 20:36:41
+ * @LastEditTime: 2022-01-08 15:55:25
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -88,7 +88,6 @@ function useThemeOption() {
 	};
 
 	const changeTheme = (theme: string) => {
-		console.log('', 1);
 		store.commit('user/setTheme', theme);
 	};
 

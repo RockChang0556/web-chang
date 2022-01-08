@@ -1,12 +1,12 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-08 14:01:13
+ * @LastEditTime: 2022-01-08 16:55:05
  * @Description:  我的心愿单-首页
 -->
 <template>
 	<div class="mywish-page">
-		<!-- <h2>我的心愿单</h2> -->
+		<h2>我的心愿单</h2>
 		<div class="search-wrap">
 			<router-link :to="{ name: 'addwish' }">
 				<n-button type="primary" ghost>新建心愿单</n-button>
@@ -36,7 +36,16 @@
 							</template>
 							<template #header-extra>
 								{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
-								<!-- <n-button text type="info"> 查看做法 </n-button> -->
+								<n-popconfirm
+									positive-text="确认"
+									negative-text="取消"
+									@positive-click="onDeleteWish(v.id)"
+								>
+									<template #trigger>
+										<n-button text type="error"> 删除 </n-button>
+									</template>
+									确定要删除吗
+								</n-popconfirm>
 							</template>
 							<template #description> {{ v.summary || '暂无描述' }} </template>
 							<n-tag
@@ -73,7 +82,15 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 import debounce from 'lodash/debounce';
-import { NList, NListItem, NThing, NTag, NEmpty, NPagination } from 'naive-ui';
+import {
+	NList,
+	NListItem,
+	NThing,
+	NTag,
+	NEmpty,
+	NPagination,
+	NPopconfirm,
+} from 'naive-ui';
 import { WishApi } from '@/services';
 import { pagesProp, querysProp } from '@/types/types';
 
@@ -85,7 +102,15 @@ interface wishDataProp {
 }
 export default defineComponent({
 	name: 'mywish-page',
-	components: { NList, NListItem, NThing, NTag, NEmpty, NPagination },
+	components: {
+		NList,
+		NListItem,
+		NThing,
+		NTag,
+		NEmpty,
+		NPagination,
+		NPopconfirm,
+	},
 	props: {},
 	setup() {
 		// 查询参数 - 分页
@@ -146,8 +171,15 @@ export default defineComponent({
 			}
 		};
 
+		// 删除心愿单
+		const onDeleteWish = async (id: string) => {
+			await WishApi.deleteWish({ wishid: id });
+			window.$message.success('删除成功');
+			await getMyWishs();
+		};
+
 		getMyWishs(true);
-		return { handleSearch, pageParams, wishsData, changePage };
+		return { handleSearch, pageParams, wishsData, changePage, onDeleteWish };
 	},
 });
 </script>

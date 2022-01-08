@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-08 12:12:26
+ * @LastEditTime: 2022-01-08 16:24:33
  * @Description: 新增心愿单
 -->
 
@@ -24,7 +24,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { WishApi } from '@/services';
-import WishForm, { modelProp } from './wishForm.vue';
+import WishForm, { modelProp } from './wish-form.vue';
 export default defineComponent({
 	name: 'addwish-page',
 	components: { WishForm },
