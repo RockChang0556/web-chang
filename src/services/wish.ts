@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-09 23:06:34
- * @LastEditTime: 2022-01-08 12:02:53
+ * @LastEditTime: 2022-01-08 21:23:26
  * @Description: 心愿单相关接口
  */
 // @ts-ignore
@@ -46,6 +46,22 @@ export default class Wish {
 	 */
 	static async getWishDetail(path: objProp) {
 		const { data } = await get(`/chang/wish/${path.wishid}`);
+		return data;
+	}
+
+	/**
+	 * 添加心愿单下菜品
+	 */
+	static async addFoodToWish(path: objProp, datas: objProp) {
+		const { data } = await put(`/chang/wish/${path.wishid}/addfood`, datas);
+		return data;
+	}
+
+	/**
+	 * 删除心愿单下菜品
+	 */
+	static async deleteFoodToWish(path: objProp, datas: objProp) {
+		const { data } = await put(`/chang/wish/${path.wishid}/deletefood`, datas);
 		return data;
 	}
 }

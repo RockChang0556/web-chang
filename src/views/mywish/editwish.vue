@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-08 16:26:23
+ * @LastEditTime: 2022-01-08 21:50:45
  * @Description: 编辑心愿单
 -->
 
@@ -16,13 +16,15 @@
 			></wish-form>
 			<div class="foods">
 				<p class="foods-label">包含菜品</p>
-				<div class="food-list" v-if="wishFormRes.data.food_list?.length">
+				<food-search :wishid="wishid" @add="onAddWishFood"></food-search>
+				<n-list class="food-list" v-if="wishFormRes.data.food_list?.length">
 					<food-list-item
 						v-for="v in wishFormRes.data.food_list"
 						:key="v.id"
 						:item="v"
+						@delete="onDeleteWishFood"
 					></food-list-item>
-				</div>
+				</n-list>
 				<div v-else>此心愿单下暂无菜品, 快去详情页添加吧</div>
 			</div>
 		</n-spin>
@@ -38,17 +40,20 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { NList } from 'naive-ui';
 import { WishApi } from '@/services';
+
+import { objProp } from '@/types/types';
 import WishForm, { modelProp } from './wish-form.vue';
 import FoodListItem from './food-list-item.vue';
-import { objProp } from '@/types/types';
+import FoodSearch from './food-search.vue';
 
 interface wishProp extends objProp {
 	food_list?: any[];
 }
 export default defineComponent({
 	name: 'editwish-page',
-	components: { WishForm, FoodListItem },
+	components: { NList, WishForm, FoodListItem, FoodSearch },
 	props: {
 		// params参数
 		wishid: {
@@ -69,6 +74,7 @@ export default defineComponent({
 				wishFormRes.loading = true;
 				const { data } = await WishApi.getWishDetail({ wishid: props.wishid });
 				wishFormRes.data = data;
+				foods.value = data.food_list;
 			} finally {
 				wishFormRes.loading = false;
 			}
@@ -105,7 +111,18 @@ export default defineComponent({
 				});
 		};
 
-		const foods = ref([]);
+		const onAddWishFood = () => {
+			getData();
+		};
+		const onDeleteWishFood = async (id: string) => {
+			await WishApi.deleteFoodToWish(
+				{ wishid: props.wishid },
+				{ food_ids: [id] }
+			);
+			getData();
+		};
+
+		const foods: any = ref([]);
 		return {
 			wishFormRef,
 			foods,
@@ -113,6 +130,8 @@ export default defineComponent({
 			onUpdateWish,
 			wishFormRes,
 			okBtnLoading,
+			onAddWishFood,
+			onDeleteWishFood,
 		};
 	},
 });

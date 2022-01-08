@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-08 16:55:05
+ * @LastEditTime: 2022-01-08 22:01:40
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -36,15 +36,11 @@
 							</template>
 							<template #header-extra>
 								{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
-								<n-popconfirm
-									positive-text="确认"
-									negative-text="取消"
-									@positive-click="onDeleteWish(v.id)"
-								>
+								<n-popconfirm @positive-click="onDeleteWish(v.id)">
 									<template #trigger>
 										<n-button text type="error"> 删除 </n-button>
 									</template>
-									确定要删除吗
+									确定要删除此心愿单吗
 								</n-popconfirm>
 							</template>
 							<template #description> {{ v.summary || '暂无描述' }} </template>

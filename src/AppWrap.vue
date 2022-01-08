@@ -1,5 +1,5 @@
 <template >
-	<n-config-provider :theme="theme">
+	<n-config-provider :theme="theme" :locale="zhCN">
 		<n-message-provider>
 			<app></app>
 		</n-message-provider>
@@ -12,6 +12,7 @@ import App from './App.vue';
 import {
 	NMessageProvider,
 	NConfigProvider,
+	zhCN,
 	darkTheme,
 	useOsTheme,
 } from 'naive-ui';
@@ -32,7 +33,7 @@ export default defineComponent({
 				return store.state.user.theme === 'dark' ? darkTheme : null;
 			}
 		});
-		return { theme };
+		return { theme, zhCN };
 	},
 });
 </script>
