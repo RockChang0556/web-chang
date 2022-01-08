@@ -22,6 +22,12 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'addwish',
 				component: () => import('@/views/mywish/addwish.vue'),
 			},
+			{
+				path: '/mywish/edit/:wishid',
+				name: 'editwish',
+				props: true,
+				component: () => import('@/views/mywish/editwish.vue'),
+			},
 		],
 	},
 	{

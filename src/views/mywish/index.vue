@@ -1,13 +1,16 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-07 20:27:57
+ * @LastEditTime: 2022-01-08 14:01:13
  * @Description:  我的心愿单-首页
 -->
 <template>
 	<div class="mywish-page">
 		<!-- <h2>我的心愿单</h2> -->
-		<div class="search-wrap clearfix">
+		<div class="search-wrap">
+			<router-link :to="{ name: 'addwish' }">
+				<n-button type="primary" ghost>新建心愿单</n-button>
+			</router-link>
 			<n-input placeholder="回车搜索我的心愿单" @keydown.enter="handleSearch">
 			</n-input>
 		</div>
@@ -23,12 +26,24 @@
 							<template #avatar>
 								<img :src="v.pic" alt="" />
 							</template>
-							<template #header>{{ v.name }}</template>
-							<template #header-extra>
-								<n-button text type="info"> 查看做法 </n-button>
+							<template #header>
+								<router-link
+									class="title"
+									:to="{ name: 'editwish', params: { wishid: v.id } }"
+								>
+									{{ v.name }}
+								</router-link>
 							</template>
-							<template #description> {{ v.summary }} </template>
-							<n-tag v-for="tag in v.tag.split(',')" type="success">
+							<template #header-extra>
+								{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
+								<!-- <n-button text type="info"> 查看做法 </n-button> -->
+							</template>
+							<template #description> {{ v.summary || '暂无描述' }} </template>
+							<n-tag
+								v-if="v.tag"
+								v-for="tag in v.tag.split(',')"
+								type="success"
+							>
 								{{ tag }}
 							</n-tag>
 						</n-thing>
@@ -36,6 +51,7 @@
 					<template #footer>
 						<n-pagination
 							v-model:page="pageParams.page_index"
+							:page-size="pageParams.page_size"
 							:item-count="wishsData.total"
 							@update:page="changePage"
 						/>
@@ -75,11 +91,11 @@ export default defineComponent({
 		// 查询参数 - 分页
 		const pageParams: pagesProp = reactive({
 			page_index: 1,
-			page_size: 10,
+			page_size: 5,
 		});
 		// 查询参数 - 模糊查询
 		const queryParams: querysProp = reactive({
-			name: '1',
+			name: '',
 		});
 		// 心愿单列表数据
 		const wishsData: wishDataProp = reactive({
@@ -114,6 +130,7 @@ export default defineComponent({
 				const { data } = await WishApi.getMyWishs({
 					pages: pageParams,
 					querys: queryParams,
+					orders: { updated_at: 'desc' },
 				});
 				if (!first) wishsData.first = false;
 				if (data) {
@@ -142,15 +159,25 @@ export default defineComponent({
 	margin: 0 auto;
 	padding: 20px 0;
 	.search-wrap {
+		padding: 20px 10px;
+		display: flex;
+		justify-content: space-between;
 		.n-input {
 			width: 300px;
-			float: right;
 		}
 	}
 	.wish-wrap {
-		padding: 20px;
+		padding: 20px 0;
 	}
 	.wish-list-item {
+		height: 127px;
+		align-items: start;
+		.title {
+			color: #666;
+			&:hover {
+				color: #36ad6a;
+			}
+		}
 		.n-tag {
 			margin: 0 10px 10px 0;
 		}
