@@ -6,6 +6,104 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "26505536",
+      "name": "大图",
+      "font_class": "datu",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "26505559",
+      "name": "列表",
+      "font_class": "liebiao",
+      "unicode": "e69c",
+      "unicode_decimal": 59036
+    },
+    {
+      "icon_id": "26677173",
+      "name": "EditOutlined",
+      "font_class": "bianji",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "26677215",
+      "name": "ExpandOutlined",
+      "font_class": "quanping",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "26677231",
+      "name": "SearchOutlined",
+      "font_class": "sousuo",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "26677246",
+      "name": "QuestionCircleOutlined",
+      "font_class": "yiwen",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "26677251",
+      "name": "PercentageOutlined",
+      "font_class": "youhui",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "26858477",
+      "name": "line_时间",
+      "font_class": "line_shijian",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "26858479",
+      "name": "line_赞",
+      "font_class": "line_zan",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "26862506",
+      "name": "line_简介",
+      "font_class": "line_jianjie",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "26863927",
+      "name": "line_收藏",
+      "font_class": "line_shoucang",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "26867041",
+      "name": "line_删除",
+      "font_class": "line_shanchu",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "26899983",
+      "name": "line_消息",
+      "font_class": "line_xiaoxi",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "26911096",
+      "name": "line_分享",
+      "font_class": "line_fenxiang",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
       "icon_id": "1346861",
       "name": "晴",
       "font_class": "sun",

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-09 13:49:55
+ * @LastEditTime: 2022-01-09 14:57:11
  * @Description: jd查找菜品
 -->
 <template>
@@ -32,8 +32,8 @@
 						{{ v.name }}
 					</div>
 					<n-button text type="success" @click="onAddFoodToWish(v)"
-						>加入此心愿单</n-button
-					>
+						>加入此心愿单
+					</n-button>
 				</div>
 			</div>
 			<n-divider />
@@ -103,12 +103,8 @@ export default defineComponent({
 		// 添加菜品至心愿单
 		const onAddFoodToWish = async (item: any) => {
 			await FoodApi.addFood(item);
-			await WishApi.updateWishFoods(
-				{ wishid: props.wishid },
-				{ type: 'add', food_ids: [item.id] }
-			);
 			searchResult.showPopover = false;
-			context.emit('add');
+			context.emit('add', item.id);
 		};
 
 		return {

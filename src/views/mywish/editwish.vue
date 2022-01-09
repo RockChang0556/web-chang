@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-09 13:49:32
+ * @LastEditTime: 2022-01-09 15:07:04
  * @Description: 编辑心愿单
 -->
 
@@ -38,8 +38,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, defineComponent, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { NList } from 'naive-ui';
 import { WishApi } from '@/services';
 
@@ -62,6 +62,8 @@ export default defineComponent({
 	},
 	setup(props) {
 		const router = useRouter();
+		const route = useRoute();
+		const isEditPage = computed(() => route.name === 'editwish');
 		const wishFormRef = ref();
 		const wishFormRes: { data: wishProp; loading: boolean } = reactive({
 			data: {},
@@ -74,12 +76,10 @@ export default defineComponent({
 				wishFormRes.loading = true;
 				const { data } = await WishApi.getWishDetail({ wishid: props.wishid });
 				wishFormRes.data = data;
-				foods.value = data.food_list;
 			} finally {
 				wishFormRes.loading = false;
 			}
 		};
-		getData();
 
 		// 重置表单
 		const onResetForm = () => {
@@ -111,9 +111,15 @@ export default defineComponent({
 				});
 		};
 
-		const onAddWishFood = () => {
+		// 在心愿单内添加菜品后的回调
+		const onAddWishFood = async (id: string) => {
+			await WishApi.updateWishFoods(
+				{ wishid: props.wishid },
+				{ type: 'add', food_ids: [id] }
+			);
 			getData();
 		};
+		// 在心愿单内删除菜品
 		const onDeleteWishFood = async (id: string) => {
 			await WishApi.updateWishFoods(
 				{ wishid: props.wishid },
@@ -122,10 +128,15 @@ export default defineComponent({
 			getData();
 		};
 
-		const foods: any = ref([]);
+		const created = () => {
+			// 编辑状态获取数据
+			if (isEditPage) {
+				getData();
+			}
+		};
+		created();
 		return {
 			wishFormRef,
-			foods,
 			onResetForm,
 			onUpdateWish,
 			wishFormRes,
