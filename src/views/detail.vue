@@ -1,14 +1,14 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-12-30 20:53:39
- * @LastEditTime: 2021-12-30 21:40:59
+ * @LastEditTime: 2022-01-09 13:35:23
  * @Description: 
 -->
 <template>
 	<n-drawer-content class="food-detail" :title="data.name">
 		<img :src="data.pic" alt="" class="pic" />
 		<div class="tag">
-			<n-tag v-for="tag in data.tag.split(',')" type="success">
+			<n-tag v-for="tag in data.tag" type="success">
 				{{ tag }}
 			</n-tag>
 		</div>

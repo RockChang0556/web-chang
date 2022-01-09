@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-08 21:47:44
+ * @LastEditTime: 2022-01-09 13:36:21
  * @Description: 菜品卡片
 -->
 <template>
@@ -18,7 +18,7 @@
 					</n-button>
 				</template>
 				<template #description>
-					<n-tag v-for="tag in item.tag.split(',')" type="success">
+					<n-tag v-if="item.tag.length" v-for="tag in item.tag" type="success">
 						{{ tag }}
 					</n-tag>
 				</template>

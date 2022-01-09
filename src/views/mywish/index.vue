@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-08 22:01:40
+ * @LastEditTime: 2022-01-09 13:36:45
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -44,11 +44,7 @@
 								</n-popconfirm>
 							</template>
 							<template #description> {{ v.summary || '暂无描述' }} </template>
-							<n-tag
-								v-if="v.tag"
-								v-for="tag in v.tag.split(',')"
-								type="success"
-							>
+							<n-tag v-if="v.tag.length" v-for="tag in v.tag" type="success">
 								{{ tag }}
 							</n-tag>
 						</n-thing>

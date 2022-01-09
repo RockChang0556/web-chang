@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-08 16:24:33
+ * @LastEditTime: 2022-01-09 13:36:02
  * @Description: 新增心愿单
 -->
 
@@ -46,7 +46,7 @@ export default defineComponent({
 					const data = {
 						name: result.name,
 						summary: result.summary,
-						tag: result.tags.join(','),
+						tag: result.tags,
 					};
 					await WishApi.addWish(data);
 					window.$message.success('创建成功');

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-08 22:13:22
+ * @LastEditTime: 2022-01-09 13:49:55
  * @Description: jd查找菜品
 -->
 <template>
@@ -103,9 +103,9 @@ export default defineComponent({
 		// 添加菜品至心愿单
 		const onAddFoodToWish = async (item: any) => {
 			await FoodApi.addFood(item);
-			await WishApi.addFoodToWish(
+			await WishApi.updateWishFoods(
 				{ wishid: props.wishid },
-				{ food_ids: [item.id] }
+				{ type: 'add', food_ids: [item.id] }
 			);
 			searchResult.showPopover = false;
 			context.emit('add');

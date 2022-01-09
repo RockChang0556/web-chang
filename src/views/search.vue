@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-12-30 18:55:41
- * @LastEditTime: 2022-01-07 17:26:54
+ * @LastEditTime: 2022-01-09 13:35:52
  * @Description: 
 -->
 <template>
@@ -26,7 +26,7 @@
 							</n-button>
 						</template>
 						<template #description>
-							<n-tag v-for="tag in v.tag.split(',')" type="success">
+							<n-tag v-for="tag in v.tag" type="success">
 								{{ tag }}
 							</n-tag>
 						</template>

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-08 21:50:45
+ * @LastEditTime: 2022-01-09 13:49:32
  * @Description: 编辑心愿单
 -->
 
@@ -95,7 +95,7 @@ export default defineComponent({
 					const data = {
 						name: result.name,
 						summary: result.summary,
-						tag: result.tags.join(','),
+						tag: result.tags,
 					};
 					try {
 						okBtnLoading.value = true;
@@ -115,9 +115,9 @@ export default defineComponent({
 			getData();
 		};
 		const onDeleteWishFood = async (id: string) => {
-			await WishApi.deleteFoodToWish(
+			await WishApi.updateWishFoods(
 				{ wishid: props.wishid },
-				{ food_ids: [id] }
+				{ type: 'delete', food_ids: [id] }
 			);
 			getData();
 		};

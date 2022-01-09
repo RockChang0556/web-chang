@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-08 16:30:32
+ * @LastEditTime: 2022-01-09 13:37:27
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -66,7 +66,7 @@ export default defineComponent({
 		const model: modelProp = reactive({
 			name: props.models?.name || '',
 			summary: props.models?.summary || '',
-			tags: props.models?.tag ? props.models.tag.split(',') : [],
+			tags: props.models?.tag,
 		});
 		const wishRef = ref();
 		const rules = {
