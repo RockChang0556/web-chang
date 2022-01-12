@@ -1,12 +1,11 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-09 23:06:34
- * @LastEditTime: 2022-01-09 20:16:12
+ * @LastEditTime: 2022-01-10 15:19:20
  * @Description: 菜品相关接口
  */
-// @ts-ignore
-import { objProp } from '@/types/types';
 import _axios, { get, post } from '@/utils/axios';
+import { objProp } from '@/types/types';
 
 export default class Food {
 	/**

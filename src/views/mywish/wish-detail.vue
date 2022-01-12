@@ -1,19 +1,38 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-09 15:07:04
- * @Description: 编辑心愿单
+ * @LastEditTime: 2022-01-12 14:49:28
+ * @Description: 心愿单详情
 -->
 
 <template>
 	<div class="editwish-page">
-		<h1>编辑心愿单</h1>
+		<n-breadcrumb separator=">">
+			<n-breadcrumb-item>
+				<router-link :to="{ name: 'home' }"> 首页 </router-link>
+			</n-breadcrumb-item>
+			<n-breadcrumb-item>
+				<router-link :to="{ name: 'mywish' }"> 我的心愿单 </router-link>
+			</n-breadcrumb-item>
+			<n-breadcrumb-item> 心愿单详情 </n-breadcrumb-item>
+		</n-breadcrumb>
 		<n-spin :show="wishFormRes.loading">
 			<wish-form
 				v-if="!wishFormRes.loading"
+				:wishid="wishid"
 				ref="wishFormRef"
 				:models="wishFormRes.data"
 			></wish-form>
+			<n-space vertical v-else>
+				<n-skeleton height="50px" :sharp="false" />
+				<n-skeleton height="120px" :sharp="false" />
+				<n-space>
+					<n-skeleton height="40px" width="100px" :sharp="false" />
+					<n-skeleton height="40px" width="80px" :sharp="false" />
+					<n-skeleton height="40px" circle />
+				</n-space>
+			</n-space>
+
 			<div class="foods">
 				<p class="foods-label">包含菜品</p>
 				<food-search :wishid="wishid" @add="onAddWishFood"></food-search>
@@ -28,23 +47,23 @@
 				<div v-else>此心愿单下暂无菜品, 快去详情页添加吧</div>
 			</div>
 		</n-spin>
-		<div class="handle-btns">
-			<n-button @click="onResetForm">重置</n-button>
-			<n-button type="primary" @click="onUpdateWish" :loading="okBtnLoading">
-				确认
-			</n-button>
-		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { NList } from 'naive-ui';
-import { WishApi } from '@/services';
+import { defineComponent, reactive, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import {
+	NList,
+	NBreadcrumb,
+	NBreadcrumbItem,
+	NSpace,
+	NSkeleton,
+} from 'naive-ui';
 
+import { WishApi } from '@/services';
 import { objProp } from '@/types/types';
-import WishForm, { modelProp } from './wish-form.vue';
+import WishForm from './wish-form.vue';
 import FoodListItem from './food-list-item.vue';
 import FoodSearch from './food-search.vue';
 
@@ -53,7 +72,16 @@ interface wishProp extends objProp {
 }
 export default defineComponent({
 	name: 'editwish-page',
-	components: { NList, WishForm, FoodListItem, FoodSearch },
+	components: {
+		NList,
+		NBreadcrumb,
+		NBreadcrumbItem,
+		NSpace,
+		NSkeleton,
+		WishForm,
+		FoodListItem,
+		FoodSearch,
+	},
 	props: {
 		// params参数
 		wishid: {
@@ -61,10 +89,7 @@ export default defineComponent({
 		},
 	},
 	setup(props) {
-		const router = useRouter();
 		const route = useRoute();
-		const isEditPage = computed(() => route.name === 'editwish');
-		const wishFormRef = ref();
 		const wishFormRes: { data: wishProp; loading: boolean } = reactive({
 			data: {},
 			loading: false,
@@ -79,36 +104,6 @@ export default defineComponent({
 			} finally {
 				wishFormRes.loading = false;
 			}
-		};
-
-		// 重置表单
-		const onResetForm = () => {
-			wishFormRef.value.resetForm();
-		};
-
-		const okBtnLoading = ref(false);
-		// 更新心愿单
-		const onUpdateWish = () => {
-			wishFormRef.value
-				.validateForm()
-				.then(async (result: modelProp) => {
-					const data = {
-						name: result.name,
-						summary: result.summary,
-						tag: result.tags,
-					};
-					try {
-						okBtnLoading.value = true;
-						await WishApi.updateWish({ wishid: props.wishid }, data);
-						window.$message.success('更新成功');
-						router.push({ name: 'mywish' });
-					} finally {
-						okBtnLoading.value = false;
-					}
-				})
-				.catch(() => {
-					window.$message.error('请检查表单项');
-				});
 		};
 
 		// 在心愿单内添加菜品后的回调
@@ -130,17 +125,13 @@ export default defineComponent({
 
 		const created = () => {
 			// 编辑状态获取数据
-			if (isEditPage) {
+			if (route.name === 'editwish') {
 				getData();
 			}
 		};
 		created();
 		return {
-			wishFormRef,
-			onResetForm,
-			onUpdateWish,
 			wishFormRes,
-			okBtnLoading,
 			onAddWishFood,
 			onDeleteWishFood,
 		};
@@ -153,7 +144,10 @@ export default defineComponent({
 	width: 800px;
 	height: 100%;
 	margin: 0 auto;
-	padding: 50px 0;
+	padding: 20px 0 20px;
+	.wish-form {
+		margin-top: 20px;
+	}
 	> h1 {
 		color: #c0ae7d;
 		margin-bottom: 10px;
@@ -163,17 +157,6 @@ export default defineComponent({
 		font-size: 20px;
 		color: #c0ae7d;
 		height: 30px;
-	}
-	.handle-btns {
-		text-align: center;
-		margin-top: 20px;
-		.n-button {
-			width: 140px;
-			height: 56px;
-			&:nth-of-type(2) {
-				margin-left: 20px;
-			}
-		}
 	}
 }
 </style>

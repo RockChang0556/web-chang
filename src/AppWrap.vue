@@ -1,5 +1,5 @@
 <template >
-	<n-config-provider :theme="theme" :locale="zhCN">
+	<n-config-provider :theme="theme" :locale="zhCN" :date-locale="dateZhCN">
 		<n-message-provider>
 			<app></app>
 		</n-message-provider>
@@ -13,6 +13,7 @@ import {
 	NMessageProvider,
 	NConfigProvider,
 	zhCN,
+	dateZhCN,
 	darkTheme,
 	useOsTheme,
 } from 'naive-ui';
@@ -33,7 +34,7 @@ export default defineComponent({
 				return store.state.user.theme === 'dark' ? darkTheme : null;
 			}
 		});
-		return { theme, zhCN };
+		return { theme, zhCN, dateZhCN };
 	},
 });
 </script>

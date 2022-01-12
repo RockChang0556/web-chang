@@ -20,13 +20,13 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/mywish/add',
 				name: 'addwish',
-				component: () => import('@/views/mywish/addwish.vue'),
+				component: () => import('@/views/mywish/wish-detail.vue'),
 			},
 			{
 				path: '/mywish/edit/:wishid',
 				name: 'editwish',
 				props: true,
-				component: () => import('@/views/mywish/editwish.vue'),
+				component: () => import('@/views/mywish/wish-detail.vue'),
 			},
 		],
 	},
