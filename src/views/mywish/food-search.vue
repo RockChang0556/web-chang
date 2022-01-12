@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-12 19:03:02
+ * @LastEditTime: 2022-01-12 19:56:38
  * @Description: jd查找菜品
 -->
 <template>
@@ -20,6 +20,7 @@
 					v-model:value.trim="searchVal"
 					placeholder="搜索菜品, 食材"
 					round
+					clearable
 					@update:value="handleSearch"
 				>
 					<template #suffix>
@@ -31,6 +32,7 @@
 				<div class="food-search-list">
 					<div
 						class="food-search-item"
+						v-if="searchResult.data?.length"
 						v-for="v in searchResult.data"
 						:key="v.id"
 					>
@@ -42,6 +44,7 @@
 							>加入此心愿单
 						</n-button>
 					</div>
+					<n-empty v-else description="暂无内容"></n-empty>
 				</div>
 			</n-spin>
 			<n-divider />
@@ -81,6 +84,7 @@ export default defineComponent({
 		const onAddFoodToWish = async (item: any) => {
 			await FoodApi.addFood(item);
 			searchResult.showPopover = false;
+			searchVal.value = '';
 			context.emit('add', item.id);
 		};
 

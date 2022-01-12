@@ -1,12 +1,17 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-12 19:37:04
+ * @LastEditTime: 2022-01-12 20:08:55
  * @Description:  我的心愿单-首页
 -->
 <template>
 	<div class="mywish-page">
-		<h2>我的心愿单</h2>
+		<n-breadcrumb separator=">">
+			<n-breadcrumb-item>
+				<router-link :to="{ name: 'home' }"> 首页 </router-link>
+			</n-breadcrumb-item>
+			<n-breadcrumb-item>我的心愿单 </n-breadcrumb-item>
+		</n-breadcrumb>
 		<div class="search-wrap">
 			<router-link :to="{ name: 'addwish' }">
 				<n-button type="primary" ghost>新建心愿单</n-button>
@@ -81,6 +86,8 @@ import {
 	NTag,
 	NPagination,
 	NPopconfirm,
+	NBreadcrumb,
+	NBreadcrumbItem,
 } from 'naive-ui';
 import { WishApi } from '@/services';
 import { pagesProp, querysProp } from '@/types/types';
@@ -100,6 +107,8 @@ export default defineComponent({
 		NTag,
 		NPagination,
 		NPopconfirm,
+		NBreadcrumb,
+		NBreadcrumbItem,
 	},
 	props: {},
 	setup() {

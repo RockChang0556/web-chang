@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-09 13:36:21
+ * @LastEditTime: 2022-01-12 20:03:13
  * @Description: 菜品卡片
 -->
 <template>
@@ -18,9 +18,9 @@
 					</n-button>
 				</template>
 				<template #description>
-					<n-tag v-if="item.tag.length" v-for="tag in item.tag" type="success">
-						{{ tag }}
-					</n-tag>
+					<template v-if="item.tag.length" v-for="(tag, i) in item.tag">
+						<n-tag type="success" v-if="i < 6"> {{ tag }} </n-tag>
+					</template>
 				</template>
 				<n-ellipsis :line-clamp="2" :tooltip="false">
 					<div v-html="item.content"></div>
@@ -53,8 +53,11 @@ export default defineComponent({
 
 <style lang="less">
 .wish-food-list-item {
+	.n-list-item {
+		padding: 8px;
+	}
 	.n-thing-avatar img {
-		width: 150px;
+		width: 120px;
 	}
 	.n-thing-main__description {
 		.n-tag {
