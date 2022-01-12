@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-12 14:49:28
+ * @LastEditTime: 2022-01-12 19:35:44
  * @Description: 心愿单详情
 -->
 
@@ -23,6 +23,7 @@
 				ref="wishFormRef"
 				:models="wishFormRes.data"
 			></wish-form>
+			<!-- 骨架屏 -->
 			<n-space vertical v-else>
 				<n-skeleton height="50px" :sharp="false" />
 				<n-skeleton height="120px" :sharp="false" />
@@ -34,8 +35,23 @@
 			</n-space>
 
 			<div class="foods">
-				<p class="foods-label">包含菜品</p>
-				<food-search :wishid="wishid" @add="onAddWishFood"></food-search>
+				<div class="foods-label">
+					<div class="title">
+						<span>包含菜品 {{ wishFormRes.data.food_list?.length || 0 }}</span>
+						<n-button
+							circle
+							:class="{ active: showSearch }"
+							@click="showSearch = !showSearch"
+						>
+							<template #icon>
+								<r-icon name="add"></r-icon>
+							</template>
+						</n-button>
+					</div>
+					<n-collapse-transition :show="showSearch">
+						<food-search :wishid="wishid" @add="onAddWishFood"></food-search>
+					</n-collapse-transition>
+				</div>
 				<n-list class="food-list" v-if="wishFormRes.data.food_list?.length">
 					<food-list-item
 						v-for="v in wishFormRes.data.food_list"
@@ -44,7 +60,7 @@
 						@delete="onDeleteWishFood"
 					></food-list-item>
 				</n-list>
-				<div v-else>此心愿单下暂无菜品, 快去详情页添加吧</div>
+				<n-empty v-else description="此心愿单下暂无菜品, 快去添加吧"> </n-empty>
 			</div>
 		</n-spin>
 	</div>
@@ -59,6 +75,7 @@ import {
 	NBreadcrumbItem,
 	NSpace,
 	NSkeleton,
+	NCollapseTransition,
 } from 'naive-ui';
 
 import { WishApi } from '@/services';
@@ -78,6 +95,7 @@ export default defineComponent({
 		NBreadcrumbItem,
 		NSpace,
 		NSkeleton,
+		NCollapseTransition,
 		WishForm,
 		FoodListItem,
 		FoodSearch,
@@ -94,6 +112,8 @@ export default defineComponent({
 			data: {},
 			loading: false,
 		});
+
+		const showSearch = ref(false);
 
 		// 获取 wish 数据
 		const getData = async () => {
@@ -131,6 +151,7 @@ export default defineComponent({
 		};
 		created();
 		return {
+			showSearch,
 			wishFormRes,
 			onAddWishFood,
 			onDeleteWishFood,
@@ -148,15 +169,27 @@ export default defineComponent({
 	.wish-form {
 		margin-top: 20px;
 	}
-	> h1 {
-		color: #c0ae7d;
-		margin-bottom: 10px;
-	}
-	.n-form-item-label,
-	.foods-label {
-		font-size: 20px;
-		color: #c0ae7d;
-		height: 30px;
+	.foods {
+		.foods-label {
+			padding: 20px 0 15px;
+			font-size: 20px;
+			color: #c0ae7d;
+			.title {
+				display: flex;
+				.n-button {
+					margin-left: 20px;
+					transition: 0.3s;
+					width: 30px;
+					height: 30px;
+					&.active {
+						transform: rotate(45deg);
+					}
+				}
+			}
+		}
+		.food-search {
+			margin-top: 10px;
+		}
 	}
 }
 </style>

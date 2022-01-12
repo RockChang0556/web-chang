@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "21397970",
+      "name": "rxa-circle-auto-lined",
+      "font_class": "rxa-circle-auto-lined",
+      "unicode": "e7ef",
+      "unicode_decimal": 59375
+    },
+    {
+      "icon_id": "27107409",
+      "name": "add",
+      "font_class": "add",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "27107513",
+      "name": "heart-filled",
+      "font_class": "heart-filled",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "27107519",
+      "name": "heart",
+      "font_class": "heart",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
       "icon_id": "26505536",
       "name": "大图",
       "font_class": "datu",
@@ -76,25 +104,11 @@
       "unicode_decimal": 58943
     },
     {
-      "icon_id": "26863927",
-      "name": "line_收藏",
-      "font_class": "line_shoucang",
-      "unicode": "e640",
-      "unicode_decimal": 58944
-    },
-    {
       "icon_id": "26867041",
       "name": "line_删除",
       "font_class": "line_shanchu",
       "unicode": "e644",
       "unicode_decimal": 58948
-    },
-    {
-      "icon_id": "26899983",
-      "name": "line_消息",
-      "font_class": "line_xiaoxi",
-      "unicode": "e65d",
-      "unicode_decimal": 58973
     },
     {
       "icon_id": "26911096",
@@ -116,13 +130,6 @@
       "font_class": "moon_",
       "unicode": "ecb5",
       "unicode_decimal": 60597
-    },
-    {
-      "icon_id": "15198262",
-      "name": "automaticForecast",
-      "font_class": "automaticForecast",
-      "unicode": "e686",
-      "unicode_decimal": 59014
     }
   ]
 }

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-12 14:50:08
+ * @LastEditTime: 2022-01-12 18:34:23
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -13,7 +13,7 @@
 					v-if="isEdit"
 					placeholder="添加心愿单名称"
 					size="large"
-					v-model:value="model.name"
+					v-model:value.trim="model.name"
 					maxlength="20"
 				/>
 				<p v-else>{{ model.name }}</p>
@@ -37,9 +37,15 @@
 			<n-form-item
 				label="标签"
 				path="tags"
-				class="tags"
+				class="form-item-tags"
 				v-if="model.tags?.length || isEdit"
 			>
+				<n-tooltip trigger="hover">
+					<template #trigger>
+						<r-icon name="youhui"></r-icon>
+					</template>
+					标签
+				</n-tooltip>
 				<n-dynamic-tags
 					v-if="isEdit"
 					size="large"
@@ -86,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, PropType, computed } from 'vue';
+import { defineComponent, reactive, ref, PropType, computed, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import {
 	FormValidationError,
@@ -121,85 +127,55 @@ export default defineComponent({
 		const route = useRoute();
 		const isEditPage = computed(() => route.name === 'editwish'); // 是否是编辑页面
 		const isEdit = ref(false); // 表单是否编辑状态
-		const wishRef = ref();
-		let model: modelProp = reactive({
-			name: props.models?.name || '',
-			summary: props.models?.summary || '',
-			tags: props.models?.tag,
-			created_at: props.models?.created_at || '',
-			updated_at: props.models?.updated_at || '',
-		});
 
-		const rules = {
-			name: {
-				required: true,
-				message: '请输入心愿单名称',
-			},
-		};
-		// 重置表单 - 父级调用
-		const resetForm = () => {
-			model.name = '';
-			model.summary = '';
-			model.tags = [];
-			wishRef.value.restoreValidation();
-		};
-
-		// 校验表单
-		const validateForm = () => {
-			return new Promise((resolve, reject) => {
-				wishRef.value.validate(async (errors: Array<FormValidationError>) => {
-					if (!errors) {
-						resolve(model); // 校验成功发送数据
-					} else {
-						reject(errors); // 校验失败发送错误信息
-					}
-				});
-			});
-		};
+		const { wishRef, model, rules, resetForm, validateForm } = useFormInit(
+			props.models
+		);
 
 		const okBtnLoading = ref(false);
 		// 更新心愿单
-		const onUpdateWish = () => {
-			validateForm()
-				.then(async (result: any) => {
-					const datas = {
-						name: result.name,
-						summary: result.summary,
-						tag: result.tags,
-					};
-					try {
-						okBtnLoading.value = true;
-						if (isEditPage.value) {
-							const { data } = await WishApi.updateWish(
-								{ wishid: props.wishid },
-								datas
-							);
-							model.updated_at = data.updated_at;
-							window.$message.success('更新成功');
-						} else {
-							const { data } = await WishApi.addWish(datas);
-							model.created_at = data.created_at;
-							model.updated_at = data.updated_at;
-							window.$message.success('创建成功');
-							router.push({ name: 'editwish', params: { wishid: data.id } });
-						}
-						isEdit.value = false;
-					} finally {
-						okBtnLoading.value = false;
+		const onUpdateWish = async () => {
+			const send = async () => {
+				const datas = {
+					name: model.name,
+					summary: model.summary,
+					tag: model.tags,
+				};
+				try {
+					okBtnLoading.value = true;
+					if (isEditPage.value) {
+						const { data } = await WishApi.updateWish(
+							{ wishid: props.wishid },
+							datas
+						);
+						model.updated_at = data.updated_at;
+						window.$message.success('更新成功');
+					} else {
+						const { data } = await WishApi.addWish(datas);
+						model.created_at = data.created_at;
+						model.updated_at = data.updated_at;
+						window.$message.success('创建成功');
+						router.push({ name: 'editwish', params: { wishid: data.id } });
 					}
-				})
-				.catch(() => {
-					window.$message.error('请检查表单项');
-				});
+					isEdit.value = false;
+				} finally {
+					okBtnLoading.value = false;
+				}
+			};
+			try {
+				await validateForm();
+			} catch (error) {
+				window.$message.error('请检查表单项');
+			}
+			// 发送更新或新增接口
+			await send();
 		};
 
 		// 取消编辑
 		const onCancelEdit = () => {
 			isEdit.value = false;
 			// 还原 model 的值
-			model.name = props.models?.name || '';
-			model.summary = props.models?.summary || '';
-			model.tags = props.models?.tag;
+			resetForm();
 		};
 
 		const created = () => {
@@ -209,18 +185,56 @@ export default defineComponent({
 		};
 		created();
 		return {
-			isEdit,
 			wishRef,
 			model,
 			rules,
-			resetForm,
 			validateForm,
+			isEdit,
 			onUpdateWish,
 			okBtnLoading,
 			onCancelEdit,
 		};
 	},
 });
+
+function useFormInit(models: modelProp | undefined) {
+	const wishRef = ref();
+	const model: modelProp = reactive({
+		name: models?.name || '',
+		summary: models?.summary || '',
+		tags: models?.tag,
+		created_at: models?.created_at || '',
+		updated_at: models?.updated_at || '',
+	});
+
+	const rules = {
+		name: {
+			required: true,
+			message: '请输入心愿单名称',
+		},
+	};
+	// 重置表单
+	const resetForm = () => {
+		model.name = models?.name || '';
+		model.summary = models?.summary || '';
+		model.tags = models?.tag;
+		wishRef.value.restoreValidation();
+	};
+
+	// 校验表单
+	const validateForm = () => {
+		return new Promise((resolve, reject) => {
+			wishRef.value.validate(async (errors: Array<FormValidationError>) => {
+				if (!errors) {
+					resolve(model); // 校验成功发送数据
+				} else {
+					reject(errors); // 校验失败发送错误信息
+				}
+			});
+		});
+	};
+	return { wishRef, model, rules, resetForm, validateForm };
+}
 </script>
 
 <style lang="less">
@@ -251,9 +265,15 @@ export default defineComponent({
 				font-size: 15px;
 			}
 		}
-		.tags {
-			.n-form-item-blank > .n-tag {
-				margin: 0 8px 5px 0;
+		.form-item-tags {
+			.n-form-item-blank {
+				.r-icon {
+					font-size: 26px;
+					margin-right: 5px;
+				}
+				> .n-tag {
+					margin: 0 8px 5px 0;
+				}
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-09 14:57:11
+ * @LastEditTime: 2022-01-12 19:03:02
  * @Description: jd查找菜品
 -->
 <template>
@@ -17,25 +17,33 @@
 		>
 			<template #trigger>
 				<n-input
-					placeholder="输入想吃的, 回车搜索"
+					v-model:value.trim="searchVal"
+					placeholder="搜索菜品, 食材"
+					round
 					@update:value="handleSearch"
-				></n-input>
-			</template>
-			<div class="food-search-list">
-				<div
-					class="food-search-item"
-					v-for="v in searchResult.data"
-					:key="v.id"
 				>
-					<img :src="v.pic" alt="" srcset="" />
-					<div class="content">
-						{{ v.name }}
+					<template #suffix>
+						<r-icon name="sousuo"></r-icon>
+					</template>
+				</n-input>
+			</template>
+			<n-spin :show="searchResult.loading">
+				<div class="food-search-list">
+					<div
+						class="food-search-item"
+						v-for="v in searchResult.data"
+						:key="v.id"
+					>
+						<img :src="v.pic" alt="" srcset="" />
+						<div class="content">
+							{{ v.name }}
+						</div>
+						<n-button text type="success" @click="onAddFoodToWish(v)"
+							>加入此心愿单
+						</n-button>
 					</div>
-					<n-button text type="success" @click="onAddFoodToWish(v)"
-						>加入此心愿单
-					</n-button>
 				</div>
-			</div>
+			</n-spin>
 			<n-divider />
 			<p class="custom-btn">
 				没有想吃的?
@@ -47,11 +55,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
 import { NPopover, NDivider } from 'naive-ui';
-import { FoodApi, WishApi } from '@/services';
+import { FoodApi } from '@/services';
 
 interface searchResultProp {
 	loading: boolean;
@@ -68,38 +76,7 @@ export default defineComponent({
 		},
 	},
 	setup(props, context) {
-		const searchResult: searchResultProp = reactive({
-			loading: false,
-			data: [],
-			showPopover: false,
-		});
-		const handleSearch = debounce((val: string) => {
-			const value = val.trim();
-			if (!value) return;
-			searchResult.loading = true;
-			axios
-				.get('/jisuapi/search', {
-					params: {
-						keyword: value,
-						start: 0,
-						num: 20,
-						appkey: 'a6c59a2ffa28433481c82f3878727a49',
-					},
-				})
-				.then(res => {
-					const resl = res.data?.result;
-					if (resl?.status === 0) {
-						searchResult.data = resl?.result.list;
-					} else {
-						searchResult.data = [];
-					}
-				})
-				.finally(() => {
-					searchResult.loading = false;
-					searchResult.showPopover = true;
-				});
-		}, 600);
-
+		const { searchResult, searchVal, handleSearch } = useSearch();
 		// 添加菜品至心愿单
 		const onAddFoodToWish = async (item: any) => {
 			await FoodApi.addFood(item);
@@ -108,20 +85,69 @@ export default defineComponent({
 		};
 
 		return {
+			searchVal,
 			handleSearch,
 			searchResult,
 			onAddFoodToWish,
 		};
 	},
 });
+
+function useSearch() {
+	const searchResult: searchResultProp = reactive({
+		loading: false,
+		data: [],
+		showPopover: false,
+	});
+	const searchVal = ref('');
+	const handleSearch = debounce(() => {
+		const value = searchVal.value.trim();
+		if (!value) return;
+		searchResult.loading = true;
+		searchResult.showPopover = true;
+		axios
+			.get('/jisuapi/search', {
+				params: {
+					keyword: value,
+					start: 0,
+					num: 20,
+					appkey: 'a6c59a2ffa28433481c82f3878727a49',
+				},
+			})
+			.then(res => {
+				const resl = res.data?.result;
+				if (resl?.status === 0) {
+					searchResult.data = resl?.result.list;
+				} else {
+					searchResult.data = [];
+				}
+			})
+			.finally(() => {
+				searchResult.loading = false;
+			});
+	}, 600);
+
+	return {
+		searchResult,
+		searchVal,
+		handleSearch,
+	};
+}
 </script>
 
 <style lang="less">
+.food-search {
+	.n-input .n-input__suffix {
+		cursor: pointer;
+		font-size: 22px;
+	}
+}
 .food-search-popover {
 	padding: 8px 0 !important;
 	.food-search-list {
 		overflow-y: auto;
 		max-height: 400px;
+		min-height: 90px;
 	}
 	.food-search-item {
 		display: flex;

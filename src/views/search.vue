@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-12-30 18:55:41
- * @LastEditTime: 2022-01-09 13:35:52
+ * @LastEditTime: 2022-01-12 19:36:59
  * @Description: 
 -->
 <template>
@@ -52,15 +52,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import axios from 'axios';
-import {
-	NList,
-	NListItem,
-	NTag,
-	NThing,
-	NEmpty,
-	NEllipsis,
-	NDrawer,
-} from 'naive-ui';
+import { NList, NListItem, NTag, NThing, NEllipsis, NDrawer } from 'naive-ui';
 import debounce from 'lodash/debounce';
 import { FoodApi } from '@/services';
 import FoodDetail from './detail.vue';
@@ -73,7 +65,6 @@ export default defineComponent({
 		NListItem,
 		NTag,
 		NThing,
-		NEmpty,
 		NEllipsis,
 		NDrawer,
 	},

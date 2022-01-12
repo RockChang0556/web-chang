@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-08 15:55:25
+ * @LastEditTime: 2022-01-12 18:26:56
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -58,11 +58,10 @@ export default defineComponent({
 		const store = useStore();
 
 		// 主题
-		const themeOption = useThemeOption();
+		const { themeOption, iconConfig } = useThemeOption();
 		const themeIcon = computed(() => {
 			const theme: themeProp = store.state.user.theme;
-			const obj = { auto: 'automaticForecast', dark: 'moon_', light: 'sun' };
-			return obj[theme];
+			return iconConfig[theme];
 		});
 
 		const logout = () => {
@@ -81,6 +80,11 @@ export default defineComponent({
 });
 
 function useThemeOption() {
+	const iconConfig = {
+		auto: 'rxa-circle-auto-lined',
+		dark: 'moon_',
+		light: 'sun',
+	};
 	const renderIcon = (icon: string) => {
 		return () => {
 			return h(RIcon, { name: icon });
@@ -95,7 +99,7 @@ function useThemeOption() {
 		{
 			label: '跟随电脑',
 			key: 'auto',
-			icon: renderIcon('automaticForecast'),
+			icon: renderIcon(iconConfig.auto),
 			props: {
 				onClick: () => {
 					changeTheme('auto');
@@ -105,7 +109,7 @@ function useThemeOption() {
 		{
 			label: '夜间模式',
 			key: 'dark',
-			icon: renderIcon('moon_'),
+			icon: renderIcon(iconConfig.dark),
 			props: {
 				onClick: () => {
 					changeTheme('dark');
@@ -115,7 +119,7 @@ function useThemeOption() {
 		{
 			label: '日间模式',
 			key: 'light',
-			icon: renderIcon('sun'),
+			icon: renderIcon(iconConfig.light),
 			props: {
 				onClick: () => {
 					changeTheme('light');
@@ -123,7 +127,7 @@ function useThemeOption() {
 			},
 		},
 	];
-	return options;
+	return { themeOption: options, iconConfig };
 }
 </script>
 

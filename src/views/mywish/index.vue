@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-09 17:26:34
+ * @LastEditTime: 2022-01-12 19:37:04
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -79,7 +79,6 @@ import {
 	NListItem,
 	NThing,
 	NTag,
-	NEmpty,
 	NPagination,
 	NPopconfirm,
 } from 'naive-ui';
@@ -99,7 +98,6 @@ export default defineComponent({
 		NListItem,
 		NThing,
 		NTag,
-		NEmpty,
 		NPagination,
 		NPopconfirm,
 	},
