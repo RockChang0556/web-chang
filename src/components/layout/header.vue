@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-13 10:42:16
+ * @LastEditTime: 2022-01-13 11:28:41
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -25,10 +25,13 @@
 					<n-button type="danger">登录</n-button>
 				</a>
 			</div>
-			<div class="userinfo" v-else>
-				<avatar :size="36" :src="user.avatar_url"> </avatar>
-				{{ user.name }}
-			</div>
+			<n-dropdown v-else :options="userOption">
+				<div class="userinfo">
+					<avatar :size="36" :src="user.avatar_url"> </avatar>
+					{{ user.name }}
+					<r-icon name="caret-down-small"></r-icon>
+				</div>
+			</n-dropdown>
 		</div>
 	</div>
 </template>
@@ -40,7 +43,7 @@ import { UserProps } from '@/store/modules/user';
 import RIcon from '@/components/global/icon/index.vue';
 import Avatar from '@/components/avatar.vue';
 import router from '@/router';
-import { homeUrl, loginUrl } from '@/config/constants';
+import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/config/constants';
 import { themeProp } from '@/store/modules/user';
 import { NDropdown } from 'naive-ui';
 import store from '@/store';
@@ -64,6 +67,9 @@ export default defineComponent({
 			return iconConfig[theme];
 		});
 
+		// 用户下拉菜单
+		const { userOption } = useUserOption();
+
 		const logout = () => {
 			store.dispatch('user/logout');
 			router.push('/');
@@ -75,22 +81,21 @@ export default defineComponent({
 			loginUrl,
 			themeIcon,
 			themeOption,
+			userOption,
 		};
 	},
 });
-
+function renderIcon(icon: string) {
+	return () => {
+		return h(RIcon, { name: icon });
+	};
+}
 function useThemeOption() {
 	const iconConfig = {
 		auto: 'rxa-circle-auto-lined',
 		dark: 'moon_',
 		light: 'sun',
 	};
-	const renderIcon = (icon: string) => {
-		return () => {
-			return h(RIcon, { name: icon });
-		};
-	};
-
 	const changeTheme = (theme: string) => {
 		store.commit('user/setTheme', theme);
 	};
@@ -128,6 +133,41 @@ function useThemeOption() {
 		},
 	];
 	return { themeOption: options, iconConfig };
+}
+function useUserOption() {
+	const options = [
+		{
+			label: '个人信息',
+			key: 'auto',
+			icon: renderIcon('user-circle'),
+			props: {
+				onClick: () => {
+					location.href = userInfoUrl;
+				},
+			},
+		},
+		{
+			label: '我的心愿单',
+			key: 'dark',
+			icon: renderIcon('heart'),
+			props: {
+				onClick: () => {
+					router.push({ name: 'mywish' });
+				},
+			},
+		},
+		{
+			label: '退出',
+			key: 'light',
+			icon: renderIcon('logout'),
+			props: {
+				onClick: () => {
+					location.href = logoutUrl;
+				},
+			},
+		},
+	];
+	return { userOption: options };
 }
 </script>
 
@@ -176,6 +216,8 @@ function useThemeOption() {
 			margin: 0 5px 0 15px;
 		}
 		.userinfo {
+			cursor: pointer;
+			height: 40px;
 			display: flex;
 			align-items: center;
 		}

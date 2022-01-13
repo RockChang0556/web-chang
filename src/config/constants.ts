@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-14 10:58:55
- * @LastEditTime: 2022-01-13 11:06:28
+ * @LastEditTime: 2022-01-13 11:23:16
  * @Description: 常量
  */
 
@@ -9,6 +9,7 @@
 export const loginUrl = `/login?redirect_uri=${location.href}`;
 export const logoutUrl = `/login?logout=1`;
 export const homeUrl = `/`;
+export const userInfoUrl = `/user/settings`;
 
 // 默认头像
 export const avatarDefaultUrl =

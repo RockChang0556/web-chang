@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-13 10:40:48
+ * @LastEditTime: 2022-01-13 11:29:15
  * @Description: 首页
 -->
 <template>
@@ -32,7 +32,6 @@
 				</span>
 				<r-icon name="bianji" @click="isShowWish = true"></r-icon>
 			</p>
-			<router-link :to="{ name: 'mywish' }">我的心愿单</router-link>
 		</div>
 		<n-drawer v-model:show="isShowWish" display-directive="show" :width="402">
 			<choose-random
