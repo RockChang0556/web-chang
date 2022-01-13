@@ -1,13 +1,13 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-04 11:27:13
- * @LastEditTime: 2022-01-07 16:53:42
+ * @LastEditTime: 2022-01-13 14:46:43
  * @Description: 图片上传 - 暂时是 url 输入,推荐第三方图床
 -->
 
 <template>
 	<div class="upload-img">
-		<n-button @click="showModal = true"><slot> 来吧 </slot></n-button>
+		<span @click="showModal = true"><slot> 来吧 </slot></span>
 		<n-modal
 			v-model:show="showModal"
 			class="upload-img-dialog"
@@ -65,11 +65,11 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { imgDefaultUrl } from '@/config/constants';
-import { NModal, NImage, NFormItem, FormValidationError } from 'naive-ui';
+import { NModal, NFormItem, FormValidationError } from 'naive-ui';
 import debounce from 'lodash/debounce';
 export default defineComponent({
 	name: 'upload-img',
-	components: { NModal, NImage, NFormItem },
+	components: { NModal, NFormItem },
 	props: {},
 	setup(prop, context) {
 		const showModal = ref(false);

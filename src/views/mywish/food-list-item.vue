@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-12 20:03:13
+ * @LastEditTime: 2022-01-13 15:09:03
  * @Description: 菜品卡片
 -->
 <template>
@@ -9,7 +9,7 @@
 		<n-list-item>
 			<n-thing content-indented>
 				<template #avatar>
-					<img :src="item.pic" alt="" />
+					<n-image :src="item.pic || 'e'" :fallback-src="imgFoodUrl"></n-image>
 				</template>
 				<template #header>{{ item.name }}</template>
 				<template #header-extra>
@@ -33,6 +33,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { NListItem, NTag, NThing, NEllipsis } from 'naive-ui';
+import { imgFoodUrl } from '@/config/constants';
 export default defineComponent({
 	name: 'wish-food-list-item',
 	components: { NListItem, NTag, NThing, NEllipsis },
@@ -46,7 +47,7 @@ export default defineComponent({
 		const onDelete = (id: string) => {
 			context.emit('delete', id);
 		};
-		return { onDelete };
+		return { onDelete, imgFoodUrl };
 	},
 });
 </script>
@@ -56,12 +57,19 @@ export default defineComponent({
 	.n-list-item {
 		padding: 8px;
 	}
-	.n-thing-avatar img {
-		width: 120px;
+	.n-thing-avatar .n-image {
+		background: #ccc;
+		img {
+			width: 120px;
+		}
 	}
-	.n-thing-main__description {
-		.n-tag {
-			margin: 0 10px 10px 0;
+	.n-thing-main {
+		padding: 5px 0;
+		height: 120px;
+		.n-thing-main__description {
+			.n-tag {
+				margin: 0 10px 0 0;
+			}
 		}
 	}
 }

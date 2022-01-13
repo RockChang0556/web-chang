@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-12 19:35:44
+ * @LastEditTime: 2022-01-13 16:02:54
  * @Description: 心愿单详情
 -->
 
@@ -16,24 +16,26 @@
 			</n-breadcrumb-item>
 			<n-breadcrumb-item> 心愿单详情 </n-breadcrumb-item>
 		</n-breadcrumb>
-		<n-spin :show="wishFormRes.loading">
-			<wish-form
-				v-if="!wishFormRes.loading"
-				:wishid="wishid"
-				ref="wishFormRef"
-				:models="wishFormRes.data"
-			></wish-form>
-			<!-- 骨架屏 -->
-			<n-space vertical v-else>
-				<n-skeleton height="50px" :sharp="false" />
-				<n-skeleton height="120px" :sharp="false" />
-				<n-space>
-					<n-skeleton height="40px" width="100px" :sharp="false" />
-					<n-skeleton height="40px" width="80px" :sharp="false" />
-					<n-skeleton height="40px" circle />
-				</n-space>
-			</n-space>
 
+		<!-- 心愿单基本信息 -->
+		<wish-form
+			v-if="!wishFormRes.loading"
+			:wishid="wishid"
+			ref="wishFormRef"
+			:models="wishFormRes.data"
+		></wish-form>
+		<!-- 心愿单基本信息 - 骨架屏 -->
+		<n-space vertical v-else>
+			<n-skeleton height="50px" :sharp="false" />
+			<n-skeleton height="120px" :sharp="false" />
+			<n-space>
+				<n-skeleton height="40px" width="100px" :sharp="false" />
+				<n-skeleton height="40px" width="80px" :sharp="false" />
+				<n-skeleton height="40px" circle />
+			</n-space>
+		</n-space>
+		<n-spin :show="wishFormRes.loading">
+			<!-- 菜品列表 -->
 			<div class="foods">
 				<div class="foods-label">
 					<div class="title">
@@ -113,6 +115,7 @@ export default defineComponent({
 			loading: false,
 		});
 
+		// 是否展开显示搜索框
 		const showSearch = ref(false);
 
 		// 获取 wish 数据

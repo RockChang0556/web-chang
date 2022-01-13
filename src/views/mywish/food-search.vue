@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-12 19:56:38
+ * @LastEditTime: 2022-01-13 16:00:07
  * @Description: jd查找菜品
 -->
 <template>
@@ -35,24 +35,42 @@
 						v-if="searchResult.data?.length"
 						v-for="v in searchResult.data"
 						:key="v.id"
+						@click="onAddFoodToWish(v)"
 					>
-						<img :src="v.pic" alt="" srcset="" />
+						<n-popover
+							class="food-search-item-popover"
+							trigger="hover"
+							placement="top-start"
+							:show-arrow="false"
+						>
+							<template #trigger>
+								<r-icon name="browse"></r-icon>
+							</template>
+							<n-image
+								:src="v.pic"
+								preview-disabled
+								:fallback-src="imgFoodUrl"
+							></n-image>
+						</n-popover>
 						<div class="content">
 							{{ v.name }}
 						</div>
-						<n-button text type="success" @click="onAddFoodToWish(v)"
-							>加入此心愿单
-						</n-button>
 					</div>
 					<n-empty v-else description="暂无内容"></n-empty>
 				</div>
+				<n-divider />
+				<p class="custom-food-wrap">
+					没有想吃的?
+					<n-input
+						v-model:value.trim="customFoodVal"
+						placeholder="输入菜名, 回车, 即可快速添加至此心愿单"
+						size="small"
+						round
+						clearable
+						@keyup.enter="onAddCustomFood"
+					></n-input>
+				</p>
 			</n-spin>
-			<n-divider />
-			<p class="custom-btn">
-				没有想吃的?
-				<n-button text type="info" @click="onAddFoodToWish">自定义</n-button>
-				一个吧
-			</p>
 		</n-popover>
 	</div>
 </template>
@@ -62,6 +80,7 @@ import { defineComponent, reactive, ref } from 'vue';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
 import { NPopover, NDivider } from 'naive-ui';
+import { imgFoodUrl } from '@/config/constants';
 import { FoodApi } from '@/services';
 
 interface searchResultProp {
@@ -88,11 +107,23 @@ export default defineComponent({
 			context.emit('add', item.id);
 		};
 
+		const customFoodVal = ref('');
+		const onAddCustomFood = async () => {
+			const { data } = await FoodApi.addFood({ name: customFoodVal.value });
+			searchResult.showPopover = false;
+			searchVal.value = '';
+			context.emit('add', data.id);
+			customFoodVal.value = '';
+		};
+
 		return {
+			imgFoodUrl,
 			searchVal,
 			handleSearch,
 			searchResult,
 			onAddFoodToWish,
+			customFoodVal,
+			onAddCustomFood,
 		};
 	},
 });
@@ -149,9 +180,9 @@ function useSearch() {
 .food-search-popover {
 	padding: 8px 0 !important;
 	.food-search-list {
+		padding-bottom: 8px;
 		overflow-y: auto;
 		max-height: 400px;
-		min-height: 90px;
 	}
 	.food-search-item {
 		display: flex;
@@ -159,29 +190,38 @@ function useSearch() {
 		justify-content: space-between;
 		margin: 3px 0;
 		padding: 5px 14px;
+		cursor: pointer;
+		transition: 0.3s;
 		&:hover {
 			background: rgb(243, 243, 245);
+			.r-icon {
+				opacity: 1;
+			}
 		}
-		> img {
-			width: 80px;
-			flex-shrink: 0;
+		.r-icon {
+			opacity: 0;
+			transition: 0.2s;
 		}
 		.content {
 			flex: 1;
 			padding-left: 10px;
 		}
-		.n-button {
-			flex-shrink: 0;
-		}
 	}
 	.n-divider {
 		margin: 0;
 	}
-	.custom-btn {
+	.custom-food-wrap {
 		padding: 0 14px;
 		height: 44px;
-		.n-button {
-			height: 44px;
+		line-height: 44px;
+		.n-input {
+			width: 300px;
+			margin-left: 10px;
+		}
+	}
+	.food-search-item-popover {
+		img {
+			width: 230px;
 		}
 	}
 }
