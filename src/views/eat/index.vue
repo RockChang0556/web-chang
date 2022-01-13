@@ -9,10 +9,13 @@
 				<button :disabled="disabled">开始</button>
 			</li>
 		</ul>
+		<search></search>
+		<!-- 		<com-upload-img></com-upload-img> -->
 	</div>
 </template>
  
 <script>
+import search from '../search.vue';
 const PRIZE = [
 	{
 		id: '001',
@@ -49,6 +52,7 @@ const PRIZE = [
 ];
 export default {
 	name: 'Game',
+	components: { search },
 	data() {
 		return {
 			disabled: false, // 是否禁用按钮

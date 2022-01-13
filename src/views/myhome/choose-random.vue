@@ -1,41 +1,61 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-09 21:10:10
+ * @LastEditTime: 2022-01-13 17:27:11
  * @Description: 首页 - 选择随机范围
 -->
 <template>
 	<n-drawer-content class="home-choose-random">
-		<template #header>已选择 {{ selectedWish.length }} 个心愿单</template>
-		<div class="wish-list">
-			<n-checkbox-group v-model:value="selectedWish">
-				<div class="wish-list-item" v-for="v in wishsData.data" :key="v.id">
-					<n-checkbox :value="v.id" />
-					<div class="item-content">
-						<h3 class="item-content-title">
-							<router-link :to="{ name: 'editwish', params: { wishid: v.id } }">
-								{{ v.name }}
-							</router-link>
-							<span>
-								{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
-							</span>
-						</h3>
-						<n-tag v-if="v.tag.length" v-for="tag in v.tag" type="success">
-							{{ tag }}
-						</n-tag>
+		<template #header>选择随机范围</template>
+		<n-radio-group
+			v-model:value="randVal"
+			name="radiogroup"
+			@update:value="onChangeRandVal"
+		>
+			<n-radio v-for="v in randOptions" :key="v.value" :value="v.value">
+				{{ v.label }}
+			</n-radio>
+		</n-radio-group>
+		<div class="is-wish" v-show="randVal === 'wish'">
+			<p>已选择 {{ selectedWish.length }} 个心愿单</p>
+			<div class="wish-list">
+				<n-checkbox-group v-model:value="selectedWish">
+					<div class="wish-list-item" v-for="v in wishsData.data" :key="v.id">
+						<n-checkbox :value="v.id" />
+						<div class="item-content">
+							<h3 class="item-content-title">
+								<router-link
+									target="_blank"
+									tag="a"
+									:to="{ name: 'editwish', params: { wishid: v.id } }"
+								>
+									{{ v.name }}
+								</router-link>
+								<span>
+									{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
+								</span>
+							</h3>
+							<n-tag v-if="v.tag.length" v-for="tag in v.tag" type="success">
+								{{ tag }}
+							</n-tag>
+						</div>
 					</div>
-				</div>
-			</n-checkbox-group>
+				</n-checkbox-group>
+			</div>
 		</div>
-		<template #footer>
-			<n-button @click="onSelect">确认</n-button>
-		</template>
 	</n-drawer-content>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from 'vue';
-import { NDrawerContent, NTag, NCheckboxGroup, NCheckbox } from 'naive-ui';
+import {
+	NDrawerContent,
+	NTag,
+	NCheckboxGroup,
+	NCheckbox,
+	NRadioGroup,
+	NRadio,
+} from 'naive-ui';
 import { pagesProp } from '@/types/types';
 import { WishApi } from '@/services';
 
@@ -45,27 +65,34 @@ interface wishDataProp {
 }
 export default defineComponent({
 	name: 'defaults',
-	components: { NCheckboxGroup, NCheckbox, NDrawerContent, NTag },
+	components: {
+		NCheckboxGroup,
+		NCheckbox,
+		NDrawerContent,
+		NTag,
+		NRadioGroup,
+		NRadio,
+	},
 	props: {
 		show: {
 			type: Boolean,
 		},
-		wishs: {
-			type: Array,
-		},
 	},
 	setup(props, context) {
-		// 心愿单列表数据
-		const wishsData: wishDataProp = reactive({
-			loading: false,
-			data: [],
-		});
-
 		// 查询参数 - 分页
 		const pageParams: pagesProp = reactive({
 			page_index: 1,
 			page_size: 10,
 		});
+		// 心愿单列表数据
+		const wishsData: wishDataProp = reactive({
+			loading: false,
+			data: [],
+		});
+		// 已选择的心愿单
+		const selectedWish: any = ref([]);
+
+		const { randVal, randOptions, onChangeRandVal } = useRandOpt(selectedWish);
 		// 请求接口
 		const getMyWishs = async () => {
 			try {
@@ -81,45 +108,61 @@ export default defineComponent({
 		};
 		getMyWishs();
 
-		// 已选择的心愿单
-		const selectedWish: any = ref([]);
-		const onSelect = () => {
-			const foods: string[] = [];
-			const wishs: any[] = [];
-			wishsData.data.forEach(v => {
-				if (selectedWish.value.includes(v.id)) {
-					const ids = v.food_list ? v.food_list.split(',') : [];
-					foods.push(...ids);
-					wishs.push({
-						id: v.id,
-						name: v.name,
-					});
-				}
-			});
-			context.emit('choose', wishs, foods);
-		};
-
 		watch(
 			() => props.show,
 			(val: boolean) => {
-				if (val) {
-					selectedWish.value = props.wishs?.map((v: any) => v.id);
+				if (val) return;
+				if (randVal.value === 'wish') {
+					const foods: string[] = [];
+					const wishs: any[] = [];
+					wishsData.data.forEach(v => {
+						if (selectedWish.value.includes(v.id)) {
+							const ids = v.food_list ? v.food_list.split(',') : [];
+							foods.push(...ids);
+							wishs.push({
+								id: v.id,
+								name: v.name,
+							});
+						}
+					});
+					context.emit('choose', randVal.value, { foods, wishs });
+				} else {
+					context.emit('choose', randVal.value);
 				}
 			}
 		);
 		return {
+			randVal,
+			randOptions,
+			onChangeRandVal,
 			wishsData,
 			selectedWish,
-			onSelect,
 		};
 	},
 });
+
+function useRandOpt(selectedWish: any) {
+	const randOptions = [
+		{ label: '全部', value: 'all' },
+		{ label: '我的心愿单', value: 'wish' },
+	];
+	const randVal = ref('all');
+	const onChangeRandVal = (val: string) => {
+		if (val === 'wish') {
+			selectedWish.value = [];
+		}
+	};
+	return { randVal, randOptions, onChangeRandVal };
+}
 </script>
 
 <style lang="less">
 .home-choose-random {
 	.n-drawer-body-content-wrapper {
 		padding: 0 !important;
+		.n-radio-group {
+			padding: 10px 14px;
+		}
 	}
 	.wish-list-item {
 		padding: 5px 14px;

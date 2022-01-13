@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-13 11:29:15
+ * @LastEditTime: 2022-01-13 17:59:06
  * @Description: 首页
 -->
 <template>
@@ -11,22 +11,29 @@
 				alt="么么么哒"
 				src="https://s2.loli.net/2022/01/04/7Ss8G6CEYgVF3Xn.png"
 			/>
-			<p v-if="enterFood.show">
-				今天吃 <span>{{ enterFood.data.name }}</span> !!!
+			<p v-if="luckFood.show">
+				今天吃 <span>{{ luckFood.data.name }}</span> !!!
 			</p>
 		</div>
-		<!-- <search></search>
-				<com-upload-img></com-upload-img> -->
+
 		<div class="random-btn-wrap">
 			<p>
-				<n-button class="random-btn" round type="success" @click="onRandom">
-					开始随机 ({{ selected.foods.length }})
+				<n-button
+					class="random-btn"
+					round
+					type="success"
+					@click="onRandom"
+					:loading="randomAllList.loading"
+				>
+					开始随机
 				</n-button>
 			</p>
 			<p class="random-list">
 				随机范围:
 				<span class="random-list-wish">
-					<n-tag v-for="v in selected.wishs" :key="v.id" round>
+					<n-tag round v-if="randomRang.type === 'all'"> 全部 </n-tag>
+					<n-tag round v-else v-for="v in randomRang.wishs" :key="v.id">
+						<r-icon name="heart-filled"></r-icon>
 						{{ v.name }}
 					</n-tag>
 				</span>
@@ -34,11 +41,7 @@
 			</p>
 		</div>
 		<n-drawer v-model:show="isShowWish" display-directive="show" :width="402">
-			<choose-random
-				:show="isShowWish"
-				:wishs="selected.wishs"
-				@choose="onChooseWish"
-			></choose-random>
+			<choose-random :show="isShowWish" @choose="onChangeRang"></choose-random>
 		</n-drawer>
 		<n-modal
 			v-model:show="luckFood.showModal"
@@ -71,42 +74,38 @@ import ChooseRandom from './choose-random.vue';
 import { randomNum } from '@/utils/util';
 import { FoodApi } from '@/services';
 
+interface rangProp {
+	type: string;
+	foods: string[];
+	wishs: any[];
+}
 export default defineComponent({
 	name: 'home-page',
 	components: { NTag, NDrawer, NModal, NCard, ChooseRandom },
 	props: {},
 	setup() {
-		const isShowWish = ref(false);
-		// 已确认的菜品
-		const enterFood: { data: any; show: boolean } = reactive({
-			data: {},
-			show: false,
-		});
 		// 抽中的菜品
-		const luckFood: { data: any; showModal: boolean } = reactive({
-			data: {},
-			showModal: false,
-		});
-		const selected: { wishs: any[]; foods: string[] } = reactive({
-			wishs: [],
-			foods: [],
-		});
+		const luckFood: { data: any; showModal: boolean; show: boolean } = reactive(
+			{
+				data: {},
+				showModal: false,
+				show: false,
+			}
+		);
 
-		// 选择随机源 - 确认
-		const onChooseWish = (wishs: any[], foods: string[]) => {
-			isShowWish.value = false;
-			selected.wishs = wishs;
-			selected.foods = foods;
-		};
+		// 随机范围数据
+		const { isShowWish, randomRang, onChangeRang } = useRandomRang();
 
 		// 开始随机菜品
 		const onRandom = async () => {
-			if (!selected.foods.length) {
+			if (!randomRang.foods.length && randomRang.type === 'wish') {
 				window.$message.error('您还没有选择心愿单或心愿单内没有菜品');
 				return;
 			}
-			const index = randomNum(0, selected.foods.length - 1);
-			const foodId = selected.foods[index];
+			const randList =
+				randomRang.type === 'all' ? randomAllList.list : randomRang.foods;
+			const index = randomNum(0, randList.length - 1);
+			const foodId = randList[index];
 			const { data } = await FoodApi.getFoodDetail({ foodid: foodId });
 			luckFood.showModal = true;
 			luckFood.data = data;
@@ -115,20 +114,59 @@ export default defineComponent({
 		// 确定今天吃的菜品
 		const onSeclect = () => {
 			luckFood.showModal = false;
-			enterFood.data = JSON.parse(JSON.stringify(luckFood.data));
-			enterFood.show = true;
+			luckFood.show = true;
 		};
+
+		const randomAllList = reactive({
+			list: [],
+			loading: false,
+		});
+		const getAllFood = async () => {
+			try {
+				randomAllList.loading = true;
+				const { data } = await FoodApi.getRandomFoods({ limit: 100 });
+				const list = data.map((v: { id: string; name: string }) => v.id);
+				randomAllList.list = list || [];
+			} finally {
+				randomAllList.loading = false;
+			}
+		};
+		getAllFood();
 		return {
 			isShowWish,
-			selected,
-			onChooseWish,
+			randomRang,
+			onChangeRang,
 			onRandom,
 			onSeclect,
 			luckFood,
-			enterFood,
+			randomAllList,
 		};
 	},
 });
+
+function useRandomRang() {
+	const isShowWish = ref(false);
+	const randomRang: rangProp = reactive({
+		type: 'all',
+		foods: [],
+		wishs: [],
+	});
+	// 选择随机源 - 确认
+	const onChangeRang = (
+		type: string,
+		data: { foods?: string[]; wishs?: any[] } = {}
+	) => {
+		isShowWish.value = false;
+		randomRang.type = type;
+		randomRang.foods = data.foods || [];
+		randomRang.wishs = data.wishs || [];
+	};
+	return {
+		isShowWish,
+		randomRang,
+		onChangeRang,
+	};
+}
 </script>
 
 <style lang="less">
@@ -157,13 +195,19 @@ export default defineComponent({
 		position: absolute;
 		top: 50%;
 		.random-list {
-			margin: 10px 0;
+			margin: 10px auto;
+			line-height: 28px;
 			> span {
-				margin-right: 5px;
+				margin: 0 3px;
 			}
-			.r-icon {
+			> .r-icon {
 				cursor: pointer;
 				font-size: 20px;
+			}
+			.random-list-wish {
+				.n-tag {
+					margin-right: 5px;
+				}
 			}
 		}
 		.random-btn {

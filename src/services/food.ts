@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-09 23:06:34
- * @LastEditTime: 2022-01-10 15:19:20
+ * @LastEditTime: 2022-01-13 17:48:10
  * @Description: 菜品相关接口
  */
 import _axios, { get, post } from '@/utils/axios';
@@ -27,6 +27,13 @@ export default class Food {
 	 */
 	static async getFoodDetail(path: objProp) {
 		const { data } = await get(`/chang/food/${path.foodid}`);
+		return data;
+	}
+	/**
+	 * 获取多个随机菜品
+	 */
+	static async getRandomFoods(params: objProp) {
+		const { data } = await get(`/chang/food/random`, params);
 		return data;
 	}
 }
