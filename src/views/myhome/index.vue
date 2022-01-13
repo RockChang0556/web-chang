@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-09 21:07:38
+ * @LastEditTime: 2022-01-13 10:40:48
  * @Description: 首页
 -->
 <template>
@@ -137,6 +137,10 @@ export default defineComponent({
 	height: 100%;
 	.menu-pic {
 		position: relative;
+		text-align: center;
+		img {
+			width: 800px;
+		}
 		> p {
 			position: absolute;
 			width: 100%;

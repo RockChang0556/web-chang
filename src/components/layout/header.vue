@@ -1,11 +1,11 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-12 18:26:56
+ * @LastEditTime: 2022-01-13 10:42:16
  * @Description: 布局组件 - 头部
 -->
 <template>
-	<div class="global-header" v-if="user.isFetched">
+	<div class="global-header">
 		<div class="header-logo">
 			<a :href="homeUrl" class="a-home">
 				<img src="/logo.png" alt="logo" />

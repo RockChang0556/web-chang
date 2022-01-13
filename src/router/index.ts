@@ -1,44 +1,49 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+/*
+ * @Author: Rock Chang
+ * @Date: 2021-08-05 11:34:59
+ * @LastEditTime: 2022-01-13 10:59:09
+ * @Description: 路由
+ */
+import { createRouter, createWebHistory } from 'vue-router';
+import { loginUrl } from '@/config/constants';
+import routes from './routes';
 
-const routes: Array<RouteRecordRaw> = [
-	{
-		path: '/',
-		name: 'home-wrap',
-		component: () => import('@/views/home-wrap.vue'),
-		redirect: { name: 'home' },
-		children: [
-			{
-				path: '/',
-				name: 'home',
-				component: () => import('@/views/myhome/index.vue'),
-			},
-			{
-				path: '/mywish',
-				name: 'mywish',
-				component: () => import('@/views/mywish/index.vue'),
-			},
-			{
-				path: '/mywish/add',
-				name: 'addwish',
-				component: () => import('@/views/mywish/wish-detail.vue'),
-			},
-			{
-				path: '/mywish/edit/:wishid',
-				name: 'editwish',
-				props: true,
-				component: () => import('@/views/mywish/wish-detail.vue'),
-			},
-		],
-	},
-	{
-		path: '/eat',
-		name: 'eat',
-		component: () => import('@/views/eat/index.vue'),
-	},
-];
 const router = createRouter({
 	history: createWebHistory(import.meta.env.VITE_BASE_URL),
 	routes,
 });
+
+router.beforeEach((to, from, next) => {
+	const hasToken = localStorage.getItem('access_token');
+	// 登录验证
+	if (isLoginRequired(to.meta) && !hasToken) {
+		window.$message.error('此页面需要登录, 即将为您跳转登录页面');
+		setTimeout(() => {
+			location.href = loginUrl;
+		}, 1500);
+		return;
+	}
+	// 权限验证, -1-未登录 0-登录 1~5管理员
+	const userInfo = JSON.parse(
+		(localStorage.getItem('userInfo') as string) || '{}'
+	);
+	const userAdmin: number = userInfo.admin ?? -1;
+	const pageAdmin: number = (to.meta.admin as number) ?? -1;
+	if (pageAdmin > userAdmin) {
+		next({ name: '403' });
+		return;
+	}
+
+	// 路由发生变化修改页面title
+	if (to.meta.title) {
+		document.title = `${to.meta.title} | 鹏`;
+	}
+
+	next();
+});
+
+function isLoginRequired(meta: any) {
+	return meta.admin >= 0;
+}
 
 export default router;

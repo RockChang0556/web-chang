@@ -39,11 +39,8 @@ export default defineComponent({
 <style lang="less">
 .home {
 	position: relative;
-	.menu-pic {
-		text-align: center;
-		img {
-			width: 800px;
-		}
+	.n-layout-header {
+		height: 71px;
 	}
 	> .n-layout {
 		min-height: 100vh;
