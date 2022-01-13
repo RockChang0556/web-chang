@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-13 15:09:03
+ * @LastEditTime: 2022-01-13 19:04:09
  * @Description: 菜品卡片
 -->
 <template>
@@ -9,7 +9,10 @@
 		<n-list-item>
 			<n-thing content-indented>
 				<template #avatar>
-					<n-image :src="item.pic || 'e'" :fallback-src="imgFoodUrl"></n-image>
+					<n-image
+						:src="item.deleted ? imgFood404Url : item.pic || 'e'"
+						:fallback-src="imgFoodUrl"
+					></n-image>
 				</template>
 				<template #header>{{ item.name }}</template>
 				<template #header-extra>
@@ -18,7 +21,7 @@
 					</n-button>
 				</template>
 				<template #description>
-					<template v-if="item.tag.length" v-for="(tag, i) in item.tag">
+					<template v-if="item.tag?.length" v-for="(tag, i) in item.tag">
 						<n-tag type="success" v-if="i < 6"> {{ tag }} </n-tag>
 					</template>
 				</template>
@@ -33,7 +36,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { NListItem, NTag, NThing, NEllipsis } from 'naive-ui';
-import { imgFoodUrl } from '@/config/constants';
+import { imgFoodUrl, imgFood404Url } from '@/config/constants';
 export default defineComponent({
 	name: 'wish-food-list-item',
 	components: { NListItem, NTag, NThing, NEllipsis },
@@ -47,7 +50,7 @@ export default defineComponent({
 		const onDelete = (id: string) => {
 			context.emit('delete', id);
 		};
-		return { onDelete, imgFoodUrl };
+		return { onDelete, imgFoodUrl, imgFood404Url };
 	},
 });
 </script>
@@ -57,10 +60,19 @@ export default defineComponent({
 	.n-list-item {
 		padding: 8px;
 	}
-	.n-thing-avatar .n-image {
-		background: #ccc;
-		img {
-			width: 120px;
+	.n-thing-avatar {
+		background: #f2f2f2;
+		width: 120px;
+		height: 120px;
+		line-height: 120px;
+		border-radius: 6px;
+		overflow: hidden;
+		flex-shrink: 0;
+		.n-image {
+			vertical-align: middle;
+			img {
+				width: 120px;
+			}
 		}
 	}
 	.n-thing-main {

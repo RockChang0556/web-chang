@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-14 10:58:55
- * @LastEditTime: 2022-01-13 15:00:19
+ * @LastEditTime: 2022-01-13 18:57:00
  * @Description: 常量
  */
 
@@ -20,6 +20,9 @@ export const imgDefaultUrl =
 // 默认美食图片
 export const imgFoodUrl =
 	'https://iconfont.alicdn.com/t/2a902e59-cdc0-4317-8711-f4ad2119c087.png';
+// 美食不存在图片
+export const imgFood404Url =
+	'https://iconfont.alicdn.com/t/ababd71e-53df-4be2-a7e2-0f8d9b1048c6.png';
 export const img404Url =
 	'https://iconfont.alicdn.com/t/3466853c-864b-4a6e-bb6d-82d3059a1eb6.png';
 export const img403Url =
