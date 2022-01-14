@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-13 11:28:41
+ * @LastEditTime: 2022-01-13 20:08:31
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -12,7 +12,7 @@
 			</a>
 			<span class="divider">|</span>
 			<router-link to="/" class="a-current">
-				<n-button text>今天吃什么</n-button>
+				<n-button text>今天吃啥</n-button>
 			</router-link>
 		</div>
 		<div class="header-right">

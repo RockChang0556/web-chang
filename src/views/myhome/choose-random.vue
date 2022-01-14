@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-13 17:27:11
+ * @LastEditTime: 2022-01-13 20:18:17
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -9,12 +9,12 @@
 		<template #header>选择随机范围</template>
 		<n-radio-group
 			v-model:value="randVal"
-			name="radiogroup"
+			name="radiobuttongroup1"
 			@update:value="onChangeRandVal"
 		>
-			<n-radio v-for="v in randOptions" :key="v.value" :value="v.value">
+			<n-radio-button v-for="v in randOptions" :key="v.value" :value="v.value">
 				{{ v.label }}
-			</n-radio>
+			</n-radio-button>
 		</n-radio-group>
 		<div class="is-wish" v-show="randVal === 'wish'">
 			<p>已选择 {{ selectedWish.length }} 个心愿单</p>
@@ -43,6 +43,7 @@
 				</n-checkbox-group>
 			</div>
 		</div>
+		<div class="is-all" v-show="randVal === 'all'">全部菜品</div>
 	</n-drawer-content>
 </template>
 
@@ -54,7 +55,7 @@ import {
 	NCheckboxGroup,
 	NCheckbox,
 	NRadioGroup,
-	NRadio,
+	NRadioButton,
 } from 'naive-ui';
 import { pagesProp } from '@/types/types';
 import { WishApi } from '@/services';
@@ -71,7 +72,7 @@ export default defineComponent({
 		NDrawerContent,
 		NTag,
 		NRadioGroup,
-		NRadio,
+		NRadioButton,
 	},
 	props: {
 		show: {
@@ -158,10 +159,24 @@ function useRandOpt(selectedWish: any) {
 
 <style lang="less">
 .home-choose-random {
+	.is-wish {
+		> p {
+			padding: 5px 14px;
+		}
+	}
+	.is-all {
+		padding: 5px 14px;
+	}
 	.n-drawer-body-content-wrapper {
 		padding: 0 !important;
 		.n-radio-group {
+			width: 100%;
 			padding: 10px 14px;
+			height: 55px;
+			.n-radio-button {
+				width: 50%;
+				text-align: center;
+			}
 		}
 	}
 	.wish-list-item {
