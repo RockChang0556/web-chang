@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-13 20:18:17
+ * @LastEditTime: 2022-01-14 20:04:58
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -31,9 +31,7 @@
 								>
 									{{ v.name }}
 								</router-link>
-								<span>
-									{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
-								</span>
+								<span> {{ v.food_list?.length || 0 }} 篇菜品 </span>
 							</h3>
 							<n-tag v-if="v.tag.length" v-for="tag in v.tag" type="success">
 								{{ tag }}
@@ -118,7 +116,7 @@ export default defineComponent({
 					const wishs: any[] = [];
 					wishsData.data.forEach(v => {
 						if (selectedWish.value.includes(v.id)) {
-							const ids = v.food_list ? v.food_list.split(',') : [];
+							const ids = v.food_list.map((v: any) => v.id);
 							foods.push(...ids);
 							wishs.push({
 								id: v.id,

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-13 16:00:07
+ * @LastEditTime: 2022-01-14 20:02:34
  * @Description: jd查找菜品
 -->
 <template>
@@ -104,7 +104,7 @@ export default defineComponent({
 			await FoodApi.addFood(item);
 			searchResult.showPopover = false;
 			searchVal.value = '';
-			context.emit('add', item.id);
+			context.emit('add', String(item.id));
 		};
 
 		const customFoodVal = ref('');

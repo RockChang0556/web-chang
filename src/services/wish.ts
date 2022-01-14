@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-09 23:06:34
- * @LastEditTime: 2022-01-09 13:46:16
+ * @LastEditTime: 2022-01-14 19:49:50
  * @Description: 心愿单相关接口
  */
 // @ts-ignore
@@ -26,14 +26,6 @@ export default class Wish {
 	}
 
 	/**
-	 * 更新心愿单
-	 */
-	static async updateWish(path: objProp, datas: objProp) {
-		const { data } = await put(`/chang/wish/${path.wishid}`, datas);
-		return data;
-	}
-
-	/**
 	 * 获取登陆用户名下心愿单
 	 */
 	static async getMyWishs(datas: pqoParamsProp = {}) {
@@ -42,10 +34,26 @@ export default class Wish {
 	}
 
 	/**
-	 * 获取心愿单详情
+	 * 获取心愿单基本信息
 	 */
-	static async getWishDetail(path: objProp) {
-		const { data } = await get(`/chang/wish/${path.wishid}`);
+	static async getWishBase(path: objProp) {
+		const { data } = await get(`/chang/wish/${path.wishid}/base`);
+		return data;
+	}
+
+	/**
+	 * 更新心愿单基本信息
+	 */
+	static async updateWishBase(path: objProp, datas: objProp) {
+		const { data } = await put(`/chang/wish/${path.wishid}/base`, datas);
+		return data;
+	}
+
+	/**
+	 * 获取心愿单下菜品
+	 */
+	static async getWishFoods(path: objProp) {
+		const { data } = await get(`/chang/wish/${path.wishid}/food_list`);
 		return data;
 	}
 

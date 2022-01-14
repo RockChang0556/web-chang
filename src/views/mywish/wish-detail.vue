@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-13 16:02:54
+ * @LastEditTime: 2022-01-14 20:19:33
  * @Description: 心愿单详情
 -->
 
@@ -23,6 +23,11 @@
 			:wishid="wishid"
 			ref="wishFormRef"
 			:models="wishFormRes.data"
+			@change="
+				data => {
+					wishFormRes.data = data;
+				}
+			"
 		></wish-form>
 		<!-- 心愿单基本信息 - 骨架屏 -->
 		<n-space vertical v-else>
@@ -34,12 +39,12 @@
 				<n-skeleton height="40px" circle />
 			</n-space>
 		</n-space>
-		<n-spin :show="wishFormRes.loading">
+		<n-spin :show="wishFoods.loading">
 			<!-- 菜品列表 -->
 			<div class="foods">
 				<div class="foods-label">
 					<div class="title">
-						<span>包含菜品 {{ wishFormRes.data.food_list?.length || 0 }}</span>
+						<span>包含菜品 {{ wishFoods.data.length || 0 }}</span>
 						<n-button
 							circle
 							:class="{ active: showSearch }"
@@ -54,9 +59,9 @@
 						<food-search :wishid="wishid" @add="onAddWishFood"></food-search>
 					</n-collapse-transition>
 				</div>
-				<n-list class="food-list" v-if="wishFormRes.data.food_list?.length">
+				<n-list class="food-list" v-if="wishFoods.data.length">
 					<food-list-item
-						v-for="v in wishFormRes.data.food_list"
+						v-for="v in wishFoods.data"
 						:key="v.id"
 						:item="v"
 						@delete="onDeleteWishFood"
@@ -86,8 +91,10 @@ import WishForm from './wish-form.vue';
 import FoodListItem from './food-list-item.vue';
 import FoodSearch from './food-search.vue';
 
-interface wishProp extends objProp {
-	food_list?: any[];
+interface wishBaseProp extends objProp {
+	name?: string;
+	summary?: string;
+	tag?: string[];
 }
 export default defineComponent({
 	name: 'editwish-page',
@@ -110,24 +117,10 @@ export default defineComponent({
 	},
 	setup(props) {
 		const route = useRoute();
-		const wishFormRes: { data: wishProp; loading: boolean } = reactive({
-			data: {},
-			loading: false,
-		});
-
 		// 是否展开显示搜索框
 		const showSearch = ref(false);
-
-		// 获取 wish 数据
-		const getData = async () => {
-			try {
-				wishFormRes.loading = true;
-				const { data } = await WishApi.getWishDetail({ wishid: props.wishid });
-				wishFormRes.data = data;
-			} finally {
-				wishFormRes.loading = false;
-			}
-		};
+		const { wishFormRes, getBaseData } = useWishBase(props.wishid);
+		const { wishFoods, getFoodsData } = useWishFoods(props.wishid);
 
 		// 在心愿单内添加菜品后的回调
 		const onAddWishFood = async (id: string) => {
@@ -135,21 +128,23 @@ export default defineComponent({
 				{ wishid: props.wishid },
 				{ type: 'add', food_ids: [id] }
 			);
-			getData();
+			getFoodsData();
 		};
+
 		// 在心愿单内删除菜品
 		const onDeleteWishFood = async (id: string) => {
 			await WishApi.updateWishFoods(
 				{ wishid: props.wishid },
 				{ type: 'delete', food_ids: [id] }
 			);
-			getData();
+			getFoodsData();
 		};
 
 		const created = () => {
 			// 编辑状态获取数据
 			if (route.name === 'editwish') {
-				getData();
+				getBaseData();
+				getFoodsData();
 			}
 		};
 		created();
@@ -158,9 +153,47 @@ export default defineComponent({
 			wishFormRes,
 			onAddWishFood,
 			onDeleteWishFood,
+			wishFoods,
 		};
 	},
 });
+
+// 心愿单基本信息
+function useWishBase(wishid?: string) {
+	const wishFormRes: { data: wishBaseProp; loading: boolean } = reactive({
+		data: {},
+		loading: false,
+	});
+	// 获取 wish 基本数据
+	const getBaseData = async () => {
+		try {
+			wishFormRes.loading = true;
+			const { data } = await WishApi.getWishBase({ wishid });
+			wishFormRes.data = data;
+		} finally {
+			wishFormRes.loading = false;
+		}
+	};
+	return { wishFormRes, getBaseData };
+}
+
+function useWishFoods(wishid?: string) {
+	const wishFoods: { data: any[]; loading: boolean } = reactive({
+		data: [],
+		loading: false,
+	});
+	// 获取 wish 基本数据
+	const getFoodsData = async () => {
+		try {
+			wishFoods.loading = true;
+			const { data } = await WishApi.getWishFoods({ wishid });
+			wishFoods.data = data;
+		} finally {
+			wishFoods.loading = false;
+		}
+	};
+	return { wishFoods, getFoodsData };
+}
 </script>
 
 <style lang="less">

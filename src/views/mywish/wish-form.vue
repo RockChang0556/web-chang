@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-13 10:15:00
+ * @LastEditTime: 2022-01-14 20:17:20
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -105,11 +105,11 @@ import {
 import { WishApi } from '@/services';
 import router from '@/router';
 export interface modelProp {
-	name: string;
-	summary: string;
-	tags: string[];
-	created_at: string;
-	updated_at: string;
+	name?: string;
+	summary?: string;
+	tags?: string[];
+	created_at?: string;
+	updated_at?: string;
 	[x: string]: any;
 }
 export default defineComponent({
@@ -123,7 +123,7 @@ export default defineComponent({
 			type: String,
 		},
 	},
-	setup(props) {
+	setup(props, context) {
 		const route = useRoute();
 		const isEditPage = computed(() => route.name === 'editwish'); // 是否是编辑页面
 		const isEdit = ref(false); // 表单是否编辑状态
@@ -136,24 +136,20 @@ export default defineComponent({
 		// 更新心愿单
 		const onUpdateWish = async () => {
 			const send = async () => {
-				const datas = {
-					name: model.name,
-					summary: model.summary,
-					tag: model.tags,
-				};
 				try {
 					okBtnLoading.value = true;
 					if (isEditPage.value) {
-						const { data } = await WishApi.updateWish(
+						const { data } = await WishApi.updateWishBase(
 							{ wishid: props.wishid },
-							datas
+							model.value
 						);
-						model.updated_at = data.updated_at;
+						model.value.updated_at = data.updated_at;
+						context.emit('change', data);
 						window.$message.success('更新成功');
 					} else {
-						const { data } = await WishApi.addWish(datas);
-						model.created_at = data.created_at;
-						model.updated_at = data.updated_at;
+						const { data } = await WishApi.addWish(model.value);
+						model.value.created_at = data.created_at;
+						model.value.updated_at = data.updated_at;
 						window.$message.success('创建成功');
 						router.push({ name: 'editwish', params: { wishid: data.id } });
 					}
@@ -199,13 +195,7 @@ export default defineComponent({
 
 function useFormInit(models: modelProp | undefined) {
 	const wishRef = ref();
-	const model: modelProp = reactive({
-		name: models?.name || '',
-		summary: models?.summary || '',
-		tags: models?.tag,
-		created_at: models?.created_at || '',
-		updated_at: models?.updated_at || '',
-	});
+	const model: modelProp = ref(models);
 
 	const rules = {
 		name: {
@@ -215,9 +205,7 @@ function useFormInit(models: modelProp | undefined) {
 	};
 	// 重置表单
 	const resetForm = () => {
-		model.name = models?.name || '';
-		model.summary = models?.summary || '';
-		model.tags = models?.tag;
+		model.value = models;
 		wishRef.value.restoreValidation();
 	};
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-12 20:08:55
+ * @LastEditTime: 2022-01-14 19:19:43
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -40,7 +40,7 @@
 								</router-link>
 							</template>
 							<template #header-extra>
-								{{ v.food_list ? v.food_list.split(',').length : 0 }} 篇菜品
+								{{ v.food_list?.length || 0 }} 篇菜品
 								<n-popconfirm @positive-click="onDeleteWish(v.id)">
 									<template #trigger>
 										<n-button text type="error"> 删除 </n-button>
