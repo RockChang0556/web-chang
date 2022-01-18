@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-14 20:17:20
+ * @LastEditTime: 2022-01-14 20:27:09
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -67,8 +67,8 @@
 			<div class="times">
 				<template v-if="!isEdit">
 					创建时间
-					<n-time :time="new Date(model.created_at)" /> | 更新时间
-					<n-time :time="new Date(model.updated_at)" />
+					<n-time :time="new Date(model.created_at || '')" /> | 更新时间
+					<n-time :time="new Date(model.updated_at || '')" />
 				</template>
 			</div>
 			<div class="handle-btns">

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-14 20:02:34
+ * @LastEditTime: 2022-01-18 21:01:21
  * @Description: jd查找菜品
 -->
 <template>
@@ -22,6 +22,7 @@
 					round
 					clearable
 					@update:value="handleSearch"
+					@keyup.enter="onAddCustomFood"
 				>
 					<template #suffix>
 						<r-icon name="sousuo"></r-icon>
@@ -59,17 +60,7 @@
 					<n-empty v-else description="暂无内容"></n-empty>
 				</div>
 				<n-divider />
-				<p class="custom-food-wrap">
-					没有想吃的?
-					<n-input
-						v-model:value.trim="customFoodVal"
-						placeholder="输入菜名, 回车, 即可快速添加至此心愿单"
-						size="small"
-						round
-						clearable
-						@keyup.enter="onAddCustomFood"
-					></n-input>
-				</p>
+				<p class="custom-food-wrap">没有想吃的? 回车即可快速添加至此心愿单</p>
 			</n-spin>
 		</n-popover>
 	</div>
@@ -107,13 +98,12 @@ export default defineComponent({
 			context.emit('add', String(item.id));
 		};
 
-		const customFoodVal = ref('');
+		// 回车快速添加菜品至心愿单
 		const onAddCustomFood = async () => {
-			const { data } = await FoodApi.addFood({ name: customFoodVal.value });
+			const { data } = await FoodApi.addFood({ name: searchVal.value });
 			searchResult.showPopover = false;
 			searchVal.value = '';
 			context.emit('add', data.id);
-			customFoodVal.value = '';
 		};
 
 		return {
@@ -122,7 +112,6 @@ export default defineComponent({
 			handleSearch,
 			searchResult,
 			onAddFoodToWish,
-			customFoodVal,
 			onAddCustomFood,
 		};
 	},

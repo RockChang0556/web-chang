@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-14 20:04:58
+ * @LastEditTime: 2022-01-17 09:45:38
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -92,7 +92,7 @@ export default defineComponent({
 		const selectedWish: any = ref([]);
 
 		const { randVal, randOptions, onChangeRandVal } = useRandOpt(selectedWish);
-		// 请求接口
+		// 请求接口, 获取我的心愿单
 		const getMyWishs = async () => {
 			try {
 				wishsData.loading = true;
@@ -105,31 +105,35 @@ export default defineComponent({
 				wishsData.loading = false;
 			}
 		};
-		getMyWishs();
 
-		watch(
-			() => props.show,
-			(val: boolean) => {
-				if (val) return;
-				if (randVal.value === 'wish') {
-					const foods: string[] = [];
-					const wishs: any[] = [];
-					wishsData.data.forEach(v => {
-						if (selectedWish.value.includes(v.id)) {
-							const ids = v.food_list.map((v: any) => v.id);
-							foods.push(...ids);
-							wishs.push({
-								id: v.id,
-								name: v.name,
-							});
-						}
-					});
-					context.emit('choose', randVal.value, { foods, wishs });
-				} else {
-					context.emit('choose', randVal.value);
-				}
+		const watchShow = (val: boolean) => {
+			if (val) return;
+			if (randVal.value === 'wish') {
+				const foods: string[] = [];
+				const wishs: any[] = [];
+				wishsData.data.forEach(v => {
+					if (selectedWish.value.includes(v.id)) {
+						const ids = v.food_list.map((v: any) => v.id);
+						foods.push(...ids);
+						wishs.push({
+							id: v.id,
+							name: v.name,
+						});
+					}
+				});
+				context.emit('choose', randVal.value, { foods, wishs });
+			} else {
+				context.emit('choose', randVal.value);
 			}
-		);
+		};
+		watch(() => props.show, watchShow);
+
+		const created = () => {
+			if (localStorage.getItem('access_token')) {
+				getMyWishs();
+			}
+		};
+		created();
 		return {
 			randVal,
 			randOptions,
