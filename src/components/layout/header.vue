@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-13 20:08:31
+ * @LastEditTime: 2022-01-21 16:35:13
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -138,7 +138,7 @@ function useUserOption() {
 	const options = [
 		{
 			label: '个人信息',
-			key: 'auto',
+			key: 'circle',
 			icon: renderIcon('user-circle'),
 			props: {
 				onClick: () => {
@@ -147,18 +147,18 @@ function useUserOption() {
 			},
 		},
 		{
-			label: '我的心愿单',
-			key: 'dark',
+			label: '我的厨房',
+			key: 'mykitchen',
 			icon: renderIcon('heart'),
 			props: {
 				onClick: () => {
-					router.push({ name: 'mywish' });
+					router.push({ name: 'mykitchen' });
 				},
 			},
 		},
 		{
 			label: '退出',
-			key: 'light',
+			key: 'logout',
 			icon: renderIcon('logout'),
 			props: {
 				onClick: () => {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-18 21:22:09
+ * @LastEditTime: 2022-01-21 15:29:30
  * @Description: 心愿单详情
 -->
 
@@ -39,8 +39,9 @@
 				<n-skeleton height="40px" circle />
 			</n-space>
 		</n-space>
+
+		<!-- 菜品列表 -->
 		<n-spin :show="wishFoods.loading">
-			<!-- 菜品列表 -->
 			<div class="foods">
 				<div class="foods-label">
 					<div class="title">

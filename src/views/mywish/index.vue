@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-14 19:19:43
+ * @LastEditTime: 2022-01-21 15:40:52
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -10,7 +10,7 @@
 			<n-breadcrumb-item>
 				<router-link :to="{ name: 'home' }"> 首页 </router-link>
 			</n-breadcrumb-item>
-			<n-breadcrumb-item>我的心愿单 </n-breadcrumb-item>
+			<n-breadcrumb-item> 我的心愿单 </n-breadcrumb-item>
 		</n-breadcrumb>
 		<div class="search-wrap">
 			<router-link :to="{ name: 'addwish' }">

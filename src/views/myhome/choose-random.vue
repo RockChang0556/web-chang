@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-17 09:45:38
+ * @LastEditTime: 2022-01-21 16:45:31
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -17,36 +17,47 @@
 			</n-radio-button>
 		</n-radio-group>
 		<div class="is-wish" v-show="randVal === 'wish'">
-			<p>已选择 {{ selectedWish.length }} 个心愿单</p>
-			<div class="wish-list">
-				<n-checkbox-group v-model:value="selectedWish">
-					<div class="wish-list-item" v-for="v in wishsData.data" :key="v.id">
-						<n-checkbox :value="v.id" />
-						<div class="item-content">
-							<h3 class="item-content-title">
-								<router-link
-									target="_blank"
-									tag="a"
-									:to="{ name: 'editwish', params: { wishid: v.id } }"
-								>
-									{{ v.name }}
-								</router-link>
-								<span> {{ v.food_list?.length || 0 }} 篇菜品 </span>
-							</h3>
-							<n-tag v-if="v.tag.length" v-for="tag in v.tag" type="success">
-								{{ tag }}
-							</n-tag>
+			<template v-if="userId">
+				<p>已选择 {{ selectedWish.length }} 个心愿单</p>
+				<div class="wish-list">
+					<n-checkbox-group v-model:value="selectedWish">
+						<div class="wish-list-item" v-for="v in wishsData.data" :key="v.id">
+							<n-checkbox :value="v.id" />
+							<div class="item-content">
+								<h3 class="item-content-title">
+									<router-link
+										target="_blank"
+										tag="a"
+										:to="{ name: 'editwish', params: { wishid: v.id } }"
+									>
+										{{ v.name }}
+									</router-link>
+									<span> {{ v.food_list?.length || 0 }} 篇菜品 </span>
+								</h3>
+								<n-tag v-if="v.tag.length" v-for="tag in v.tag" type="success">
+									{{ tag }}
+								</n-tag>
+							</div>
 						</div>
-					</div>
-				</n-checkbox-group>
-			</div>
+					</n-checkbox-group>
+				</div>
+			</template>
+			<template v-else>
+				<p>
+					您还没有登陆哦, 无法查看心愿单。
+					<a :href="loginUrl">
+						<n-button type="danger">去登录</n-button>
+					</a>
+				</p>
+			</template>
 		</div>
 		<div class="is-all" v-show="randVal === 'all'">全部菜品</div>
 	</n-drawer-content>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from 'vue';
+import { computed, defineComponent, reactive, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 import {
 	NDrawerContent,
 	NTag,
@@ -57,13 +68,14 @@ import {
 } from 'naive-ui';
 import { pagesProp } from '@/types/types';
 import { WishApi } from '@/services';
+import { loginUrl } from '@/config/constants';
 
 interface wishDataProp {
 	loading: boolean;
 	data: any[];
 }
 export default defineComponent({
-	name: 'defaults',
+	name: 'choose-random',
 	components: {
 		NCheckboxGroup,
 		NCheckbox,
@@ -78,6 +90,8 @@ export default defineComponent({
 		},
 	},
 	setup(props, context) {
+		const store = useStore();
+		const userId = computed(() => store.state.user.userInfo.id);
 		// 查询参数 - 分页
 		const pageParams: pagesProp = reactive({
 			page_index: 1,
@@ -135,11 +149,13 @@ export default defineComponent({
 		};
 		created();
 		return {
+			userId,
 			randVal,
 			randOptions,
 			onChangeRandVal,
 			wishsData,
 			selectedWish,
+			loginUrl,
 		};
 	},
 });

@@ -40,6 +40,14 @@ const wishRoute: Array<RouteRecordRaw> = [
 		meta: { admin: 0 },
 	},
 ];
+const kitchenRoute: Array<RouteRecordRaw> = [
+	{
+		path: '/mykitchen',
+		name: 'mykitchen',
+		component: () => import('@/views/mykitchen/index.vue'),
+		meta: { admin: 0 },
+	},
+];
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
@@ -52,6 +60,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'home',
 				component: () => import('@/views/myhome/index.vue'),
 			},
+			...kitchenRoute,
 			...wishRoute,
 			...errRoute,
 		],
