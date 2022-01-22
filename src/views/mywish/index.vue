@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-21 15:40:52
+ * @LastEditTime: 2022-01-22 13:56:13
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -76,8 +76,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from 'vue';
+<script lang="ts" setup>
+import { reactive } from 'vue';
 import debounce from 'lodash/debounce';
 import {
 	NList,
@@ -98,89 +98,80 @@ interface wishDataProp {
 	total: number;
 	first: boolean;
 }
-export default defineComponent({
-	name: 'mywish-page',
-	components: {
-		NList,
-		NListItem,
-		NThing,
-		NTag,
-		NPagination,
-		NPopconfirm,
-		NBreadcrumb,
-		NBreadcrumbItem,
-	},
-	props: {},
-	setup() {
-		// 查询参数 - 分页
-		const pageParams: pagesProp = reactive({
-			page_index: 1,
-			page_size: 5,
-		});
-		// 查询参数 - 模糊查询
-		const queryParams: querysProp = reactive({
-			name: '',
-		});
-		// 心愿单列表数据
-		const wishsData: wishDataProp = reactive({
-			loading: false,
-			data: [],
-			total: 0,
-			first: true,
-		});
-
-		// 模糊搜索
-		const handleSearch = debounce((e: Event) => {
-			const val = (e.target as HTMLInputElement).value;
-			queryParams.name = val;
-			getMyWishs();
-		}, 600);
-
-		// 当前页改变
-		const changePage = (page: number) => {
-			pageParams.page_index = page;
-			getMyWishs();
-		};
-
-		// 请求接口
-		const getMyWishs = async (first = false) => {
-			const errHandle = () => {
-				wishsData.data = [];
-				wishsData.total = 0;
-				window.$message.error('搜索出错, 请稍后再试');
-			};
-			try {
-				wishsData.loading = true;
-				const { data } = await WishApi.getMyWishs({
-					pages: pageParams,
-					querys: queryParams,
-					orders: { updated_at: 'desc' },
-				});
-				if (!first) wishsData.first = false;
-				if (data) {
-					wishsData.data = data.rows;
-					wishsData.total = data.count;
-				} else {
-					errHandle();
-				}
-			} catch (error) {
-				errHandle();
-			} finally {
-				wishsData.loading = false;
-			}
-		};
-
-		// 删除心愿单
-		const onDeleteWish = async (id: string) => {
-			await WishApi.deleteWish({ wishid: id });
-			window.$message.success('删除成功');
-			await getMyWishs();
-		};
-
-		getMyWishs(true);
-		return { handleSearch, pageParams, wishsData, changePage, onDeleteWish };
-	},
+// 查询参数 - 分页
+const pageParams: pagesProp = reactive({
+	page_index: 1,
+	page_size: 5,
 });
+// 查询参数 - 模糊查询
+const queryParams: querysProp = reactive({
+	name: '',
+});
+
+const { wishsData, getMyWishs } = useGetMyWish();
+
+// 模糊搜索
+const handleSearch = debounce((e: Event) => {
+	const val = (e.target as HTMLInputElement).value;
+	queryParams.name = val;
+	getMyWishs();
+}, 600);
+
+// 当前页改变
+const changePage = (page: number) => {
+	pageParams.page_index = page;
+	getMyWishs();
+};
+
+// 删除心愿单
+const onDeleteWish = async (id: string) => {
+	await WishApi.deleteWish({ wishid: id });
+	window.$message.success('删除成功');
+	await getMyWishs();
+};
+
+const created = () => {
+	getMyWishs(true);
+};
+created();
+
+function useGetMyWish() {
+	// 心愿单列表数据
+	const wishsData: wishDataProp = reactive({
+		loading: false,
+		data: [],
+		total: 0,
+		first: true,
+	});
+	// 请求接口
+	const getMyWishs = async (first = false) => {
+		const errHandle = () => {
+			wishsData.data = [];
+			wishsData.total = 0;
+			window.$message.error('搜索出错, 请稍后再试');
+		};
+		try {
+			wishsData.loading = true;
+			const { data } = await WishApi.getMyWishs({
+				pages: pageParams,
+				querys: queryParams,
+				orders: { updated_at: 'desc' },
+			});
+			if (!first) wishsData.first = false;
+			if (data) {
+				wishsData.data = data.rows;
+				wishsData.total = data.count;
+			} else {
+				errHandle();
+			}
+		} catch (error) {
+			errHandle();
+		} finally {
+			wishsData.loading = false;
+		}
+	};
+	return { wishsData, getMyWishs };
+}
 </script>
 
 <style lang="less">
@@ -215,4 +206,3 @@ export default defineComponent({
 	}
 }
 </style>
-

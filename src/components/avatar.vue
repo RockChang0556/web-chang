@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-20 18:01:56
- * @LastEditTime: 2021-12-30 20:33:40
+ * @LastEditTime: 2022-01-22 13:52:21
  * @Description: 头像组件
 -->
 
@@ -17,42 +17,32 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { avatarDefaultUrl } from '@/config/constants';
 import { NAvatar } from 'naive-ui';
 
-export default defineComponent({
-	name: 'com-avatar',
-	components: { NAvatar },
-	props: {
-		// 头像地址
-		src: {
-			type: String,
-			default: '',
-		},
-		// 头像大小
-		size: {
-			type: Number,
-			default: 36,
-		},
-		// 是否显示人员信息
-		isShowInfo: {
-			type: Boolean,
-			default: true,
-		},
+const props = defineProps({
+	// 头像地址
+	src: {
+		type: String,
+		default: '',
 	},
-	setup(props) {
-		const avatarUrl = computed(
-			() => `${import.meta.env.VITE_FILE_BASE}${props.src}`
-		);
-
-		return {
-			avatarUrl,
-			avatarDefaultUrl,
-		};
+	// 头像大小
+	size: {
+		type: Number,
+		default: 36,
+	},
+	// 是否显示人员信息
+	isShowInfo: {
+		type: Boolean,
+		default: true,
 	},
 });
+
+const avatarUrl = computed(
+	() => `${import.meta.env.VITE_FILE_BASE}${props.src}`
+);
 </script>
 
 <style lang="less">
@@ -61,4 +51,3 @@ export default defineComponent({
 	border-radius: 50%;
 }
 </style>
-

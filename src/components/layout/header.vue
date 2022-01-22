@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-21 16:35:13
+ * @LastEditTime: 2022-01-22 13:39:25
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -36,55 +36,34 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { h, computed, defineComponent, PropType } from 'vue';
+<script lang="ts" setup>
+import { h, computed, PropType } from 'vue';
 import { useStore } from 'vuex';
-import { UserProps } from '@/store/modules/user';
+import { UserProps, themeProp } from '@/store/modules/user';
 import RIcon from '@/components/global/icon/index.vue';
 import Avatar from '@/components/avatar.vue';
 import router from '@/router';
 import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/config/constants';
-import { themeProp } from '@/store/modules/user';
 import { NDropdown } from 'naive-ui';
-import store from '@/store';
+const store = useStore();
 
-export default defineComponent({
-	name: 'global-header',
-	components: { Avatar, NDropdown },
-	props: {
-		user: {
-			type: Object as PropType<UserProps>,
-			default: () => ({}),
-		},
-	},
-	setup() {
-		const store = useStore();
-
-		// 主题
-		const { themeOption, iconConfig } = useThemeOption();
-		const themeIcon = computed(() => {
-			const theme: themeProp = store.state.user.theme;
-			return iconConfig[theme];
-		});
-
-		// 用户下拉菜单
-		const { userOption } = useUserOption();
-
-		const logout = () => {
-			store.dispatch('user/logout');
-			router.push('/');
-		};
-
-		return {
-			logout,
-			homeUrl,
-			loginUrl,
-			themeIcon,
-			themeOption,
-			userOption,
-		};
+defineProps({
+	user: {
+		type: Object as PropType<UserProps>,
+		default: () => ({}),
 	},
 });
+
+// 主题
+const { themeOption, iconConfig } = useThemeOption();
+const themeIcon = computed(() => {
+	const theme: themeProp = store.state.user.theme;
+	return iconConfig[theme];
+});
+
+// 用户下拉菜单
+const { userOption } = useUserOption();
+
 function renderIcon(icon: string) {
 	return () => {
 		return h(RIcon, { name: icon });

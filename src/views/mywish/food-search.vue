@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-18 21:01:21
+ * @LastEditTime: 2022-01-22 14:01:59
  * @Description: jd查找菜品
 -->
 <template>
@@ -66,8 +66,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { reactive, ref } from 'vue';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
 import { NPopover, NDivider } from 'naive-ui';
@@ -79,43 +79,33 @@ interface searchResultProp {
 	data: any[];
 	showPopover: boolean;
 }
-export default defineComponent({
-	name: 'food-search',
-	components: { NPopover, NDivider },
-	props: {
-		// params参数
-		wishid: {
-			type: String,
-		},
-	},
-	setup(props, context) {
-		const { searchResult, searchVal, handleSearch } = useSearch();
-		// 添加菜品至心愿单
-		const onAddFoodToWish = async (item: any) => {
-			await FoodApi.addFood(item);
-			searchResult.showPopover = false;
-			searchVal.value = '';
-			context.emit('add', String(item.id));
-		};
 
-		// 回车快速添加菜品至心愿单
-		const onAddCustomFood = async () => {
-			const { data } = await FoodApi.addFood({ name: searchVal.value });
-			searchResult.showPopover = false;
-			searchVal.value = '';
-			context.emit('add', data.id);
-		};
-
-		return {
-			imgFoodUrl,
-			searchVal,
-			handleSearch,
-			searchResult,
-			onAddFoodToWish,
-			onAddCustomFood,
-		};
+defineProps({
+	// params参数
+	wishid: {
+		type: String,
 	},
 });
+const emits = defineEmits<{
+	(e: 'add', id: string): void;
+}>();
+
+const { searchResult, searchVal, handleSearch } = useSearch();
+// 添加菜品至心愿单
+const onAddFoodToWish = async (item: any) => {
+	await FoodApi.addFood(item);
+	searchResult.showPopover = false;
+	searchVal.value = '';
+	emits('add', String(item.id));
+};
+
+// 回车快速添加菜品至心愿单
+const onAddCustomFood = async () => {
+	const { data } = await FoodApi.addFood({ name: searchVal.value });
+	searchResult.showPopover = false;
+	searchVal.value = '';
+	emits('add', data.id);
+};
 
 function useSearch() {
 	const searchResult: searchResultProp = reactive({
@@ -138,7 +128,7 @@ function useSearch() {
 					appkey: 'a6c59a2ffa28433481c82f3878727a49',
 				},
 			})
-			.then(res => {
+			.then((res) => {
 				const resl = res.data?.result;
 				if (resl?.status === 0) {
 					searchResult.data = resl?.result.list;
@@ -215,4 +205,3 @@ function useSearch() {
 	}
 }
 </style>
-

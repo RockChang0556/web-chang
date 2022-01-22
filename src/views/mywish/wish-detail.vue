@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-21 15:29:30
+ * @LastEditTime: 2022-01-22 14:02:44
  * @Description: 心愿单详情
 -->
 
@@ -24,7 +24,7 @@
 			ref="wishFormRef"
 			:models="wishFormRes.data"
 			@change="
-				data => {
+				(data) => {
 					wishFormRes.data = data;
 				}
 			"
@@ -74,8 +74,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import {
 	NList,
@@ -97,67 +97,45 @@ interface wishBaseProp extends objProp {
 	summary?: string;
 	tag?: string[];
 }
-export default defineComponent({
-	name: 'editwish-page',
-	components: {
-		NList,
-		NBreadcrumb,
-		NBreadcrumbItem,
-		NSpace,
-		NSkeleton,
-		NCollapseTransition,
-		WishForm,
-		FoodListItem,
-		FoodSearch,
-	},
-	props: {
-		// params参数
-		wishid: {
-			type: String,
-		},
-	},
-	setup(props) {
-		const route = useRoute();
-		// 是否展开显示搜索框
-		const showSearch = ref(false);
-		const { wishFormRes, getBaseData } = useWishBase(props.wishid);
-		const { wishFoods, getFoodsData } = useWishFoods(props.wishid);
-
-		// 在心愿单内添加菜品后的回调
-		const onAddWishFood = async (id: string) => {
-			await WishApi.updateWishFoods(
-				{ wishid: props.wishid },
-				{ type: 'add', food_ids: [id] }
-			);
-			getFoodsData();
-		};
-
-		// 在心愿单内删除菜品
-		const onDeleteWishFood = async (id: string) => {
-			await WishApi.updateWishFoods(
-				{ wishid: props.wishid },
-				{ type: 'delete', food_ids: [id] }
-			);
-			getFoodsData();
-		};
-
-		const created = () => {
-			// 编辑状态获取数据
-			if (route.name === 'editwish') {
-				getBaseData();
-				getFoodsData();
-			}
-		};
-		created();
-		return {
-			showSearch,
-			wishFormRes,
-			onAddWishFood,
-			onDeleteWishFood,
-			wishFoods,
-		};
+const props = defineProps({
+	// params参数
+	wishid: {
+		type: String,
 	},
 });
+
+const route = useRoute();
+// 是否展开显示搜索框
+const showSearch = ref(false);
+const { wishFormRes, getBaseData } = useWishBase(props.wishid);
+const { wishFoods, getFoodsData } = useWishFoods(props.wishid);
+
+// 在心愿单内添加菜品后的回调
+const onAddWishFood = async (id: string) => {
+	await WishApi.updateWishFoods(
+		{ wishid: props.wishid },
+		{ type: 'add', food_ids: [id] }
+	);
+	getFoodsData();
+};
+
+// 在心愿单内删除菜品
+const onDeleteWishFood = async (id: string) => {
+	await WishApi.updateWishFoods(
+		{ wishid: props.wishid },
+		{ type: 'delete', food_ids: [id] }
+	);
+	getFoodsData();
+};
+
+const created = () => {
+	// 编辑状态获取数据
+	if (route.name === 'editwish') {
+		getBaseData();
+		getFoodsData();
+	}
+};
+created();
 
 // 心愿单基本信息
 function useWishBase(wishid?: string) {
@@ -230,4 +208,3 @@ function useWishFoods(wishid?: string) {
 	}
 }
 </style>
-

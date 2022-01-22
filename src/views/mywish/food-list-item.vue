@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-13 19:03:05
+ * @LastEditTime: 2022-01-22 13:58:48
  * @Description: 菜品卡片
 -->
 <template>
@@ -33,26 +33,23 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script lang="ts" setup>
+import { PropType } from 'vue';
 import { NListItem, NTag, NThing, NEllipsis } from 'naive-ui';
 import { imgFoodUrl, imgFood404Url } from '@/config/constants';
-export default defineComponent({
-	name: 'wish-food-list-item',
-	components: { NListItem, NTag, NThing, NEllipsis },
-	props: {
-		item: {
-			type: Object as PropType<any>,
-			require: true,
-		},
-	},
-	setup(props, context) {
-		const onDelete = (id: string) => {
-			context.emit('delete', id);
-		};
-		return { onDelete, imgFoodUrl, imgFood404Url };
+defineProps({
+	item: {
+		type: Object as PropType<any>,
+		require: true,
 	},
 });
+const emits = defineEmits<{
+	(e: 'delete', value: string): void;
+}>();
+
+const onDelete = (id: string) => {
+	emits('delete', id);
+};
 </script>
 
 <style lang="less">
@@ -86,4 +83,3 @@ export default defineComponent({
 	}
 }
 </style>
-

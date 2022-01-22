@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-21 16:45:31
+ * @LastEditTime: 2022-01-22 14:16:28
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -55,8 +55,8 @@
 	</n-drawer-content>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { computed, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import {
 	NDrawerContent,
@@ -74,92 +74,75 @@ interface wishDataProp {
 	loading: boolean;
 	data: any[];
 }
-export default defineComponent({
-	name: 'choose-random',
-	components: {
-		NCheckboxGroup,
-		NCheckbox,
-		NDrawerContent,
-		NTag,
-		NRadioGroup,
-		NRadioButton,
-	},
-	props: {
-		show: {
-			type: Boolean,
-		},
-	},
-	setup(props, context) {
-		const store = useStore();
-		const userId = computed(() => store.state.user.userInfo.id);
-		// 查询参数 - 分页
-		const pageParams: pagesProp = reactive({
-			page_index: 1,
-			page_size: 10,
-		});
-		// 心愿单列表数据
-		const wishsData: wishDataProp = reactive({
-			loading: false,
-			data: [],
-		});
-		// 已选择的心愿单
-		const selectedWish: any = ref([]);
 
-		const { randVal, randOptions, onChangeRandVal } = useRandOpt(selectedWish);
-		// 请求接口, 获取我的心愿单
-		const getMyWishs = async () => {
-			try {
-				wishsData.loading = true;
-				const { data } = await WishApi.getMyWishs({
-					pages: pageParams,
-					orders: { updated_at: 'desc' },
-				});
-				wishsData.data = data.rows;
-			} finally {
-				wishsData.loading = false;
-			}
-		};
-
-		const watchShow = (val: boolean) => {
-			if (val) return;
-			if (randVal.value === 'wish') {
-				const foods: string[] = [];
-				const wishs: any[] = [];
-				wishsData.data.forEach(v => {
-					if (selectedWish.value.includes(v.id)) {
-						const ids = v.food_list.map((v: any) => v.id);
-						foods.push(...ids);
-						wishs.push({
-							id: v.id,
-							name: v.name,
-						});
-					}
-				});
-				context.emit('choose', randVal.value, { foods, wishs });
-			} else {
-				context.emit('choose', randVal.value);
-			}
-		};
-		watch(() => props.show, watchShow);
-
-		const created = () => {
-			if (localStorage.getItem('access_token')) {
-				getMyWishs();
-			}
-		};
-		created();
-		return {
-			userId,
-			randVal,
-			randOptions,
-			onChangeRandVal,
-			wishsData,
-			selectedWish,
-			loginUrl,
-		};
+const props = defineProps({
+	show: {
+		type: Boolean,
 	},
 });
+const emits = defineEmits<{
+	(e: 'choose', type: string, data?: any): void;
+}>();
 
+const store = useStore();
+const userId = computed(() => store.state.user.userInfo.id);
+// 查询参数 - 分页
+const pageParams: pagesProp = reactive({
+	page_index: 1,
+	page_size: 10,
+});
+// 心愿单列表数据
+const wishsData: wishDataProp = reactive({
+	loading: false,
+	data: [],
+});
+// 已选择的心愿单
+const selectedWish: any = ref([]);
+
+const { randVal, randOptions, onChangeRandVal } = useRandOpt(selectedWish);
+// 请求接口, 获取我的心愿单
+const getMyWishs = async () => {
+	try {
+		wishsData.loading = true;
+		const { data } = await WishApi.getMyWishs({
+			pages: pageParams,
+			orders: { updated_at: 'desc' },
+		});
+		wishsData.data = data.rows;
+	} finally {
+		wishsData.loading = false;
+	}
+};
+
+watch(() => props.show, watchShow);
+
+const created = () => {
+	if (localStorage.getItem('access_token')) {
+		getMyWishs();
+	}
+};
+created();
+
+function watchShow(val: boolean) {
+	if (val) return;
+	if (randVal.value === 'wish') {
+		const foods: string[] = [];
+		const wishs: any[] = [];
+		wishsData.data.forEach((v) => {
+			if (selectedWish.value.includes(v.id)) {
+				const ids = v.food_list.map((v: any) => v.id);
+				foods.push(...ids);
+				wishs.push({
+					id: v.id,
+					name: v.name,
+				});
+			}
+		});
+		emits('choose', randVal.value, { foods, wishs });
+	} else {
+		emits('choose', randVal.value);
+	}
+}
 function useRandOpt(selectedWish: any) {
 	const randOptions = [
 		{ label: '全部', value: 'all' },
@@ -233,4 +216,3 @@ function useRandOpt(selectedWish: any) {
 	}
 }
 </style>
-

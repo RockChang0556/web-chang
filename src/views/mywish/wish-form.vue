@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-14 20:27:09
+ * @LastEditTime: 2022-01-22 14:09:13
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -91,8 +91,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref, PropType, computed, Ref } from 'vue';
+<script lang="ts" setup>
+import { ref, PropType, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import {
 	FormValidationError,
@@ -104,7 +104,7 @@ import {
 } from 'naive-ui';
 import { WishApi } from '@/services';
 import router from '@/router';
-export interface modelProp {
+interface modelProp {
 	name?: string;
 	summary?: string;
 	tags?: string[];
@@ -112,86 +112,42 @@ export interface modelProp {
 	updated_at?: string;
 	[x: string]: any;
 }
-export default defineComponent({
-	name: 'wish-form',
-	components: { NForm, NFormItem, NDynamicTags, NTag, NTime },
-	props: {
-		models: {
-			type: Object as PropType<modelProp>,
-		},
-		wishid: {
-			type: String,
-		},
+
+const props = defineProps({
+	models: {
+		type: Object as PropType<modelProp>,
 	},
-	setup(props, context) {
-		const route = useRoute();
-		const isEditPage = computed(() => route.name === 'editwish'); // 是否是编辑页面
-		const isEdit = ref(false); // 表单是否编辑状态
-
-		const { wishRef, model, rules, resetForm, validateForm } = useFormInit(
-			props.models
-		);
-
-		const okBtnLoading = ref(false);
-		// 更新心愿单
-		const onUpdateWish = async () => {
-			const send = async () => {
-				try {
-					okBtnLoading.value = true;
-					if (isEditPage.value) {
-						const { data } = await WishApi.updateWishBase(
-							{ wishid: props.wishid },
-							model.value
-						);
-						model.value.updated_at = data.updated_at;
-						context.emit('change', data);
-						window.$message.success('更新成功');
-					} else {
-						const { data } = await WishApi.addWish(model.value);
-						model.value.created_at = data.created_at;
-						model.value.updated_at = data.updated_at;
-						window.$message.success('创建成功');
-						router.push({ name: 'editwish', params: { wishid: data.id } });
-					}
-					isEdit.value = false;
-				} finally {
-					okBtnLoading.value = false;
-				}
-			};
-			try {
-				await validateForm();
-			} catch (error) {
-				window.$message.error('请检查表单项');
-			}
-			// 发送更新或新增接口
-			await send();
-		};
-
-		// 取消编辑
-		const onCancelEdit = () => {
-			isEdit.value = false;
-			// 还原 model 的值
-			resetForm();
-		};
-
-		const created = () => {
-			if (!isEditPage.value) {
-				isEdit.value = true;
-			}
-		};
-		created();
-		return {
-			wishRef,
-			model,
-			rules,
-			validateForm,
-			isEdit,
-			onUpdateWish,
-			okBtnLoading,
-			onCancelEdit,
-		};
+	wishid: {
+		type: String,
 	},
 });
+const emits = defineEmits<{
+	(e: 'change', data: any): void;
+}>();
+
+const route = useRoute();
+const isEditPage = computed(() => route.name === 'editwish'); // 是否是编辑页面
+const isEdit = ref(false); // 表单是否编辑状态
+
+const { wishRef, model, rules, resetForm, validateForm } = useFormInit(
+	props.models
+);
+// 更新心愿单基本信息
+const { okBtnLoading, onUpdateWish } = useUpdateWish();
+
+// 取消编辑
+const onCancelEdit = () => {
+	isEdit.value = false;
+	// 还原 model 的值
+	resetForm();
+};
+
+const created = () => {
+	if (!isEditPage.value) {
+		isEdit.value = true;
+	}
+};
+created();
 
 function useFormInit(models: modelProp | undefined) {
 	const wishRef = ref();
@@ -222,6 +178,44 @@ function useFormInit(models: modelProp | undefined) {
 		});
 	};
 	return { wishRef, model, rules, resetForm, validateForm };
+}
+
+function useUpdateWish() {
+	const okBtnLoading = ref(false);
+	// 更新心愿单
+	const onUpdateWish = async () => {
+		const send = async () => {
+			try {
+				okBtnLoading.value = true;
+				if (isEditPage.value) {
+					const { data } = await WishApi.updateWishBase(
+						{ wishid: props.wishid },
+						model.value
+					);
+					model.value.updated_at = data.updated_at;
+					emits('change', data);
+					window.$message.success('更新成功');
+				} else {
+					const { data } = await WishApi.addWish(model.value);
+					model.value.created_at = data.created_at;
+					model.value.updated_at = data.updated_at;
+					window.$message.success('创建成功');
+					router.push({ name: 'editwish', params: { wishid: data.id } });
+				}
+				isEdit.value = false;
+			} finally {
+				okBtnLoading.value = false;
+			}
+		};
+		try {
+			await validateForm();
+		} catch (error) {
+			window.$message.error('请检查表单项');
+		}
+		// 发送更新或新增接口
+		await send();
+	};
+	return { okBtnLoading, onUpdateWish };
 }
 </script>
 
@@ -279,4 +273,3 @@ function useFormInit(models: modelProp | undefined) {
 	}
 }
 </style>
-

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-13 17:59:06
+ * @LastEditTime: 2022-01-22 14:12:10
  * @Description: 首页
 -->
 <template>
@@ -67,8 +67,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { reactive, ref } from 'vue';
 import { NDrawer, NTag, NModal, NCard } from 'naive-ui';
 import ChooseRandom from './choose-random.vue';
 import { randomNum } from '@/utils/util';
@@ -79,70 +79,41 @@ interface rangProp {
 	foods: string[];
 	wishs: any[];
 }
-export default defineComponent({
-	name: 'home-page',
-	components: { NTag, NDrawer, NModal, NCard, ChooseRandom },
-	props: {},
-	setup() {
-		// 抽中的菜品
-		const luckFood: { data: any; showModal: boolean; show: boolean } = reactive(
-			{
-				data: {},
-				showModal: false,
-				show: false,
-			}
-		);
-
-		// 随机范围数据
-		const { isShowWish, randomRang, onChangeRang } = useRandomRang();
-
-		// 开始随机菜品
-		const onRandom = async () => {
-			if (!randomRang.foods.length && randomRang.type === 'wish') {
-				window.$message.error('您还没有选择心愿单或心愿单内没有菜品');
-				return;
-			}
-			const randList =
-				randomRang.type === 'all' ? randomAllList.list : randomRang.foods;
-			const index = randomNum(0, randList.length - 1);
-			const foodId = randList[index];
-			const { data } = await FoodApi.getFoodDetail({ foodid: foodId });
-			luckFood.showModal = true;
-			luckFood.data = data;
-		};
-
-		// 确定今天吃的菜品
-		const onSeclect = () => {
-			luckFood.showModal = false;
-			luckFood.show = true;
-		};
-
-		const randomAllList = reactive({
-			list: [],
-			loading: false,
-		});
-		const getAllFood = async () => {
-			try {
-				randomAllList.loading = true;
-				const { data } = await FoodApi.getRandomFoods({ limit: 100 });
-				const list = data.map((v: { id: string; name: string }) => v.id);
-				randomAllList.list = list || [];
-			} finally {
-				randomAllList.loading = false;
-			}
-		};
-		getAllFood();
-		return {
-			isShowWish,
-			randomRang,
-			onChangeRang,
-			onRandom,
-			onSeclect,
-			luckFood,
-			randomAllList,
-		};
-	},
+// 抽中的菜品
+const luckFood: { data: any; showModal: boolean; show: boolean } = reactive({
+	data: {},
+	showModal: false,
+	show: false,
 });
+
+// 随机范围数据
+const { isShowWish, randomRang, onChangeRang } = useRandomRang();
+
+// 开始随机菜品
+const onRandom = async () => {
+	if (!randomRang.foods.length && randomRang.type === 'wish') {
+		window.$message.error('您还没有选择心愿单或心愿单内没有菜品');
+		return;
+	}
+	const randList =
+		randomRang.type === 'all' ? randomAllList.list : randomRang.foods;
+	const index = randomNum(0, randList.length - 1);
+	const foodId = randList[index];
+	const { data } = await FoodApi.getFoodDetail({ foodid: foodId });
+	luckFood.showModal = true;
+	luckFood.data = data;
+};
+
+// 确定今天吃的菜品
+const onSeclect = () => {
+	luckFood.showModal = false;
+	luckFood.show = true;
+};
+
+// 全部随机
+const { randomAllList, getAllFood } = useRandomAll();
+
+getAllFood();
 
 function useRandomRang() {
 	const isShowWish = ref(false);
@@ -166,6 +137,23 @@ function useRandomRang() {
 		randomRang,
 		onChangeRang,
 	};
+}
+function useRandomAll() {
+	const randomAllList = reactive({
+		list: [],
+		loading: false,
+	});
+	const getAllFood = async () => {
+		try {
+			randomAllList.loading = true;
+			const { data } = await FoodApi.getRandomFoods({ limit: 100 });
+			const list = data.map((v: { id: string; name: string }) => v.id);
+			randomAllList.list = list || [];
+		} finally {
+			randomAllList.loading = false;
+		}
+	};
+	return { randomAllList, getAllFood };
 }
 </script>
 

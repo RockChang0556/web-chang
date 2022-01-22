@@ -2,7 +2,7 @@
 	<div class="home">
 		<n-layout position="absolute">
 			<n-layout-header bordered>
-				<global-header :user="currentUser"></global-header>
+				<GlobalHeader :user="currentUser"></GlobalHeader>
 			</n-layout-header>
 			<n-layout-content position="absolute">
 				<router-view></router-view>
@@ -11,29 +11,14 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
 import GlobalHeader from '@/components/layout/header.vue';
 import { useStore } from 'vuex';
 
-export default defineComponent({
-	name: 'home',
-	components: {
-		GlobalHeader,
-		NLayout,
-		NLayoutHeader,
-		NLayoutContent,
-	},
-	props: {},
-	setup() {
-		const store = useStore();
-		const currentUser = computed(() => store.state.user.userInfo);
-		return {
-			currentUser,
-		};
-	},
-});
+const store = useStore();
+const currentUser = computed(() => store.state.user.userInfo);
 </script>
 
 <style lang="less">
