@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-22 13:39:25
+ * @LastEditTime: 2022-01-22 14:27:03
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -27,7 +27,7 @@
 			</div>
 			<n-dropdown v-else :options="userOption">
 				<div class="userinfo">
-					<avatar :size="36" :src="user.avatar_url"> </avatar>
+					<Avatar :size="36" :src="user.avatar_url"> </Avatar>
 					{{ user.name }}
 					<r-icon name="caret-down-small"></r-icon>
 				</div>
@@ -40,11 +40,11 @@
 import { h, computed, PropType } from 'vue';
 import { useStore } from 'vuex';
 import { UserProps, themeProp } from '@/store/modules/user';
-import RIcon from '@/components/global/icon/index.vue';
 import Avatar from '@/components/avatar.vue';
 import router from '@/router';
 import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/config/constants';
 import { NDropdown } from 'naive-ui';
+import RIcon from '@/components/global/icon/index.vue';
 const store = useStore();
 
 defineProps({

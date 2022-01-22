@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-22 14:02:44
+ * @LastEditTime: 2022-01-22 14:26:03
  * @Description: 心愿单详情
 -->
 
@@ -57,16 +57,16 @@
 						</n-button>
 					</div>
 					<n-collapse-transition :show="showSearch">
-						<food-search :wishid="wishid" @add="onAddWishFood"></food-search>
+						<FoodSearch :wishid="wishid" @add="onAddWishFood"></FoodSearch>
 					</n-collapse-transition>
 				</div>
 				<n-list class="food-list" v-if="wishFoods.data.length">
-					<food-list-item
+					<FoodListItem
 						v-for="v in wishFoods.data"
 						:key="v.id"
 						:item="v"
 						@delete="onDeleteWishFood"
-					></food-list-item>
+					></FoodListItem>
 				</n-list>
 				<n-empty v-else description="此心愿单下暂无菜品, 快去添加吧"> </n-empty>
 			</div>

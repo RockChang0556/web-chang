@@ -14,8 +14,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
-import GlobalHeader from '@/components/layout/header.vue';
 import { useStore } from 'vuex';
+import GlobalHeader from '@/components/layout/header.vue';
 
 const store = useStore();
 const currentUser = computed(() => store.state.user.userInfo);

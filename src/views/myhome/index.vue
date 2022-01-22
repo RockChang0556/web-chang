@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-22 14:12:10
+ * @LastEditTime: 2022-01-22 14:25:11
  * @Description: 首页
 -->
 <template>
@@ -9,7 +9,7 @@
 		<div class="menu-pic">
 			<img
 				alt="么么么哒"
-				src="https://s2.loli.net/2022/01/04/7Ss8G6CEYgVF3Xn.png"
+				src="https://s2.loli.net/2022/01/22/75D1G2EMlZSuWxN.jpg"
 			/>
 			<p v-if="luckFood.show">
 				今天吃 <span>{{ luckFood.data.name }}</span> !!!
@@ -41,7 +41,7 @@
 			</p>
 		</div>
 		<n-drawer v-model:show="isShowWish" display-directive="show" :width="402">
-			<choose-random :show="isShowWish" @choose="onChangeRang"></choose-random>
+			<ChooseRandom :show="isShowWish" @choose="onChangeRang"></ChooseRandom>
 		</n-drawer>
 		<n-modal
 			v-model:show="luckFood.showModal"
@@ -70,9 +70,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { NDrawer, NTag, NModal, NCard } from 'naive-ui';
-import ChooseRandom from './choose-random.vue';
 import { randomNum } from '@/utils/util';
 import { FoodApi } from '@/services';
+import ChooseRandom from './choose-random.vue';
 
 interface rangProp {
 	type: string;
