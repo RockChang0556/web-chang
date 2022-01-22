@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-22 14:24:04
+ * @LastEditTime: 2022-01-22 20:55:07
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive, ref, watch } from 'vue';
-import { useStore } from 'vuex';
+import { useUserStore } from '@/store';
 import {
 	NDrawerContent,
 	NTag,
@@ -84,8 +84,8 @@ const emits = defineEmits<{
 	(e: 'choose', type: string, data?: any): void;
 }>();
 
-const store = useStore();
-const userId = computed(() => store.state.user.userInfo.id);
+const userStore = useUserStore();
+const userId = userStore.userInfo.id;
 // 查询参数 - 分页
 const pageParams: pagesProp = reactive({
 	page_index: 1,

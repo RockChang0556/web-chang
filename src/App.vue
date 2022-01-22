@@ -8,10 +8,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import { getLocStorage } from '@/utils/token';
 import { useMessage } from 'naive-ui';
-const store = useStore();
+import { useUserStore } from '@/store';
+const userStore = useUserStore();
 
 const loading = ref(false);
 // 获取用户信息
@@ -20,14 +20,14 @@ const getCurrentUser = async () => {
 	if (access_token) {
 		try {
 			loading.value = true;
-			await store.dispatch('user/getUserInfo');
+			await userStore.getUserInfo();
 		} catch (err) {
-			store.commit('user/setUserInfo', { isFetched: true });
+			userStore.setUserInfo({ isFetched: true });
 		} finally {
 			loading.value = false;
 		}
 	} else {
-		store.commit('user/setUserInfo', { isFetched: true });
+		userStore.setUserInfo({ isFetched: true });
 	}
 };
 
@@ -35,7 +35,7 @@ const getCurrentUser = async () => {
 const initTheme = () => {
 	const theme = getLocStorage('theme');
 	if (theme) {
-		store.commit('user/setTheme', theme);
+		userStore.setTheme(theme);
 	}
 };
 

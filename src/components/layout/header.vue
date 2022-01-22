@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-22 19:33:04
+ * @LastEditTime: 2022-01-22 20:53:29
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -38,14 +38,14 @@
 
 <script lang="ts" setup>
 import { h, computed, PropType } from 'vue';
-import { useStore } from 'vuex';
-import { UserProps, themeProp } from '@/store/modules/user';
-import Avatar from '@/components/avatar.vue';
 import router from '@/router';
-import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/config/constants';
 import { NDropdown } from 'naive-ui';
+import { useUserStore } from '@/store';
+import { UserProps, themeProp } from '@/types/types';
+import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/config/constants';
+import Avatar from '@/components/avatar.vue';
 import RIcon from '@/components/global/icon/index.vue';
-const store = useStore();
+const userStore = useUserStore();
 
 defineProps({
 	user: {
@@ -57,7 +57,7 @@ defineProps({
 // 主题
 const { themeOption, iconConfig } = useThemeOption();
 const themeIcon = computed(() => {
-	let theme: themeProp = store.state.user.theme;
+	let theme = userStore.theme;
 	if (!['light', 'dark', 'auto'].includes(theme)) theme = 'light';
 	return iconConfig[theme];
 });
@@ -76,8 +76,8 @@ function useThemeOption() {
 		dark: 'moon_',
 		light: 'sun',
 	};
-	const changeTheme = (theme: string) => {
-		store.commit('user/setTheme', theme);
+	const changeTheme = (theme: themeProp) => {
+		userStore.setTheme(theme);
 	};
 
 	const options = [

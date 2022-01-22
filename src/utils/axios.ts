@@ -2,11 +2,10 @@
  * 封装 axios
  */
 import axios from 'axios';
-import store from '@/store';
+import { useUserStore } from '@/store';
 import Config from '@/config';
 import ErrorCode from '@/config/error-code';
 import { getLocStorage, saveTokens } from '@/utils/token';
-
 export interface CustomData<T> {
 	code: number;
 	msg?: string;
@@ -126,7 +125,8 @@ _axios.interceptors.response.use(
 			// refresh_token 异常，直接登出
 			if (refreshTokenException(code)) {
 				setTimeout(() => {
-					store.dispatch('user/logout');
+					const userStore = useUserStore();
+					userStore.logout();
 					const { origin } = window.location;
 					window.location.href = origin;
 				}, 1500);

@@ -29,3 +29,17 @@ export interface pqoParamsProp {
 export interface objProp {
 	[x: string]: any;
 }
+
+export interface UserProps {
+	id?: number;
+	name?: string;
+	phone?: string;
+	admin?: 0 | 1 | 2 | 3 | 4 | 5;
+	email?: string;
+	avatar_url?: string;
+	position?: string;
+	sex?: 1 | 0 | -1;
+	summary?: string;
+	isFetched: boolean;
+}
+export type themeProp = 'light' | 'dark' | 'auto';

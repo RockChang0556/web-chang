@@ -14,11 +14,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
-import { useStore } from 'vuex';
+import { useUserStore } from '@/store';
 import GlobalHeader from '@/components/layout/header.vue';
+const userStore = useUserStore();
 
-const store = useStore();
-const currentUser = computed(() => store.state.user.userInfo);
+const currentUser = computed(() => userStore.userInfo);
 </script>
 
 <style lang="less">

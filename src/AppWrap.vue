@@ -17,17 +17,17 @@ import {
 	darkTheme,
 	useOsTheme,
 } from 'naive-ui';
-import { useStore } from 'vuex';
+import { useUserStore } from '@/store';
 
-const store = useStore();
+const userStore = useUserStore();
 const osThemeRef = useOsTheme();
 
 // 主题
 const theme = computed(() => {
-	if (store.state.user.theme === 'auto') {
+	if (userStore.theme === 'auto') {
 		return osThemeRef.value === 'dark' ? darkTheme : null;
 	} else {
-		return store.state.user.theme === 'dark' ? darkTheme : null;
+		return userStore.theme === 'dark' ? darkTheme : null;
 	}
 });
 </script>

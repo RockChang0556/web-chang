@@ -1,12 +1,13 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-05 11:34:59
- * @LastEditTime: 2022-01-13 10:59:09
+ * @LastEditTime: 2022-01-22 20:41:59
  * @Description: 路由
  */
 import { createRouter, createWebHistory } from 'vue-router';
 import { loginUrl } from '@/config/constants';
 import routes from './routes';
+import { useUserStore } from '@/store';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -24,9 +25,7 @@ router.beforeEach((to, from, next) => {
 		return;
 	}
 	// 权限验证, -1-未登录 0-登录 1~5管理员
-	const userInfo = JSON.parse(
-		(localStorage.getItem('userInfo') as string) || '{}'
-	);
+	const { userInfo } = useUserStore();
 	const userAdmin: number = userInfo.admin ?? -1;
 	const pageAdmin: number = (to.meta.admin as number) ?? -1;
 	if (pageAdmin > userAdmin) {

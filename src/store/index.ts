@@ -1,20 +1,16 @@
 /*
  * @Author: Rock Chang
- * @Date: 2021-08-05 15:11:25
- * @LastEditTime: 2021-12-30 11:34:53
- * @Description:
+ * @Date: 2022-01-22 19:47:59
+ * @LastEditTime: 2022-01-22 20:46:39
+ * @Description: 全局状态管理 - pinia
  */
-import { createStore, createLogger } from 'vuex';
-import user from './modules/user';
 
-const debug = import.meta.env.MODE !== 'production';
+import { createPinia } from 'pinia';
+import piniaPluginPersist from 'pinia-plugin-persist';
+import { useUserStore } from './user';
 
-const store = createStore({
-	modules: {
-		user,
-	},
-	strict: debug,
-	plugins: debug ? [createLogger()] : [],
-});
-
+const store = createPinia();
+store.use(piniaPluginPersist);
 export default store;
+
+export { useUserStore };
