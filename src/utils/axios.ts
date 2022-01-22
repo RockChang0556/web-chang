@@ -5,7 +5,7 @@ import axios from 'axios';
 import store from '@/store';
 import Config from '@/config';
 import ErrorCode from '@/config/error-code';
-import { getToken, saveTokens } from '@/utils/token';
+import { getLocStorage, saveTokens } from '@/utils/token';
 
 export interface CustomData<T> {
 	code: number;
@@ -44,7 +44,7 @@ function accessTokenException(code: number) {
 const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
-	originConfig => {
+	(originConfig) => {
 		const reqConfig: any = { ...originConfig };
 
 		// step1: 容错处理
@@ -66,7 +66,7 @@ _axios.interceptors.request.use(
 
 			// 检测是否包含文件类型, 若包含则进行 formData 封装
 			let hasFile = false;
-			Object.keys(reqConfig.data).forEach(key => {
+			Object.keys(reqConfig.data).forEach((key) => {
 				if (typeof reqConfig.data[key] === 'object') {
 					const item = reqConfig.data[key];
 					if (
@@ -82,7 +82,7 @@ _axios.interceptors.request.use(
 			// 检测到存在文件使用 FormData 提交数据
 			if (hasFile) {
 				const formData = new FormData();
-				Object.keys(reqConfig.data).forEach(key => {
+				Object.keys(reqConfig.data).forEach((key) => {
 					formData.append(key, reqConfig.data[key]);
 				});
 				reqConfig.data = formData;
@@ -91,12 +91,12 @@ _axios.interceptors.request.use(
 
 		// step2: permission 处理
 		if (reqConfig.url === '/user/refresh') {
-			const refreshToken = getToken('refresh_token');
+			const refreshToken = getLocStorage('refresh_token');
 			if (refreshToken) {
 				reqConfig.headers.Authorization = refreshToken;
 			}
 		} else {
-			const accessToken = getToken('access_token');
+			const accessToken = getLocStorage('access_token');
 			if (accessToken) {
 				reqConfig.headers.Authorization = accessToken;
 			}
@@ -104,12 +104,12 @@ _axios.interceptors.request.use(
 
 		return reqConfig;
 	},
-	error => Promise.reject(error)
+	(error) => Promise.reject(error)
 );
 
 // Add a response interceptor
 _axios.interceptors.response.use(
-	async res => {
+	async (res) => {
 		// if (res.status.toString().charAt(0) === '2') {
 		// 	return res.data;
 		// }
@@ -160,7 +160,7 @@ _axios.interceptors.response.use(
 			if (Config.useFrontEndErrorMsg && !showBackend) {
 				// 弹出前端自定义错误信息
 				const errorArr = Object.entries(ErrorCode).filter(
-					v => v[0] === code.toString()
+					(v) => v[0] === code.toString()
 				);
 				// 匹配到前端自定义的错误码
 				if (errorArr.length > 0 && errorArr[0][1] !== '') {
@@ -183,7 +183,7 @@ _axios.interceptors.response.use(
 			reject(res);
 		});
 	},
-	error => {
+	(error) => {
 		// 判断请求超时
 		if (
 			error.code === 'ECONNABORTED' &&

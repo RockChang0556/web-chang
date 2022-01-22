@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-22 14:27:03
+ * @LastEditTime: 2022-01-22 19:33:04
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -57,7 +57,8 @@ defineProps({
 // 主题
 const { themeOption, iconConfig } = useThemeOption();
 const themeIcon = computed(() => {
-	const theme: themeProp = store.state.user.theme;
+	let theme: themeProp = store.state.user.theme;
+	if (!['light', 'dark', 'auto'].includes(theme)) theme = 'light';
 	return iconConfig[theme];
 });
 

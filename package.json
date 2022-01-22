@@ -2,9 +2,9 @@
 	"name": "chang-project",
 	"version": "1.0.0",
 	"scripts": {
-		"serve": "vite --host",
+		"serve": "vite",
 		"build": "vite build",
-		"preview": "vite preview --host",
+		"preview": "vite preview",
 		"force": "vite --force"
 	},
 	"dependencies": {

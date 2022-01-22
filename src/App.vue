@@ -9,14 +9,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { getToken } from '@/utils/token';
+import { getLocStorage } from '@/utils/token';
 import { useMessage } from 'naive-ui';
 const store = useStore();
 
 const loading = ref(false);
 // 获取用户信息
 const getCurrentUser = async () => {
-	const access_token = getToken('access_token');
+	const access_token = getLocStorage('access_token');
 	if (access_token) {
 		try {
 			loading.value = true;
@@ -33,7 +33,7 @@ const getCurrentUser = async () => {
 
 // 初始化主题
 const initTheme = () => {
-	const theme = getToken('theme');
+	const theme = getLocStorage('theme');
 	if (theme) {
 		store.commit('user/setTheme', theme);
 	}

@@ -18,8 +18,16 @@ export default defineConfig({
 		// outDir: 'dist', //指定输出路径
 		// assetsDir: 'assets', // 指定生成静态资源的存放路径
 		minify: 'terser', // 混淆器，terser构建后文件体积更小
+		terserOptions: {
+			// 生产环境去除 console debugger
+			compress: {
+				drop_console: true,
+				drop_debugger: true,
+			},
+		},
 	},
 	server: {
+		host: '0.0.0.0',
 		port: 8001,
 		cors: true, // 默认启用并允许任何源
 		// open: true, // 在服务器启动时自动在浏览器中打开应用程序
