@@ -1,17 +1,17 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-24 10:55:25
+ * @LastEditTime: 2022-01-24 17:14:39
  * @Description:  我的心愿单-首页
 -->
 <template>
 	<div class="mywish-page">
-		<n-breadcrumb separator=">">
+		<!-- <n-breadcrumb separator=">">
 			<n-breadcrumb-item>
 				<router-link :to="{ name: 'home' }"> 首页 </router-link>
 			</n-breadcrumb-item>
 			<n-breadcrumb-item> 我的心愿单 </n-breadcrumb-item>
-		</n-breadcrumb>
+		</n-breadcrumb> -->
 		<div class="search-wrap">
 			<router-link :to="{ name: 'addwish' }">
 				<n-button type="primary" ghost>新建心愿单</n-button>
@@ -177,7 +177,6 @@ function useGetMyWish() {
 <style lang="less">
 .mywish-page {
 	width: 800px;
-	height: 100%;
 	margin: 0 auto;
 	padding: 20px 0;
 	.search-wrap {

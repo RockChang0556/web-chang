@@ -21,12 +21,6 @@ const errRoute: Array<RouteRecordRaw> = [
 ];
 const wishRoute: Array<RouteRecordRaw> = [
 	{
-		path: '/mywish',
-		name: 'mywish',
-		component: () => import('@/views/mywish/index.vue'),
-		meta: { admin: 0 },
-	},
-	{
 		path: '/mywish/add',
 		name: 'addwish',
 		component: () => import('@/views/mywish/wish-detail.vue'),
@@ -46,6 +40,27 @@ const kitchenRoute: Array<RouteRecordRaw> = [
 		name: 'mykitchen',
 		component: () => import('@/views/mykitchen/index.vue'),
 		meta: { admin: 0 },
+		redirect: { name: 'mywish' },
+		children: [
+			{
+				path: '/mykitchen/mywish',
+				name: 'mywish',
+				component: () => import('@/views/mywish/index.vue'),
+				meta: { admin: 0 },
+			},
+			{
+				path: '/mykitchen/likes',
+				name: 'likes',
+				component: () => import('@/views/mykitchen/likes.vue'),
+				meta: { admin: 0 },
+			},
+			{
+				path: '/mykitchen/foods',
+				name: 'foods',
+				component: () => import('@/views/food/index.vue'),
+				meta: { admin: 0 },
+			},
+		],
 	},
 ];
 const routes: Array<RouteRecordRaw> = [

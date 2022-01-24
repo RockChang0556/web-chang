@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-20 18:01:56
- * @LastEditTime: 2022-01-24 11:23:58
+ * @LastEditTime: 2022-01-24 17:13:58
  * @Description: 头像组件
 -->
 
@@ -46,7 +46,12 @@ const avatarUrl = computed(
 
 <style lang="less">
 .com-avatar {
+	width: 36px;
 	display: flex;
 	border-radius: 50%;
+	.n-avatar {
+		width: 100%;
+		height: 100%;
+	}
 }
 </style>
