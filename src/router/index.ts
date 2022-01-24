@@ -1,16 +1,16 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-05 11:34:59
- * @LastEditTime: 2022-01-22 20:41:59
+ * @LastEditTime: 2022-01-24 11:32:35
  * @Description: 路由
  */
 import { createRouter, createWebHistory } from 'vue-router';
-import { loginUrl } from '@/config/constants';
+import { loginUrl, BASE_URL } from '@/constants';
 import routes from './routes';
 import { useUserStore } from '@/store';
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.VITE_BASE_URL),
+	history: createWebHistory(BASE_URL),
 	routes,
 });
 

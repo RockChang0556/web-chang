@@ -11,7 +11,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="HomeWrap">
 import { computed } from 'vue';
 import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
 import { useUserStore } from '@/store';

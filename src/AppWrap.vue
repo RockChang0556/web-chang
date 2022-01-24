@@ -6,7 +6,7 @@
 	</n-config-provider>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="AppWrap">
 import { computed } from 'vue';
 import App from './App.vue';
 import {
@@ -30,11 +30,6 @@ const theme = computed(() => {
 		return userStore.theme === 'dark' ? darkTheme : null;
 	}
 });
-</script>
-<script lang="ts">
-export default {
-	name: 'app-wrap',
-};
 </script>
 
 <style></style>

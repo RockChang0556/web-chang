@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-22 14:09:13
+ * @LastEditTime: 2022-01-24 10:57:07
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -91,7 +91,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="WishBaseForm">
 import { ref, PropType, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-04 11:27:13
- * @LastEditTime: 2022-01-13 14:46:43
+ * @LastEditTime: 2022-01-24 11:26:36
  * @Description: 图片上传 - 暂时是 url 输入,推荐第三方图床
 -->
 
@@ -64,8 +64,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
-import { imgDefaultUrl } from '@/config/constants';
-import { NModal, NFormItem, FormValidationError } from 'naive-ui';
+import { imgDefaultUrl } from '@/constants';
+import { NModal, NFormItem, FormValidationError, FormItemRule } from 'naive-ui';
 import debounce from 'lodash/debounce';
 export default defineComponent({
 	name: 'upload-img',
@@ -74,14 +74,15 @@ export default defineComponent({
 	setup(prop, context) {
 		const showModal = ref(false);
 		const formRef = ref();
-		const rule = {
+		const rule: FormItemRule = {
 			validator() {
 				return new Promise((resolve, reject) => {
 					setTimeout(() => {
 						if (previewImg.err || !picUrl.value) {
 							reject(Error('请输入合法的图片路径'));
 						}
-						resolve(true);
+						return true;
+						// resolve(true);
 					}, 600);
 				});
 			},
@@ -111,7 +112,7 @@ export default defineComponent({
 
 		// 校验图片url输入框
 		const validate = async () => {
-			return new Promise(resolve => {
+			return new Promise((resolve) => {
 				formRef.value.validate('', (errors?: Array<FormValidationError>) => {
 					resolve(errors);
 				});
@@ -166,4 +167,3 @@ export default defineComponent({
 	}
 }
 </style>
-

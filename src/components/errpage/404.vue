@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { img404Url } from '@/config/constants';
+import { img404Url } from '@/constants';
 export default defineComponent({
 	name: 'errpage-404',
 	components: {},
@@ -34,4 +34,3 @@ export default defineComponent({
 	padding: 50px 0;
 }
 </style>
-

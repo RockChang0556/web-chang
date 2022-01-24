@@ -1,12 +1,18 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import { resolve } from 'path';
+const env = loadEnv('production', './');
 
-const env = loadEnv('development', './');
 // https://vitejs.dev/config/
 export default defineConfig({
 	base: `${env.VITE_BASE_URL}/`,
-	plugins: [vue()],
+	plugins: [
+		vue({
+			refTransform: true, // 开启ref转换 https://juejin.cn/post/7054317318343491615#heading-10
+		}),
+		VueSetupExtend(), // script标签支持name, <script lang="ts" setup name="OrderList">
+	],
 	resolve: {
 		alias: {
 			'@': resolve(__dirname, 'src'),

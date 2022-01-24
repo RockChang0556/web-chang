@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-22 14:26:03
+ * @LastEditTime: 2022-01-24 10:58:28
  * @Description: 心愿单详情
 -->
 
@@ -74,7 +74,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="WishDetail">
 import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import {

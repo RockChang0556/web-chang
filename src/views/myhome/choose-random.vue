@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-22 20:55:07
+ * @LastEditTime: 2022-01-24 11:12:14
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -55,8 +55,8 @@
 	</n-drawer-content>
 </template>
 
-<script lang="ts" setup>
-import { computed, reactive, ref, watch } from 'vue';
+<script lang="ts" setup name="HomeChooseRandom">
+import { reactive, ref, watch } from 'vue';
 import { useUserStore } from '@/store';
 import {
 	NDrawerContent,
@@ -68,7 +68,7 @@ import {
 } from 'naive-ui';
 import { pagesProp } from '@/types/types';
 import { WishApi } from '@/services';
-import { loginUrl } from '@/config/constants';
+import { loginUrl } from '@/constants';
 
 interface wishDataProp {
 	loading: boolean;

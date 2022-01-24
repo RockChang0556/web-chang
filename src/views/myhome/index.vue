@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-22 14:25:11
+ * @LastEditTime: 2022-01-24 11:12:09
  * @Description: 首页
 -->
 <template>
@@ -67,7 +67,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Home">
 import { reactive, ref } from 'vue';
 import { NDrawer, NTag, NModal, NCard } from 'naive-ui';
 import { randomNum } from '@/utils/util';

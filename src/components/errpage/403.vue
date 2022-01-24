@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { img403Url } from '@/config/constants';
+import { img403Url } from '@/constants';
 
 export default defineComponent({
 	name: 'errpage-403',
@@ -30,4 +30,3 @@ export default defineComponent({
 </script>
 
 <style lang="less"></style>
-

@@ -6,7 +6,7 @@
 	</router-view>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="App">
 import { ref } from 'vue';
 import { getLocStorage } from '@/utils/token';
 import { useMessage } from 'naive-ui';

@@ -3,8 +3,9 @@
  */
 import axios from 'axios';
 import { useUserStore } from '@/store';
-import Config from '@/config';
-import ErrorCode from '@/config/error-code';
+import { BASE_API } from '@/constants';
+import Config from '@/constants/config';
+import ErrorCode from '@/constants/error-code';
 import { getLocStorage, saveTokens } from '@/utils/token';
 export interface CustomData<T> {
 	code: number;
@@ -14,7 +15,7 @@ export interface CustomData<T> {
 	[keys: string]: any;
 }
 const config = {
-	baseURL: Config.baseURL || '',
+	baseURL: BASE_API || '',
 	timeout: 5 * 1000, // 请求超时时间设置
 	crossDomain: true,
 	// withCredentials: true, // Check cross-site Access-Control

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-22 13:56:13
+ * @LastEditTime: 2022-01-24 10:55:25
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -76,7 +76,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="WishIndex">
 import { reactive } from 'vue';
 import debounce from 'lodash/debounce';
 import {

@@ -42,7 +42,7 @@ import router from '@/router';
 import { NDropdown } from 'naive-ui';
 import { useUserStore } from '@/store';
 import { UserProps, themeProp } from '@/types/types';
-import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/config/constants';
+import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/constants';
 import Avatar from '@/components/avatar.vue';
 import RIcon from '@/components/global/icon/index.vue';
 const userStore = useUserStore();

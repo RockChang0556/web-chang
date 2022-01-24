@@ -1,9 +1,14 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-14 10:58:55
- * @LastEditTime: 2022-01-13 18:57:00
+ * @LastEditTime: 2022-01-24 11:36:33
  * @Description: 常量
  */
+
+// 环境变量
+// API接口 baseUR, 在根目录.env文件查找对应环境变量配置
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
+export const BASE_API = import.meta.env.VITE_BASE_API;
 
 // 登陆url,登陆后重定向到原始页面
 export const loginUrl = `/login?redirect_uri=${location.href}`;

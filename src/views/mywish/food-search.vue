@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-22 14:01:59
+ * @LastEditTime: 2022-01-24 11:15:09
  * @Description: jd查找菜品
 -->
 <template>
@@ -66,12 +66,12 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="WishFoodSearch">
 import { reactive, ref } from 'vue';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
 import { NPopover, NDivider } from 'naive-ui';
-import { imgFoodUrl } from '@/config/constants';
+import { imgFoodUrl } from '@/constants';
 import { FoodApi } from '@/services';
 
 interface searchResultProp {
