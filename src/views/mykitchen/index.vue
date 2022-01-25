@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-21 16:10:35
- * @LastEditTime: 2022-01-24 17:13:23
+ * @LastEditTime: 2022-01-24 17:37:47
  * @Description: 我的厨房
 -->
 <template>
@@ -24,12 +24,15 @@
 
 <script lang="ts" setup name="KitchenIndex">
 // import { ref } from 'vue';
-import Avatar from '@/components/avatar.vue';
 import { NTabs, NTab } from 'naive-ui';
 import { useUserStore } from '@/store';
 import router from '@/router';
+import Avatar from '@/components/avatar.vue';
 
+// 用户信息
 const { userInfo } = useUserStore();
+
+// 切换tab
 const onChangeTab = (value: string) => {
 	router.push({ name: value });
 };

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-24 11:00:01
+ * @LastEditTime: 2022-01-25 22:02:10
  * @Description: 菜品卡片
 -->
 <template>
@@ -14,11 +14,19 @@
 						:fallback-src="imgFoodUrl"
 					></n-image>
 				</template>
-				<template #header>{{ item.name }}</template>
+				<template #header>
+					<router-link
+						:to="{ name: 'food-detail', params: { foodid: item.id } }"
+					>
+						<n-button text>{{ item.name }}</n-button>
+					</router-link>
+				</template>
 				<template #header-extra>
-					<n-button text type="error" @click="onDelete(item.id)">
-						从心愿单删除
-					</n-button>
+					<slot name="handle">
+						<n-button text type="error" @click="onDelete(item.id)">
+							删除
+						</n-button>
+					</slot>
 				</template>
 				<template #description>
 					<template v-if="item.tag?.length" v-for="(tag, i) in item.tag">
@@ -56,6 +64,12 @@ const onDelete = (id: string) => {
 .wish-food-list-item {
 	.n-list-item {
 		padding: 8px;
+	}
+	.n-thing-header__title {
+		.n-button {
+			font-size: 16px;
+			font-weight: 600;
+		}
 	}
 	.n-thing-avatar {
 		background: #f2f2f2;

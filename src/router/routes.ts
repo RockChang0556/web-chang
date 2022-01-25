@@ -34,6 +34,21 @@ const wishRoute: Array<RouteRecordRaw> = [
 		meta: { admin: 0 },
 	},
 ];
+const foodRoute: Array<RouteRecordRaw> = [
+	{
+		path: '/food/:foodid',
+		name: 'food-detail',
+		props: true,
+		component: () => import('@/views/food/food-detail.vue'),
+	},
+	// {
+	// 	path: '/food/:foodid/edit',
+	// 	name: 'food-edit',
+	// 	props: true,
+	// 	component: () => import('@/views/food/food-edit.vue'),
+	// 	meta: { admin: 0 },
+	// },
+];
 const kitchenRoute: Array<RouteRecordRaw> = [
 	{
 		path: '/mykitchen',
@@ -77,6 +92,7 @@ const routes: Array<RouteRecordRaw> = [
 			},
 			...kitchenRoute,
 			...wishRoute,
+			...foodRoute,
 			...errRoute,
 		],
 	},
