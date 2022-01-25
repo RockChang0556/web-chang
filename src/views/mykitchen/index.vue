@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-21 16:10:35
- * @LastEditTime: 2022-01-24 17:37:47
+ * @LastEditTime: 2022-01-25 22:32:49
  * @Description: 我的厨房
 -->
 <template>
@@ -12,7 +12,12 @@
 				<div class="profile-name">{{ userInfo.name }}</div>
 			</div>
 			<!-- <img :src="bgImg" alt="" class="profile-cover" /> -->
-			<n-tabs type="line" class="profile-menu" @update:value="onChangeTab">
+			<n-tabs
+				type="line"
+				class="profile-menu"
+				:default-value="(route.name as string)"
+				@update:value="onChangeTab"
+			>
 				<n-tab name="mywish">心愿单</n-tab>
 				<n-tab name="foods">菜品</n-tab>
 				<n-tab name="likes">我赞过的</n-tab>
@@ -25,10 +30,12 @@
 <script lang="ts" setup name="KitchenIndex">
 // import { ref } from 'vue';
 import { NTabs, NTab } from 'naive-ui';
+import { useRoute } from 'vue-router';
 import { useUserStore } from '@/store';
 import router from '@/router';
 import Avatar from '@/components/avatar.vue';
 
+const route = useRoute();
 // 用户信息
 const { userInfo } = useUserStore();
 
@@ -84,7 +91,6 @@ const onChangeTab = (value: string) => {
 			bottom: 0;
 			padding-left: 200px;
 			width: 100%;
-			display: flex;
 			background: #fff;
 			border-radius: 0 0 4px 4px;
 		}

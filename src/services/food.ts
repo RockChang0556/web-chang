@@ -1,25 +1,32 @@
 /*
  * @Author: Rock Chang
  * @Date: 2021-08-09 23:06:34
- * @LastEditTime: 2022-01-25 18:46:07
+ * @LastEditTime: 2022-01-25 22:59:07
  * @Description: 菜品相关接口
  */
-import _axios, { get, post, put } from '@/utils/axios';
-import { objProp } from '@/types/types';
+import _axios, { get, post, put, _delete } from '@/utils/axios';
+import { objProp, pqoParamsProp } from '@/types/types';
 
 export default class Food {
 	/**
 	 * 添加菜品
 	 */
-	static async addFood(params: { [key: string]: any }) {
-		const { data } = await post('/chang/food/add', params);
+	static async addFood(datas: objProp) {
+		const { data } = await post('/chang/food/add', datas);
+		return data;
+	}
+	/**
+	 * 删除菜品
+	 */
+	static async deleteFood(path: objProp) {
+		const { data } = await _delete(`/chang/food/${path.foodid}`);
 		return data;
 	}
 	/**
 	 * 获取登陆用户创建的菜品
 	 */
-	static async getMyFoods(params: { [key: string]: any }) {
-		const { data } = await post('/chang/food/list', params);
+	static async getMyFoods(datas: pqoParamsProp = {}) {
+		const { data } = await post('/chang/food/list', datas);
 		return data;
 	}
 	/**
@@ -48,6 +55,13 @@ export default class Food {
 	 */
 	static async getFoodLikes(path: objProp) {
 		const { data } = await get(`/chang/food/${path.foodid}/likes`);
+		return data;
+	}
+	/**
+	 * 获取登陆用户点赞的菜品
+	 */
+	static async getLikeFoods(datas: pqoParamsProp = {}) {
+		const { data } = await post('/chang/food/likelist', datas);
 		return data;
 	}
 }
