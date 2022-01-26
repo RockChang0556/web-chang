@@ -32,7 +32,7 @@ const currentUser = computed(() => userStore.userInfo);
 	}
 	.n-layout-content {
 		top: 71px;
-		background-color: #f2f2f2;
+		background-color: var(--tag-color);
 	}
 }
 </style>

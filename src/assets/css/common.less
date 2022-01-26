@@ -46,3 +46,21 @@
 .n-empty {
 	padding: 40px 0;
 }
+
+/** 动画进行时的class **/
+.likezoom-enter-active,
+.likezoom-leave-active {
+	transition: all 0.15s cubic-bezier(0.42, 0, 0.34, 1.55);
+}
+
+/** 设置进场开始的状态和离场结束的状态，都是缩放到0 **/
+.likezoom-enter,
+.likezoom-leave-to {
+	transform: scale(0);
+}
+
+/** 设置进场结束的状态和离场开始的状态, 都是缩放到1 **/
+.likezoom-enter-to,
+.likezoom-leave {
+	transform: scale(1);
+}

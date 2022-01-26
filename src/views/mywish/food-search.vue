@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-01-24 11:15:09
+ * @LastEditTime: 2022-01-26 21:51:36
  * @Description: jd查找菜品
 -->
 <template>
@@ -172,7 +172,7 @@ function useSearch() {
 		cursor: pointer;
 		transition: 0.3s;
 		&:hover {
-			background: rgb(243, 243, 245);
+			background: var(--table-color-hover);
 			.r-icon {
 				opacity: 1;
 			}

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-24 11:12:14
+ * @LastEditTime: 2022-01-26 21:32:41
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -187,7 +187,7 @@ function useRandOpt(selectedWish: any) {
 		transition: 0.3s;
 		display: flex;
 		&:hover {
-			background: #ccc;
+			background: var(--hover-color);
 		}
 		.item-content {
 			padding-left: 10px;
@@ -198,15 +198,15 @@ function useRandOpt(selectedWish: any) {
 				justify-content: space-between;
 				> a {
 					max-width: calc(100% - 60px);
-					color: #666;
+					color: var(--text-color-3);
 					&:hover {
-						color: #18a058;
+						color: var(--primary-color);
 					}
 				}
 				> span {
 					flex-shrink: 0;
 					font-size: 12px;
-					color: #999;
+					color: var(--text-color-3);
 				}
 			}
 		}

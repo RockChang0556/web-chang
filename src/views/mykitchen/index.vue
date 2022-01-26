@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-21 16:10:35
- * @LastEditTime: 2022-01-26 14:07:33
+ * @LastEditTime: 2022-01-26 22:14:50
  * @Description: 我的厨房
 -->
 <template>
@@ -58,8 +58,7 @@ const onChangeTab = (value: string) => {
 		min-height: 200px;
 		max-height: 300px;
 		z-index: 1;
-		box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.08),
-			0 3px 6px 0 rgba(0, 0, 0, 0.06), 0 5px 12px 4px rgba(0, 0, 0, 0.04);
+		box-shadow: var(--box-shadow-1);
 		border-radius: 6px;
 		&-cover {
 			position: absolute;
@@ -92,7 +91,7 @@ const onChangeTab = (value: string) => {
 			bottom: 0;
 			padding-left: 200px;
 			width: 100%;
-			background: #fff;
+			background: var(--base-color);
 			border-radius: 0 0 4px 4px;
 		}
 
@@ -110,7 +109,7 @@ const onChangeTab = (value: string) => {
 				height: 150px;
 				border-radius: 50%;
 				object-fit: cover;
-				border: 2px solid #151728;
+				border: 2px solid var(--text-color-2);
 			}
 
 			.profile-name {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-24 11:12:09
+ * @LastEditTime: 2022-01-26 22:16:29
  * @Description: 首页
 -->
 <template>
@@ -173,7 +173,7 @@ function useRandomAll() {
 			font-size: 30px;
 			bottom: 95px;
 			span {
-				color: #18a058;
+				color: var(--primary-color);
 			}
 		}
 	}
@@ -188,7 +188,7 @@ function useRandomAll() {
 			> span {
 				margin: 0 3px;
 			}
-			> .r-icon {
+			.r-icon {
 				cursor: pointer;
 				font-size: 20px;
 			}

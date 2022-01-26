@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-01-26 15:43:21
+ * @LastEditTime: 2022-01-26 22:05:47
  * @Description: 菜品
 -->
 <template>
@@ -9,13 +9,16 @@
 		<div class="handle-btns">
 			<n-badge class="btn like-btn" :value="likeData.like_nums" color="grey">
 				<n-button
-					:tertiary="!likeData.islike"
-					:secondary="likeData.islike"
-					type="success"
+					secondary
+					:class="{ islike: likeData.islike }"
+					:type="likeData.islike ? 'success' : 'tertiary'"
 					circle
 					@click="onChangeLike"
 				>
-					<r-icon name="line_zan"></r-icon>
+					<transition :name="likeData.islike ? 'likezoom' : ''" mode="out-in">
+						<r-icon v-if="likeData.islike" name="dianzan"></r-icon>
+						<r-icon v-else name="line_zan"></r-icon>
+					</transition>
 				</n-button>
 			</n-badge>
 		</div>
@@ -170,7 +173,7 @@ function useFoodLikes() {
 	margin: 20px auto;
 	padding: 20px;
 	position: relative;
-	background-color: #fff;
+	background-color: var(--base-color);
 	.handle-btns {
 		position: absolute;
 		left: -80px;
@@ -183,6 +186,9 @@ function useFoodLikes() {
 			.n-button {
 				width: 50px;
 				height: 50px;
+				// &.islike .r-icon {
+				// 	color: var(--primary-color);
+				// }
 				& .r-icon {
 					font-size: 18px;
 				}
@@ -201,7 +207,7 @@ function useFoodLikes() {
 			.creator-info {
 				margin-left: 10px;
 				.name {
-					color: #515767;
+					color: var(--text-color-2);
 				}
 				.time {
 					color: #8a919f;

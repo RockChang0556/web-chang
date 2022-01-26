@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-26 19:55:18
+ * @LastEditTime: 2022-01-26 22:09:16
  * @Description: 菜品卡片
 -->
 <template>
@@ -30,12 +30,15 @@
 					<div v-html="item.content"></div>
 				</n-ellipsis>
 				<template #footer>
-					<span class="like" @click="onChangeLike(item)">
-						<transition :name="item.islike ? 'zoom' : ''" mode="out-in">
+					<span
+						class="like"
+						:class="{ islike: item.islike }"
+						@click="onChangeLike(item)"
+					>
+						<transition :name="item.islike ? 'likezoom' : ''" mode="out-in">
 							<r-icon v-if="item.islike" name="dianzan"></r-icon>
 							<r-icon v-else name="line_zan"></r-icon>
 						</transition>
-						<!-- <r-icon :name="item.islike ? 'dianzan' : 'line_zan'"></r-icon> -->
 						<n-badge v-if="item.favs" :value="item.favs" :max="15" />
 						<span v-else>点赞</span>
 					</span>
@@ -80,7 +83,7 @@ const onChangeLike = async (item: any) => {
 		}
 	}
 	.n-thing-avatar {
-		background: #f2f2f2;
+		background: var(--button-color-2);
 		width: 120px;
 		height: 120px;
 		line-height: 120px;
@@ -112,8 +115,8 @@ const onChangeLike = async (item: any) => {
 			.r-icon {
 				font-size: 20px;
 				padding: 3px;
-				color: #f00;
 				margin-right: 5px;
+				transition: 0.3s;
 			}
 			> span,
 			> button {
@@ -123,18 +126,23 @@ const onChangeLike = async (item: any) => {
 				width: 60px;
 				cursor: pointer;
 				&:hover {
-					color: #f00;
 					.n-badge-sup,
+					span,
 					.r-icon {
-						color: #f00;
+						color: var(--primary-color);
 					}
 				}
 				> span {
 					margin-top: 2px;
 					font-size: 12px;
+					transition: 0.3s;
 				}
 			}
 			.like {
+				&.islike,
+				& .n-badge-sup {
+					color: var(--primary-color);
+				}
 				.n-badge-sup {
 					padding: 0;
 					.n-base-slot-machine {
@@ -142,25 +150,16 @@ const onChangeLike = async (item: any) => {
 						line-height: 20px;
 					}
 					background: transparent;
-					color: rgb(31, 34, 37);
 				}
 			}
-			/** 动画进行时的class **/
-			.zoom-enter-active,
-			.zoom-leave-active {
-				transition: all 0.15s cubic-bezier(0.42, 0, 0.34, 1.55);
-			}
-
-			/** 设置进场开始的状态和离场结束的状态，都是缩放到0 **/
-			.zoom-enter,
-			.zoom-leave-to {
-				transform: scale(0);
-			}
-
-			/** 设置进场结束的状态和离场开始的状态, 都是缩放到1 **/
-			.zoom-enter-to,
-			.zoom-leave {
-				transform: scale(1);
+			.delete {
+				&:hover {
+					.n-badge-sup,
+					span,
+					.r-icon {
+						color: var(--error-color);
+					}
+				}
 			}
 		}
 	}

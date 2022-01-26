@@ -49,5 +49,9 @@ created();
 </script>
 
 <style lang="less">
+@import url('@/assets/css/naive.less');
 @import url('@/assets/css/common.less');
+html {
+	color: var(--n-text-color);
+}
 </style>

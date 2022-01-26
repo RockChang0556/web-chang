@@ -1,7 +1,9 @@
 <template>
 	<n-config-provider :theme="theme" :locale="zhCN" :date-locale="dateZhCN">
 		<n-message-provider>
-			<App />
+			<n-el tag="div">
+				<App />
+			</n-el>
 		</n-message-provider>
 	</n-config-provider>
 </template>
@@ -12,6 +14,7 @@ import App from './App.vue';
 import {
 	NMessageProvider,
 	NConfigProvider,
+	NEl,
 	zhCN,
 	dateZhCN,
 	darkTheme,

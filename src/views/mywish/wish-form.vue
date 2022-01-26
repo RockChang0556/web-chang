@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-24 10:57:07
+ * @LastEditTime: 2022-01-26 20:50:04
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -221,7 +221,7 @@ function useUpdateWish() {
 
 <style lang="less">
 .wish-form {
-	background: #f5f6f5;
+	background: var(--progress-rail-color);
 	padding: 20px;
 	.n-form {
 		.name {

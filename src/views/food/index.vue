@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-01-26 18:53:50
+ * @LastEditTime: 2022-01-26 22:10:52
  * @Description: 菜品
 -->
 <template>
@@ -10,7 +10,7 @@
 			<n-list class="food-list" v-if="foodList.data?.length">
 				<FoodListItem v-for="v in foodList.data" :item="v" :key="v.id">
 					<template #handle>
-						<span class="delete">
+						<span class="edit">
 							<r-icon name="bianji"></r-icon>
 							<span>编辑</span>
 						</span>

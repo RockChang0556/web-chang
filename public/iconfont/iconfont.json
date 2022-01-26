@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12195834",
+      "name": "moon 1",
+      "font_class": "moon",
+      "unicode": "ece9",
+      "unicode_decimal": 60649
+    },
+    {
       "icon_id": "5121485",
       "name": "点赞1",
       "font_class": "dianzan",
@@ -158,13 +165,6 @@
       "font_class": "sun",
       "unicode": "e603",
       "unicode_decimal": 58883
-    },
-    {
-      "icon_id": "12195402",
-      "name": "moon_2",
-      "font_class": "moon_",
-      "unicode": "ecb5",
-      "unicode_decimal": 60597
     }
   ]
 }

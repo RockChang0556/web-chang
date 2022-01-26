@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-22 20:53:29
+ * @LastEditTime: 2022-01-26 21:10:28
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -73,7 +73,7 @@ function renderIcon(icon: string) {
 function useThemeOption() {
 	const iconConfig = {
 		auto: 'rxa-circle-auto-lined',
-		dark: 'moon_',
+		dark: 'moon',
 		light: 'sun',
 	};
 	const changeTheme = (theme: themeProp) => {
