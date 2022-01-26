@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-24 10:58:28
+ * @LastEditTime: 2022-01-26 19:48:49
  * @Description: 心愿单详情
 -->
 
@@ -61,12 +61,19 @@
 					</n-collapse-transition>
 				</div>
 				<n-list class="food-list" v-if="wishFoods.data.length">
-					<FoodListItem
-						v-for="v in wishFoods.data"
-						:key="v.id"
-						:item="v"
-						@delete="onDeleteWishFood"
-					></FoodListItem>
+					<FoodListItem v-for="v in wishFoods.data" :key="v.id" :item="v">
+						<template #handle>
+							<n-popconfirm @positive-click="onDeleteWishFood(v.id)">
+								<template #trigger>
+									<span class="delete">
+										<r-icon name="line_shanchu"></r-icon>
+										<span>删除</span>
+									</span>
+								</template>
+								确定要从心愿单删除此菜品吗
+							</n-popconfirm>
+						</template>
+					</FoodListItem>
 				</n-list>
 				<n-empty v-else description="此心愿单下暂无菜品, 快去添加吧"> </n-empty>
 			</div>
@@ -84,6 +91,7 @@ import {
 	NSpace,
 	NSkeleton,
 	NCollapseTransition,
+	NPopconfirm,
 } from 'naive-ui';
 
 import { WishApi } from '@/services';

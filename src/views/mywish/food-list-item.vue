@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-25 22:02:10
+ * @LastEditTime: 2022-01-26 19:55:18
  * @Description: 菜品卡片
 -->
 <template>
@@ -21,21 +21,26 @@
 						<n-button text>{{ item.name }}</n-button>
 					</router-link>
 				</template>
-				<template #header-extra>
-					<slot name="handle">
-						<n-button text type="error" @click="onDelete(item.id)">
-							删除
-						</n-button>
-					</slot>
-				</template>
 				<template #description>
 					<template v-if="item.tag?.length" v-for="(tag, i) in item.tag">
 						<n-tag type="success" v-if="i < 6"> {{ tag }} </n-tag>
 					</template>
 				</template>
-				<n-ellipsis :line-clamp="2" :tooltip="false">
+				<n-ellipsis :line-clamp="1" :tooltip="false">
 					<div v-html="item.content"></div>
 				</n-ellipsis>
+				<template #footer>
+					<span class="like" @click="onChangeLike(item)">
+						<transition :name="item.islike ? 'zoom' : ''" mode="out-in">
+							<r-icon v-if="item.islike" name="dianzan"></r-icon>
+							<r-icon v-else name="line_zan"></r-icon>
+						</transition>
+						<!-- <r-icon :name="item.islike ? 'dianzan' : 'line_zan'"></r-icon> -->
+						<n-badge v-if="item.favs" :value="item.favs" :max="15" />
+						<span v-else>点赞</span>
+					</span>
+					<slot name="handle"></slot>
+				</template>
 			</n-thing>
 		</n-list-item>
 	</div>
@@ -43,20 +48,23 @@
 
 <script lang="ts" setup name="WishFoodListItem">
 import { PropType } from 'vue';
-import { NListItem, NTag, NThing, NEllipsis } from 'naive-ui';
+import { NListItem, NTag, NThing, NEllipsis, NBadge } from 'naive-ui';
 import { imgFoodUrl, imgFood404Url } from '@/constants';
+import { FoodApi } from '@/services';
 defineProps({
 	item: {
 		type: Object as PropType<any>,
 		require: true,
 	},
 });
-const emits = defineEmits<{
-	(e: 'delete', value: string): void;
-}>();
 
-const onDelete = (id: string) => {
-	emits('delete', id);
+const onChangeLike = async (item: any) => {
+	await FoodApi.updateFoodLikes(
+		{ foodid: item.id },
+		{ type: item.islike ? 'dislike' : 'like' }
+	);
+	item.favs += item.islike ? -1 : 1;
+	item.islike = !item.islike;
 };
 </script>
 
@@ -92,6 +100,67 @@ const onDelete = (id: string) => {
 		.n-thing-main__description {
 			.n-tag {
 				margin: 0 10px 0 0;
+			}
+		}
+		.n-thing-main__content {
+			margin-top: 6px !important;
+		}
+		.n-thing-main__footer {
+			margin-top: 0 !important;
+			display: flex;
+			align-items: center;
+			.r-icon {
+				font-size: 20px;
+				padding: 3px;
+				color: #f00;
+				margin-right: 5px;
+			}
+			> span,
+			> button {
+				display: flex;
+				align-items: center;
+				margin-right: 20px;
+				width: 60px;
+				cursor: pointer;
+				&:hover {
+					color: #f00;
+					.n-badge-sup,
+					.r-icon {
+						color: #f00;
+					}
+				}
+				> span {
+					margin-top: 2px;
+					font-size: 12px;
+				}
+			}
+			.like {
+				.n-badge-sup {
+					padding: 0;
+					.n-base-slot-machine {
+						height: 20px;
+						line-height: 20px;
+					}
+					background: transparent;
+					color: rgb(31, 34, 37);
+				}
+			}
+			/** 动画进行时的class **/
+			.zoom-enter-active,
+			.zoom-leave-active {
+				transition: all 0.15s cubic-bezier(0.42, 0, 0.34, 1.55);
+			}
+
+			/** 设置进场开始的状态和离场结束的状态，都是缩放到0 **/
+			.zoom-enter,
+			.zoom-leave-to {
+				transform: scale(0);
+			}
+
+			/** 设置进场结束的状态和离场开始的状态, 都是缩放到1 **/
+			.zoom-enter-to,
+			.zoom-leave {
+				transform: scale(1);
 			}
 		}
 	}

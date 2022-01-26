@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-01-25 23:02:47
+ * @LastEditTime: 2022-01-26 18:53:50
  * @Description: 菜品
 -->
 <template>
@@ -10,9 +10,16 @@
 			<n-list class="food-list" v-if="foodList.data?.length">
 				<FoodListItem v-for="v in foodList.data" :item="v" :key="v.id">
 					<template #handle>
+						<span class="delete">
+							<r-icon name="bianji"></r-icon>
+							<span>编辑</span>
+						</span>
 						<n-popconfirm @positive-click="onDeleteFood(v.id)">
 							<template #trigger>
-								<n-button text type="error"> 删除 </n-button>
+								<span class="delete">
+									<r-icon name="line_shanchu"></r-icon>
+									<span>删除</span>
+								</span>
 							</template>
 							确定要删除此菜品吗
 						</n-popconfirm>

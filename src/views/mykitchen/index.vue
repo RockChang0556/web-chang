@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-21 16:10:35
- * @LastEditTime: 2022-01-25 22:32:49
+ * @LastEditTime: 2022-01-26 14:07:33
  * @Description: 我的厨房
 -->
 <template>
@@ -15,7 +15,7 @@
 			<n-tabs
 				type="line"
 				class="profile-menu"
-				:default-value="(route.name as string)"
+				:value="(routeName as string)"
 				@update:value="onChangeTab"
 			>
 				<n-tab name="mywish">心愿单</n-tab>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup name="KitchenIndex">
-// import { ref } from 'vue';
+import { computed } from 'vue';
 import { NTabs, NTab } from 'naive-ui';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/store';
@@ -39,6 +39,7 @@ const route = useRoute();
 // 用户信息
 const { userInfo } = useUserStore();
 
+const routeName = computed(() => route.name);
 // 切换tab
 const onChangeTab = (value: string) => {
 	router.push({ name: value });

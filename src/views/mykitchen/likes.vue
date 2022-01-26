@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:57:35
- * @LastEditTime: 2022-01-25 22:59:57
+ * @LastEditTime: 2022-01-26 18:49:39
  * @Description: 我喜欢的
 -->
 
@@ -10,14 +10,6 @@
 		<n-spin :show="likeFoods.loading">
 			<n-list class="food-list" v-if="likeFoods.data?.length">
 				<FoodListItem v-for="v in likeFoods.data" :item="v" :key="v.id">
-					<template #handle>
-						<n-popconfirm @positive-click="onDeleteFood(v.id)">
-							<template #trigger>
-								<n-button text type="error"> 删除 </n-button>
-							</template>
-							确定要删除此菜品吗
-						</n-popconfirm>
-					</template>
 				</FoodListItem>
 				<template #footer>
 					<n-pagination
@@ -47,10 +39,6 @@ import { pagesProp } from '@/types/types';
 import FoodListItem from '@/views/mywish/food-list-item.vue';
 
 const { likeFoods, getLikeFoods, pageParams, changePage } = useFoodList();
-const onDeleteFood = async (id: string) => {
-	await FoodApi.deleteFood({ foodid: id });
-	getLikeFoods();
-};
 
 // 获取菜品点赞情况
 const created = () => {

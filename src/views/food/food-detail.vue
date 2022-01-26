@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-01-25 21:53:53
+ * @LastEditTime: 2022-01-26 15:43:21
  * @Description: 菜品
 -->
 <template>
@@ -211,6 +211,9 @@ function useFoodLikes() {
 		.pic {
 			width: 50%;
 			text-align: center;
+			> img {
+				width: 100%;
+			}
 		}
 		.tag {
 			.n-tag {

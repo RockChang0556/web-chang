@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-24 17:14:39
+ * @LastEditTime: 2022-01-26 10:51:31
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -86,8 +86,6 @@ import {
 	NTag,
 	NPagination,
 	NPopconfirm,
-	NBreadcrumb,
-	NBreadcrumbItem,
 } from 'naive-ui';
 import { WishApi } from '@/services';
 import { pagesProp, querysProp } from '@/types/types';
