@@ -1,7 +1,7 @@
 /*
  * @Author: Rock Chang
  * @Date: 2022-01-22 19:54:04
- * @LastEditTime: 2022-01-22 21:06:58
+ * @LastEditTime: 2022-01-28 12:24:02
  * @Description:
  */
 
@@ -15,6 +15,7 @@ interface StateProps {
 	userInfo: UserProps;
 	theme: themeProp;
 }
+
 export const useUserStore = defineStore({
 	id: 'user',
 	state: () => {
@@ -27,21 +28,34 @@ export const useUserStore = defineStore({
 		return state;
 	},
 	actions: {
+		/**
+		 * 设置主题
+		 */
 		setTheme(theme: themeProp) {
 			this.theme = theme;
 			// localStorage.setItem('theme2', theme);
 		},
+		/**
+		 * 设置用户信息
+		 */
 		setUserInfo(userInfo: UserProps) {
 			this.userInfo = userInfo;
 			// localStorage.setItem('userInfo', JSON.stringify(userInfo));
 		},
+
+		/**
+		 * 获取用户信息
+		 */
 		async getUserInfo() {
 			const userInfo = await UserApi.getCurrentUser();
 			if (userInfo && userInfo.code === 0 && userInfo.data.id) {
 				this.setUserInfo({ ...userInfo.data, isFetched: true });
 			}
 		},
-		// 退出登录
+
+		/**
+		 * 退出登录
+		 */
 		logout() {
 			this.setUserInfo({ isFetched: true });
 			removeToken();

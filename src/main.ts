@@ -4,7 +4,9 @@ import router from './router';
 import store from './store';
 import Rui from '@/components/global'; // 自定义全局组件
 
-// 按需全局安装组件
+const app = createApp(AppWrap);
+
+// 按需全局安装naive组件
 import {
 	// create naive ui
 	create,
@@ -19,6 +21,15 @@ import {
 const naive = create({
 	components: [NButton, NInput, NSpin, NTooltip, NEmpty, NImage],
 });
-const app = createApp(AppWrap);
-app.use(Rui).use(naive);
-app.use(router).use(store).mount('#app');
+app.use(naive);
+
+// 自定义全局组件
+app.use(Rui);
+
+// 路由
+app.use(router);
+
+// 状态管理 - pinia
+app.use(store);
+
+app.mount('#app');
