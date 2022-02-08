@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-01-26 21:32:41
+ * @LastEditTime: 2022-02-08 15:39:41
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -116,12 +116,11 @@ const getMyWishs = async () => {
 
 watch(() => props.show, watchShow);
 
-const created = () => {
+onMounted(() => {
 	if (localStorage.getItem('access_token')) {
 		getMyWishs();
 	}
-};
-created();
+});
 
 function watchShow(val: boolean) {
 	if (val) return;
@@ -155,6 +154,10 @@ function useRandOpt(selectedWish: any) {
 		}
 	};
 	return { randVal, randOptions, onChangeRandVal };
+}
+
+function onMounted(arg0: () => void) {
+	throw new Error('Function not implemented.');
 }
 </script>
 

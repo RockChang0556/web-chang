@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-01-26 22:10:52
+ * @LastEditTime: 2022-02-08 15:39:18
  * @Description: 菜品
 -->
 <template>
@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup name="FoodIndex">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { NList, NPagination, NPopconfirm } from 'naive-ui';
 import { FoodApi } from '@/services';
 import { pagesProp } from '@/types/types';
@@ -58,11 +58,9 @@ const onDeleteFood = async (id: string) => {
 	getFoodData();
 };
 
-// 获取菜品点赞情况
-const created = () => {
+onMounted(() => {
 	getFoodData();
-};
-created();
+});
 
 // 菜品详情
 function useFoodList() {

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-01-26 10:51:31
+ * @LastEditTime: 2022-02-08 15:37:35
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts" setup name="WishIndex">
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import debounce from 'lodash/debounce';
 import {
 	NList,
@@ -128,10 +128,9 @@ const onDeleteWish = async (id: string) => {
 	await getMyWishs();
 };
 
-const created = () => {
+onMounted(() => {
 	getMyWishs(true);
-};
-created();
+});
 
 function useGetMyWish() {
 	// 心愿单列表数据

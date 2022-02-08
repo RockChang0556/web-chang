@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-01-26 19:48:49
+ * @LastEditTime: 2022-02-08 15:40:36
  * @Description: 心愿单详情
 -->
 
@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts" setup name="WishDetail">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import {
 	NList,
@@ -136,14 +136,13 @@ const onDeleteWishFood = async (id: string) => {
 	getFoodsData();
 };
 
-const created = () => {
+onMounted(() => {
 	// 编辑状态获取数据
 	if (route.name === 'editwish') {
 		getBaseData();
 		getFoodsData();
 	}
-};
-created();
+});
 
 // 心愿单基本信息
 function useWishBase(wishid?: string) {

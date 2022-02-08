@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup name="App">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { getLocStorage } from '@/utils/token';
 import { useMessage } from 'naive-ui';
 import { useUserStore } from '@/store';
@@ -39,13 +39,12 @@ const initTheme = () => {
 	}
 };
 
-const created = () => {
+onMounted(() => {
 	// 初始化 naive-ui useMessage
 	window.$message = useMessage();
 	getCurrentUser();
 	initTheme();
-};
-created();
+});
 </script>
 
 <style lang="less">

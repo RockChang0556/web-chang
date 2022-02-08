@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-01-26 20:50:04
+ * @LastEditTime: 2022-02-08 15:40:51
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts" setup name="WishBaseForm">
-import { ref, PropType, computed } from 'vue';
+import { ref, PropType, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import {
 	FormValidationError,
@@ -142,12 +142,11 @@ const onCancelEdit = () => {
 	resetForm();
 };
 
-const created = () => {
+onMounted(() => {
 	if (!isEditPage.value) {
 		isEdit.value = true;
 	}
-};
-created();
+});
 
 function useFormInit(models: modelProp | undefined) {
 	const wishRef = ref();

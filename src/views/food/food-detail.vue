@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-01-26 22:05:47
+ * @LastEditTime: 2022-02-08 15:39:06
  * @Description: 菜品
 -->
 <template>
@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts" setup name="FoodDetail">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import {
 	NBadge,
 	NDivider,
@@ -112,12 +112,12 @@ const props = defineProps({
 });
 const { foodDetail, getFoodData } = useFoodData();
 const { likeData, getLikes, onChangeLike } = useFoodLikes();
-// 获取菜品点赞情况
-const created = () => {
+
+onMounted(() => {
 	getFoodData();
+	// 获取菜品点赞情况
 	getLikes();
-};
-created();
+});
 
 // 菜品详情
 function useFoodData() {

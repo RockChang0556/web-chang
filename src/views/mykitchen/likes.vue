@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:57:35
- * @LastEditTime: 2022-01-26 18:49:39
+ * @LastEditTime: 2022-02-08 15:39:54
  * @Description: 我喜欢的
 -->
 
@@ -32,19 +32,17 @@
 </template>
 
 <script lang="ts" setup name="LikeIndex">
-import { reactive } from 'vue';
-import { NList, NPagination, NPopconfirm } from 'naive-ui';
+import { onMounted, reactive } from 'vue';
+import { NList, NPagination } from 'naive-ui';
 import { FoodApi } from '@/services';
 import { pagesProp } from '@/types/types';
 import FoodListItem from '@/views/mywish/food-list-item.vue';
 
 const { likeFoods, getLikeFoods, pageParams, changePage } = useFoodList();
 
-// 获取菜品点赞情况
-const created = () => {
+onMounted(() => {
 	getLikeFoods();
-};
-created();
+});
 
 // 菜品详情
 function useFoodList() {
