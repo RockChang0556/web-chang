@@ -1,35 +1,23 @@
 <template>
-	<router-view v-slot="{ Component }">
-		<transition name="component-fade" mode="out-in">
-			<component :is="Component" />
-		</transition>
+	<router-view>
+		<template #default="{ Component, route }">
+			<AppProvider>
+				<keep-alive v-if="route.meta && route.meta.keepAlive">
+					<component :is="Component" />
+				</keep-alive>
+				<component :is="Component" v-else />
+			</AppProvider>
+		</template>
 	</router-view>
 </template>
 
 <script lang="ts" setup name="App">
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { getLocStorage } from '@/utils/token';
-import { useMessage } from 'naive-ui';
 import { useUserStore } from '@/store';
-const userStore = useUserStore();
+import AppProvider from '@/components/layout/app-provider/index.vue';
 
-const loading = ref(false);
-// 获取用户信息
-const getCurrentUser = async () => {
-	const access_token = getLocStorage('access_token');
-	if (access_token) {
-		try {
-			loading.value = true;
-			await userStore.getUserInfo();
-		} catch (err) {
-			userStore.setUserInfo({ isFetched: true });
-		} finally {
-			loading.value = false;
-		}
-	} else {
-		userStore.setUserInfo({ isFetched: true });
-	}
-};
+const userStore = useUserStore();
 
 // 初始化主题
 const initTheme = () => {
@@ -40,9 +28,6 @@ const initTheme = () => {
 };
 
 onMounted(() => {
-	// 初始化 naive-ui useMessage
-	window.$message = useMessage();
-	getCurrentUser();
 	initTheme();
 });
 </script>
@@ -52,5 +37,11 @@ onMounted(() => {
 @import url('@/assets/css/common.less');
 html {
 	color: var(--n-text-color);
+}
+#app {
+	height: 100%;
+	.n-config-provider {
+		height: inherit;
+	}
 }
 </style>

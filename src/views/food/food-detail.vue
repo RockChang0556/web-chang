@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-02-08 15:39:06
+ * @LastEditTime: 2022-02-24 16:08:11
  * @Description: 菜品
 -->
 <template>
@@ -122,7 +122,7 @@ onMounted(() => {
 // 菜品详情
 function useFoodData() {
 	const foodDetail: { loading: boolean; data: any } = reactive({
-		loading: false,
+		loading: true,
 		data: null,
 	});
 	// 获取菜品详情

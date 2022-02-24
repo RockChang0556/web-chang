@@ -1,8 +1,10 @@
-import type { MessageApi } from 'naive-ui';
+import type { DialogApi, LoadingBarApi, MessageApi } from 'naive-ui';
 
 declare global {
 	interface Window {
 		$message: MessageApi;
+		$loadingBar: LoadingBarApi;
+		$dialog: DialogApi;
 	}
 }
 

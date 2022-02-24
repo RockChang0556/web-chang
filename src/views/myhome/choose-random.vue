@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-02-08 15:39:41
+ * @LastEditTime: 2022-02-24 15:28:28
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts" setup name="HomeChooseRandom">
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, onMounted } from 'vue';
 import { useUserStore } from '@/store';
 import {
 	NDrawerContent,
@@ -154,10 +154,6 @@ function useRandOpt(selectedWish: any) {
 		}
 	};
 	return { randVal, randOptions, onChangeRandVal };
-}
-
-function onMounted(arg0: () => void) {
-	throw new Error('Function not implemented.');
 }
 </script>
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-02-08 15:40:51
+ * @LastEditTime: 2022-02-24 15:58:52
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -36,9 +36,9 @@
 			<!-- 有值或编辑模式下显示标签 -->
 			<n-form-item
 				label="标签"
-				path="tags"
+				path="tag"
 				class="form-item-tags"
-				v-if="model.tags?.length || isEdit"
+				v-if="model.tag?.length || isEdit"
 			>
 				<n-tooltip trigger="hover">
 					<template #trigger>
@@ -50,12 +50,12 @@
 					v-if="isEdit"
 					size="large"
 					type="primary"
-					v-model:value="model.tags"
+					v-model:value="model.tag"
 					:max="5"
 				/>
 				<n-tag
-					v-else-if="model.tags?.length"
-					v-for="(v, i) in model.tags"
+					v-else-if="model.tag?.length"
+					v-for="(v, i) in model.tag"
 					type="primary"
 					:key="i"
 				>
@@ -107,7 +107,7 @@ import router from '@/router';
 interface modelProp {
 	name?: string;
 	summary?: string;
-	tags?: string[];
+	tag?: string[];
 	created_at?: string;
 	updated_at?: string;
 	[x: string]: any;

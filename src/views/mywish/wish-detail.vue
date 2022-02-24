@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-02-08 15:40:36
+ * @LastEditTime: 2022-02-24 15:51:08
  * @Description: 心愿单详情
 -->
 
@@ -138,6 +138,7 @@ const onDeleteWishFood = async (id: string) => {
 
 onMounted(() => {
 	// 编辑状态获取数据
+	console.log('[ route ]-142', route);
 	if (route.name === 'editwish') {
 		getBaseData();
 		getFoodsData();
@@ -148,7 +149,7 @@ onMounted(() => {
 function useWishBase(wishid?: string) {
 	const wishFormRes: { data: wishBaseProp; loading: boolean } = reactive({
 		data: {},
-		loading: false,
+		loading: true,
 	});
 	// 获取 wish 基本数据
 	const getBaseData = async () => {

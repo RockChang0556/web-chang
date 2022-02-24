@@ -81,8 +81,8 @@ const kitchenRoute: Array<RouteRecordRaw> = [
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
-		name: 'home-wrap',
-		component: () => import('@/views/home-wrap.vue'),
+		name: 'app',
+		component: () => import('@/components/layout/app-main.vue'),
 		redirect: { name: 'home' },
 		children: [
 			{
