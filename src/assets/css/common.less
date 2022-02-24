@@ -5,6 +5,7 @@
 	text-emphasis: none;
 	text-decoration: none;
 }
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -13,16 +14,8 @@
 	width: 100%;
 	min-height: 100vh;
 	min-width: 800px;
-	.component-fade-enter-active,
-	.component-fade-leave-active {
-		transition: opacity 0.3s ease;
-	}
-
-	.component-fade-enter-from,
-	.component-fade-leave-to {
-		opacity: 0;
-	}
 }
+
 .icon {
 	width: 1em;
 	height: 1em;
@@ -32,35 +25,57 @@
 }
 
 .clearfix {
-  /* 触发 hasLayout */ 
-  zoom: 1; 
-  &:after{ 
-    content: "020"; 
-    display: block; 
-    height: 0;
-    clear: both; 
-    visibility: hidden;  
-  }
+	/* 触发 hasLayout */
+	zoom: 1;
+
+	&:after {
+		content: "020";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
 }
 
-.n-empty {
-	padding: 40px 0;
-}
-
-/** 动画进行时的class **/
+/** 点赞动画 likezoom **/
 .likezoom-enter-active,
 .likezoom-leave-active {
 	transition: all 0.15s cubic-bezier(0.42, 0, 0.34, 1.55);
 }
 
-/** 设置进场开始的状态和离场结束的状态，都是缩放到0 **/
 .likezoom-enter,
 .likezoom-leave-to {
 	transform: scale(0);
 }
 
-/** 设置进场结束的状态和离场开始的状态, 都是缩放到1 **/
 .likezoom-enter-to,
 .likezoom-leave {
 	transform: scale(1);
+}
+
+/* router view transition fade-slide */
+.fade-slide-leave-active,
+.fade-slide-enter-active {
+	transition: all 0.3s;
+}
+
+.fade-slide-enter-from {
+	opacity: 0;
+	transform: translateX(-30px);
+}
+
+.fade-slide-leave-to {
+	opacity: 0;
+	transform: translateX(30px);
+}
+
+/* router view transition component-fade */
+.component-fade-enter-active,
+.component-fade-leave-active {
+	transition: opacity 0.3s ease;
+}
+
+.component-fade-enter-from,
+.component-fade-leave-to {
+	opacity: 0;
 }

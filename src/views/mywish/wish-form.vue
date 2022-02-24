@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-02-24 15:58:52
+ * @LastEditTime: 2022-02-24 18:50:16
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts" setup name="WishBaseForm">
-import { ref, PropType, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import {
 	FormValidationError,
@@ -112,15 +112,11 @@ interface modelProp {
 	updated_at?: string;
 	[x: string]: any;
 }
+const props = defineProps<{
+	models: modelProp | null;
+	wishid?: string;
+}>();
 
-const props = defineProps({
-	models: {
-		type: Object as PropType<modelProp>,
-	},
-	wishid: {
-		type: String,
-	},
-});
 const emits = defineEmits<{
 	(e: 'change', data: any): void;
 }>();
@@ -128,6 +124,9 @@ const emits = defineEmits<{
 const route = useRoute();
 const isEditPage = computed(() => route.name === 'editwish'); // 是否是编辑页面
 const isEdit = ref(false); // 表单是否编辑状态
+if (!isEditPage.value) {
+	isEdit.value = true;
+}
 
 const { wishRef, model, rules, resetForm, validateForm } = useFormInit(
 	props.models
@@ -142,15 +141,9 @@ const onCancelEdit = () => {
 	resetForm();
 };
 
-onMounted(() => {
-	if (!isEditPage.value) {
-		isEdit.value = true;
-	}
-});
-
-function useFormInit(models: modelProp | undefined) {
+function useFormInit(models: modelProp | null) {
 	const wishRef = ref();
-	const model: modelProp = ref(models);
+	const model: modelProp = ref(models || {});
 
 	const rules = {
 		name: {
@@ -206,13 +199,14 @@ function useUpdateWish() {
 				okBtnLoading.value = false;
 			}
 		};
-		try {
-			await validateForm();
-		} catch (error) {
-			window.$message.error('请检查表单项');
-		}
-		// 发送更新或新增接口
-		await send();
+		validateForm()
+			.then(() => {
+				// 发送更新或新增心愿单接口
+				send();
+			})
+			.catch(() => {
+				window.$message.error('请检查表单项');
+			});
 	};
 	return { okBtnLoading, onUpdateWish };
 }

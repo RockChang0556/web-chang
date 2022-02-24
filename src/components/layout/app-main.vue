@@ -8,9 +8,9 @@
 				<n-layout-content position="absolute">
 					<router-view>
 						<template #default="{ Component, route }">
-							<!-- fade-slide -->
+							<!-- fade-slide :key="route.fullPath" -->
 							<transition name="component-fade" mode="out-in" appear>
-								<component :is="Component" :key="route.fullPath"></component>
+								<component :is="Component"></component>
 							</transition>
 						</template>
 					</router-view>
