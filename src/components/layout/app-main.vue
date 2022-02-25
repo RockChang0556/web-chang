@@ -1,7 +1,6 @@
 <template>
 	<n-spin :show="user.loading">
 		<div class="home">
-			{{ currentUser.isFetched }}
 			<n-layout v-if="currentUser.isFetched" position="absolute">
 				<n-layout-header bordered>
 					<GlobalHeader :user="currentUser"></GlobalHeader>
@@ -22,7 +21,7 @@
 </template>
 
 <script lang="ts" setup name="HomeWrap">
-import { computed, onMounted, reactive } from 'vue';
+import { computed, reactive } from 'vue';
 
 import { useUserStore } from '@/store';
 import GlobalHeader from '@/components/layout/header.vue';
@@ -33,9 +32,7 @@ const userStore = useUserStore();
 const currentUser = computed(() => userStore.userInfo);
 const { user, getCurrentUser } = useUser();
 
-onMounted(async () => {
-	getCurrentUser();
-});
+getCurrentUser();
 
 function useUser() {
 	const user = reactive({
@@ -48,8 +45,9 @@ function useUser() {
 			try {
 				user.loading = true;
 				await userStore.getUserInfo();
-			} finally {
+			} catch (err) {
 				userStore.setUserInfo({ isFetched: true });
+			} finally {
 				user.loading = false;
 			}
 		} else {
