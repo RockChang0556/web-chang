@@ -1,7 +1,7 @@
 <template>
 	<n-spin :show="user.loading">
 		<div class="home">
-			<n-layout v-if="!user.loading && !user.err" position="absolute">
+			<n-layout v-if="currentUser.isFetched" position="absolute">
 				<n-layout-header bordered>
 					<GlobalHeader :user="currentUser"></GlobalHeader>
 				</n-layout-header>
@@ -40,7 +40,6 @@ onMounted(async () => {
 function useUser() {
 	const user = reactive({
 		loading: false,
-		err: true,
 	});
 	// 获取用户信息
 	const getCurrentUser = async () => {
@@ -49,11 +48,8 @@ function useUser() {
 			try {
 				user.loading = true;
 				await userStore.getUserInfo();
-				user.err = false;
-			} catch (err) {
-				user.err = true;
-				userStore.setUserInfo({ isFetched: true });
 			} finally {
+				userStore.setUserInfo({ isFetched: true });
 				user.loading = false;
 			}
 		} else {

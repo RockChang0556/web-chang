@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-09 18:27:06
- * @LastEditTime: 2022-02-24 15:28:28
+ * @LastEditTime: 2022-02-25 16:57:22
  * @Description: 首页 - 选择随机范围
 -->
 <template>
@@ -58,14 +58,6 @@
 <script lang="ts" setup name="HomeChooseRandom">
 import { reactive, ref, watch, onMounted } from 'vue';
 import { useUserStore } from '@/store';
-import {
-	NDrawerContent,
-	NTag,
-	NCheckboxGroup,
-	NCheckbox,
-	NRadioGroup,
-	NRadioButton,
-} from 'naive-ui';
 import { pagesProp } from '@/types/types';
 import { WishApi } from '@/services';
 import { loginUrl } from '@/constants';

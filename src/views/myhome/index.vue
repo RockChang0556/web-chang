@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:25:28
- * @LastEditTime: 2022-01-28 12:23:02
+ * @LastEditTime: 2022-02-25 16:56:35
  * @Description: 首页
 -->
 <template>
@@ -69,7 +69,6 @@
 
 <script lang="ts" setup name="Home">
 import { reactive, ref } from 'vue';
-import { NDrawer, NTag, NModal, NCard } from 'naive-ui';
 import { randomNum } from '@/utils/util';
 import { FoodApi } from '@/services';
 import ChooseRandom from './choose-random.vue';

@@ -6,22 +6,6 @@ import Rui from '@/components/global'; // 自定义全局组件
 
 const app = createApp(App);
 
-// 按需全局安装naive组件
-import {
-	// create naive ui
-	create,
-	// component
-	NButton,
-	NInput,
-	NSpin,
-	NTooltip,
-	NEmpty,
-	NImage,
-} from 'naive-ui';
-const naive = create({
-	components: [NButton, NInput, NSpin, NTooltip, NEmpty, NImage],
-});
-app.use(naive);
 // 自定义全局组件
 app.use(Rui);
 // 路由

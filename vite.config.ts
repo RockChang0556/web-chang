@@ -1,6 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
+import ViteComponents, { NaiveUiResolver } from 'vite-plugin-components';
+
 import { resolve } from 'path';
 const env = loadEnv('production', './');
 
@@ -12,6 +14,9 @@ export default defineConfig({
 			refTransform: true, // 开启ref转换 https://juejin.cn/post/7054317318343491615#heading-10
 		}),
 		VueSetupExtend(), // script标签支持name, <script lang="ts" setup name="OrderList">
+		ViteComponents({
+			customComponentResolvers: [NaiveUiResolver()],
+		}),
 	],
 	resolve: {
 		alias: {
