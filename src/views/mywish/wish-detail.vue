@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-02-24 18:59:22
+ * @LastEditTime: 2022-02-25 14:56:35
  * @Description: 心愿单详情
 -->
 
@@ -95,7 +95,7 @@ import {
 } from 'naive-ui';
 
 import { WishApi } from '@/services';
-import { objProp } from '@/types/types';
+import { objProp, resProp } from '@/types/types';
 import WishForm from './wish-form.vue';
 import FoodListItem from './food-list-item.vue';
 import FoodSearch from './food-search.vue';
@@ -148,12 +148,10 @@ onMounted(() => {
 
 // 心愿单基本信息
 function useWishBase(wishid?: string) {
-	const wishFormRes: { data: wishBaseProp | null; loading: boolean } = reactive(
-		{
-			data: null,
-			loading: true,
-		}
-	);
+	const wishFormRes: resProp<wishBaseProp | null> = reactive({
+		data: null,
+		loading: true,
+	});
 	// 获取 wish 基本数据
 	const getBaseData = async () => {
 		try {
@@ -168,7 +166,7 @@ function useWishBase(wishid?: string) {
 }
 
 function useWishFoods(wishid?: string) {
-	const wishFoods: { data: any[]; loading: boolean } = reactive({
+	const wishFoods: resProp<any[]> = reactive({
 		data: [],
 		loading: false,
 	});

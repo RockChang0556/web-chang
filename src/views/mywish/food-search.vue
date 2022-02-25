@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-02-16 10:01:16
+ * @LastEditTime: 2022-02-25 14:58:16
  * @Description: jd查找菜品
 -->
 <template>
@@ -80,12 +80,6 @@ interface searchResultProp {
 	showPopover: boolean;
 }
 
-defineProps({
-	// params参数
-	wishid: {
-		type: String,
-	},
-});
 const emits = defineEmits<{
 	(e: 'add', id: string): void;
 }>();

@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-02-20 21:48:01
- * @LastEditTime: 2022-02-20 23:41:47
+ * @LastEditTime: 2022-02-25 09:17:17
  * @Description: 消息组件
  	用法: 
   $message.loading('正在验证...')

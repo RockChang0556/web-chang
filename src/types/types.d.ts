@@ -45,3 +45,11 @@ export interface UserProps {
 	isFetched: boolean;
 }
 export type themeProp = 'light' | 'dark' | 'auto';
+
+export interface resProp<T> {
+	data: T;
+	loading: boolean;
+}
+export interface resTotalProp<T> extends resProp<T> {
+	total: number;
+}
