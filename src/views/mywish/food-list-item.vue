@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-02-25 17:10:45
+ * @LastEditTime: 2022-02-25 17:55:14
  * @Description: 菜品卡片
 -->
 <template>
@@ -9,10 +9,7 @@
 		<n-list-item>
 			<n-thing content-indented>
 				<template #avatar>
-					<n-image
-						:src="item.deleted ? imgFood404Url : item.pic || 'e'"
-						:fallback-src="imgFoodUrl"
-					></n-image>
+					<n-image :src="item.pic || 'e'" :fallback-src="imgFoodUrl"></n-image>
 				</template>
 				<template #header>
 					<router-link
@@ -51,7 +48,7 @@
 
 <script lang="ts" setup name="WishFoodListItem">
 import { PropType } from 'vue';
-import { imgFoodUrl, imgFood404Url } from '@/constants';
+import { imgFoodUrl } from '@/constants';
 import { FoodApi } from '@/services';
 defineProps({
 	item: {
