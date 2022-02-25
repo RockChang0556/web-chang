@@ -13,9 +13,8 @@
 		<!-- 		<com-upload-img></com-upload-img> -->
 	</div>
 </template>
- 
+
 <script>
-import search from '../search.vue';
 const PRIZE = [
 	{
 		id: '001',
@@ -72,7 +71,7 @@ export default {
 		},
 		getData() {
 			// 获取数据
-			this.getPrize().then(res => {
+			this.getPrize().then((res) => {
 				this.arr = res;
 			});
 		},
@@ -147,7 +146,7 @@ export default {
 	},
 };
 </script>
- 
+
 <style lang="less" scoped>
 .eat-page {
 	> img {

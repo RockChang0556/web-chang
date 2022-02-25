@@ -31,6 +31,21 @@ export default defineConfig({
 				drop_debugger: true,
 			},
 		},
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					if (id.includes('node_modules') && id.includes('naive-ui')) {
+						return 'naive-ui';
+					} else if (id.includes('node_modules') && id.includes('vue')) {
+						return 'vue';
+					} else if (id.includes('node_modules') && id.includes('lodash')) {
+						return 'lodash';
+					} else if (id.includes('node_modules')) {
+						return 'vendor';
+					}
+				},
+			},
+		},
 	},
 	server: {
 		host: '0.0.0.0',
