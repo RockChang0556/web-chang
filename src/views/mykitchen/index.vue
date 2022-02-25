@@ -29,7 +29,6 @@
 
 <script lang="ts" setup name="KitchenIndex">
 import { computed } from 'vue';
-import { NTabs, NTab } from 'naive-ui';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/store';
 import router from '@/router';

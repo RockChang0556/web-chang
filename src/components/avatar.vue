@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-20 18:01:56
- * @LastEditTime: 2022-02-14 14:42:11
+ * @LastEditTime: 2022-02-25 17:08:46
  * @Description: 头像组件
 -->
 
@@ -20,7 +20,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { avatarDefaultUrl } from '@/constants';
-import { NAvatar } from 'naive-ui';
 const props = defineProps({
 	// 头像地址
 	src: {

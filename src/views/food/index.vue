@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-02-08 15:39:18
+ * @LastEditTime: 2022-02-25 17:10:36
  * @Description: 菜品
 -->
 <template>
@@ -47,7 +47,6 @@
 
 <script lang="ts" setup name="FoodIndex">
 import { onMounted, reactive } from 'vue';
-import { NList, NPagination, NPopconfirm } from 'naive-ui';
 import { FoodApi } from '@/services';
 import { pagesProp } from '@/types/types';
 import FoodListItem from '@/views/mywish/food-list-item.vue';

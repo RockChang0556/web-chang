@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 17:16:22
- * @LastEditTime: 2022-02-25 14:58:16
+ * @LastEditTime: 2022-02-25 17:10:49
  * @Description: jd查找菜品
 -->
 <template>
@@ -70,7 +70,6 @@
 import { reactive, ref } from 'vue';
 import debounce from 'lodash/debounce';
 import axios from 'axios';
-import { NPopover, NDivider } from 'naive-ui';
 import { imgFoodUrl } from '@/constants';
 import { FoodApi } from '@/services';
 

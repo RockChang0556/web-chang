@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 20:26:50
- * @LastEditTime: 2022-02-25 14:56:35
+ * @LastEditTime: 2022-02-25 17:10:59
  * @Description: 心愿单详情
 -->
 
@@ -84,15 +84,6 @@
 <script lang="ts" setup name="WishDetail">
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import {
-	NList,
-	NBreadcrumb,
-	NBreadcrumbItem,
-	NSpace,
-	NSkeleton,
-	NCollapseTransition,
-	NPopconfirm,
-} from 'naive-ui';
 
 import { WishApi } from '@/services';
 import { objProp, resProp } from '@/types/types';

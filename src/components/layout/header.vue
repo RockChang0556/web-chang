@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2021-08-05 14:50:24
- * @LastEditTime: 2022-01-26 21:10:28
+ * @LastEditTime: 2022-02-25 17:09:26
  * @Description: 布局组件 - 头部
 -->
 <template>
@@ -39,7 +39,6 @@
 <script lang="ts" setup>
 import { h, computed, PropType } from 'vue';
 import router from '@/router';
-import { NDropdown } from 'naive-ui';
 import { useUserStore } from '@/store';
 import { UserProps, themeProp } from '@/types/types';
 import { homeUrl, loginUrl, logoutUrl, userInfoUrl } from '@/constants';

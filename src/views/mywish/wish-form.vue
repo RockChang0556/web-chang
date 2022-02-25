@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 10:48:13
- * @LastEditTime: 2022-02-24 18:50:16
+ * @LastEditTime: 2022-02-25 17:11:11
  * @Description: 心愿单 - 表单组件
 -->
 
@@ -94,14 +94,7 @@
 <script lang="ts" setup name="WishBaseForm">
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import {
-	FormValidationError,
-	NForm,
-	NFormItem,
-	NDynamicTags,
-	NTag,
-	NTime,
-} from 'naive-ui';
+import { FormValidationError } from 'naive-ui';
 import { WishApi } from '@/services';
 import router from '@/router';
 interface modelProp {

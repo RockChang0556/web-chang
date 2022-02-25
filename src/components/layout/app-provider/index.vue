@@ -20,19 +20,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import {
-	NConfigProvider,
-	NGlobalStyle,
-	NLoadingBarProvider,
-	NMessageProvider,
-	NDialogProvider,
-	NNotificationProvider,
-	zhCN,
-	dateZhCN,
-	darkTheme,
-	useOsTheme,
-	NEl,
-} from 'naive-ui';
+import { zhCN, dateZhCN, darkTheme, useOsTheme } from 'naive-ui';
 
 import { useUserStore } from '@/store';
 import MessageContent from './MessageContent.vue';

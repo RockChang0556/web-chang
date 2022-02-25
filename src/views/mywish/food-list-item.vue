@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-08 16:14:39
- * @LastEditTime: 2022-01-26 22:09:16
+ * @LastEditTime: 2022-02-25 17:10:45
  * @Description: 菜品卡片
 -->
 <template>
@@ -51,7 +51,6 @@
 
 <script lang="ts" setup name="WishFoodListItem">
 import { PropType } from 'vue';
-import { NListItem, NTag, NThing, NEllipsis, NBadge } from 'naive-ui';
 import { imgFoodUrl, imgFood404Url } from '@/constants';
 import { FoodApi } from '@/services';
 defineProps({

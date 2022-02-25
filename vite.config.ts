@@ -15,7 +15,7 @@ export default defineConfig({
 		}),
 		VueSetupExtend(), // script标签支持name, <script lang="ts" setup name="OrderList">
 		ViteComponents({
-			customComponentResolvers: [NaiveUiResolver()],
+			customComponentResolvers: [NaiveUiResolver()], // 按需引入UI组件
 		}),
 	],
 	resolve: {
@@ -39,14 +39,11 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				manualChunks(id) {
-					if (id.includes('node_modules') && id.includes('naive-ui')) {
-						return 'naive-ui';
-					} else if (id.includes('node_modules') && id.includes('vue')) {
-						return 'vue';
-					} else if (id.includes('node_modules') && id.includes('lodash')) {
-						return 'lodash';
-					} else if (id.includes('node_modules')) {
-						return 'vendor';
+					//  id: /Users/zhangpeng/Personal/Study/webservice/web-chang/node_modules/lodash-es/math.default.js
+					if (id.includes('node_modules')) {
+						// name为模块名称
+						const name = id.toString().split('node_modules/')[1].split('/')[0];
+						return name;
 					}
 				},
 			},

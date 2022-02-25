@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:57:35
- * @LastEditTime: 2022-02-08 18:08:56
+ * @LastEditTime: 2022-02-25 17:10:42
  * @Description: 我喜欢的
 -->
 
@@ -33,7 +33,6 @@
 
 <script lang="ts" setup name="LikeIndex">
 import { onMounted, reactive } from 'vue';
-import { NList, NPagination } from 'naive-ui';
 import { FoodApi } from '@/services';
 import { pagesProp } from '@/types/types';
 import FoodListItem from '@/views/mywish/food-list-item.vue';

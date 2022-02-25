@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-24 16:55:42
- * @LastEditTime: 2022-02-24 16:08:11
+ * @LastEditTime: 2022-02-25 17:10:29
  * @Description: 菜品
 -->
 <template>
@@ -90,17 +90,6 @@
 
 <script lang="ts" setup name="FoodDetail">
 import { onMounted, reactive } from 'vue';
-import {
-	NBadge,
-	NDivider,
-	NGrid,
-	NGi,
-	NStatistic,
-	NList,
-	NListItem,
-	NTag,
-	NTime,
-} from 'naive-ui';
 import { FoodApi } from '@/services';
 import Avatar from '@/components/avatar.vue';
 import { imgFoodUrl } from '@/constants/index';

@@ -1,6 +1,7 @@
 <template>
 	<n-spin :show="user.loading">
 		<div class="home">
+			{{ currentUser.isFetched }}
 			<n-layout v-if="currentUser.isFetched" position="absolute">
 				<n-layout-header bordered>
 					<GlobalHeader :user="currentUser"></GlobalHeader>
@@ -22,7 +23,6 @@
 
 <script lang="ts" setup name="HomeWrap">
 import { computed, onMounted, reactive } from 'vue';
-import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
 
 import { useUserStore } from '@/store';
 import GlobalHeader from '@/components/layout/header.vue';

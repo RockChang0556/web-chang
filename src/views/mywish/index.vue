@@ -1,7 +1,7 @@
 <!--
  * @Author: Rock Chang
  * @Date: 2022-01-07 16:12:56
- * @LastEditTime: 2022-02-08 15:37:35
+ * @LastEditTime: 2022-02-25 17:10:53
  * @Description:  我的心愿单-首页
 -->
 <template>
@@ -79,14 +79,6 @@
 <script lang="ts" setup name="WishIndex">
 import { reactive, onMounted } from 'vue';
 import debounce from 'lodash/debounce';
-import {
-	NList,
-	NListItem,
-	NThing,
-	NTag,
-	NPagination,
-	NPopconfirm,
-} from 'naive-ui';
 import { WishApi } from '@/services';
 import { pagesProp, querysProp } from '@/types/types';
 
